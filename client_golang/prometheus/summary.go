@@ -537,11 +537,22 @@ func NewSummaryVec(opts SummaryOpts, esOpts SummaryEsOpts, labelNames []string) 
 		labelNames,
 		opts.ConstLabels,
 	)
-	return &SummaryVec{
+	sv := SummaryVec{
 		metricVec: newMetricVec(desc, url, func(lvs ...string) Metric {
 			return newSummary(desc, opts, lvs...)
 		}),
 	}
+	go sv.monitor(esOpts.Interval)
+	return &sv
+}
+
+func (v *SummaryVec) monitor(second int) {
+    ticker := time.NewTicker(time.Duration(second)*time.Second)
+    for {
+        <-ticker.C
+		//3 is summary metric.
+	    v.metricVec.metricMap.pushDocToEs(3)
+    }
 }
 
 // GetMetricWithLabelValues returns the Summary for the given slice of label

@@ -223,9 +223,66 @@ type metricMap struct {
 	newMetric func(labelValues ...string) Metric
 }
 
+func goRequest(url, data string) error {
+	req, _ := http.NewRequest("PUT", url, bytes.NewReader([]byte(data)))
+	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	client := http.Client{}
+	if _, err := client.Do(req); err != nil {
+		return err
+	}
+	return nil
+}
+
+const (
+	TYPE = "Type"
+	VALUE = "Value"
+	COUNT = "Count"
+	SUM = "Sum"
+	FQNAME = "FqName"
+	HELP = "Help"
+	TIMESTAMP = "Timestamp"
+	QUANTILE_50 = "QUANTILE_50"
+	QUANTILE_90 = "QUANTILE_90"
+	QUANTILE_99 = "QUANTILE_99"
+)
+
+func setMetricData(docMap map[string]interface{}, metricType int,  dtoMetric dto.Metric) {
+	switch metricType {
+	case 1:
+		dtoCounter := dtoMetric.GetCounter()
+		docMap[TYPE] = "Counter"
+		docMap[VALUE] = dtoCounter.GetValue()
+	case 2:
+		dtoGauge := dtoMetric.GetGauge()
+		docMap[TYPE] = "Gauge"
+		docMap[VALUE] = dtoGauge.GetValue()
+	case 3:
+		dtoSummary := dtoMetric.GetSummary()
+		docMap[TYPE] = "Summary"
+		docMap[COUNT] = dtoSummary.GetSampleCount()
+		docMap[SUM] = dtoSummary.GetSampleSum()
+		dtoQuantiles := dtoSummary.GetQuantile()
+		for _, dtoQuantile := range dtoQuantiles {
+			quantile := dtoQuantile.GetQuantile()
+			value := dtoQuantile.GetValue()
+			if quantile == 0.5 {
+				docMap[QUANTILE_50] = value
+			} else if quantile == 0.9 {
+				docMap[QUANTILE_90] = value
+			} else {
+				docMap[QUANTILE_99] = value
+			}
+		}
+		fmt.Println(*dtoSummary, docMap)
+	default:
+		//nothing
+	}
+
+}
+
 func (m *metricMap) pushDocToEs(metricType int) {
     docMap := make(map[string]interface{}, len(m.desc.variableLabels))
-	url := ""
+	var url string
 	timestamp := time.Now().UTC().Format(time.RFC3339)
     for _, lvsSlice := range m.metrics {
 		for _, lvs := range lvsSlice {
@@ -236,31 +293,18 @@ func (m *metricMap) pushDocToEs(metricType int) {
 			if err := lvs.metric.Write(&dtoMetric); err != nil {
 				continue
 			}
-			docMap["fqName"] = m.desc.fqName
-			docMap["help"] = m.desc.help
-			docMap["timestamp"] = timestamp
-			switch metricType {
-			case 1:
-				metricPtr := dtoMetric.GetCounter()
-				docMap["VALUE"] = *metricPtr.Value
-			case 2:
-				metricPtr := dtoMetric.GetGauge()
-				docMap["VALUE"] = *metricPtr.Value
-			default:
-				//nothing
-			}
-            data, err := json.Marshal(docMap)
+			docMap[FQNAME] = m.desc.fqName
+			docMap[HELP] = m.desc.help
+			docMap[TIMESTAMP] = timestamp
+            setMetricData(docMap, metricType, dtoMetric)
+			data, err := json.Marshal(docMap)
 			if err != nil {
 				continue
 			}
 			url = m.url + strconv.Itoa(int(time.Now().UnixNano()))
 			fmt.Println(url, string(data))
-		    req, _ := http.NewRequest("PUT", url, bytes.NewReader([]byte(data)))
-			req.Header.Set("Content-Type", "application/json;charset=UTF-8")
-			client := http.Client{}
-			_, err = client.Do(req)
-			if err != nil {
-				fmt.Println("request err")
+		    if err := goRequest(url, string(data)); err != nil {
+				fmt.Println("request err:", err)
 			}
 		}
     }
@@ -392,7 +436,6 @@ func (m *metricMap) getOrCreateMetricWithLabels(
 	if !ok {
 		lvs := extractLabelValues(m.desc, labels, curry)
 		metric = m.newMetric(lvs...)
-		fmt.Println(metric, lvs)
 		m.metrics[hash] = append(m.metrics[hash], metricWithLabelValues{values: lvs, metric: metric})
 	}
 	return metric
