@@ -25,6 +25,22 @@ import (
 	dto "github.com/prometheus/client_model/go"
 )
 
+const (
+	SUM       = "Sum"
+	HELP      = "Help"
+	TYPE      = "Type"
+	VALUE     = "Value"
+	COUNT     = "Count"
+	FQNAME    = "FqName"
+	TIMESTAMP = "Timestamp"
+	QUANTILE_50 = "QUANTILE_50"
+	QUANTILE_90 = "QUANTILE_90"
+	QUANTILE_99 = "QUANTILE_99"
+	METRIC_GAUGE   = "Gauge"
+	METRIC_COUNTER = "Counter"
+	METRIC_SUMMARY = "Summary"
+)
+
 // metricVec is a Collector to bundle metrics of the same name that differ in
 // their label values. metricVec is not used directly (and therefore
 // unexported). It is used as a building block for implementations of vectors of
@@ -233,34 +249,21 @@ func goRequest(url, data string) error {
 	return nil
 }
 
-const (
-	TYPE = "Type"
-	VALUE = "Value"
-	COUNT = "Count"
-	SUM = "Sum"
-	FQNAME = "FqName"
-	HELP = "Help"
-	TIMESTAMP = "Timestamp"
-	QUANTILE_50 = "QUANTILE_50"
-	QUANTILE_90 = "QUANTILE_90"
-	QUANTILE_99 = "QUANTILE_99"
-)
-
 func setMetricData(docMap map[string]interface{}, metricType int,  dtoMetric dto.Metric) {
 	switch metricType {
 	case 1:
 		dtoCounter := dtoMetric.GetCounter()
-		docMap[TYPE] = "Counter"
+		docMap[TYPE] = METRIC_COUNTER
 		docMap[VALUE] = dtoCounter.GetValue()
 	case 2:
 		dtoGauge := dtoMetric.GetGauge()
-		docMap[TYPE] = "Gauge"
+		docMap[TYPE] = METRIC_GAUGE
 		docMap[VALUE] = dtoGauge.GetValue()
 	case 3:
 		dtoSummary := dtoMetric.GetSummary()
-		docMap[TYPE] = "Summary"
-		docMap[COUNT] = dtoSummary.GetSampleCount()
+		docMap[TYPE] = METRIC_SUMMARY
 		docMap[SUM] = dtoSummary.GetSampleSum()
+		docMap[COUNT] = dtoSummary.GetSampleCount()
 		dtoQuantiles := dtoSummary.GetQuantile()
 		for _, dtoQuantile := range dtoQuantiles {
 			quantile := dtoQuantile.GetQuantile()
@@ -273,11 +276,9 @@ func setMetricData(docMap map[string]interface{}, metricType int,  dtoMetric dto
 				docMap[QUANTILE_99] = value
 			}
 		}
-		fmt.Println(*dtoSummary, docMap)
 	default:
-		//nothing
+		//do nothing
 	}
-
 }
 
 func (m *metricMap) pushDocToEs(metricType int) {
@@ -302,7 +303,7 @@ func (m *metricMap) pushDocToEs(metricType int) {
 				continue
 			}
 			url = m.url + strconv.Itoa(int(time.Now().UnixNano()))
-			fmt.Println(url, string(data))
+			//fmt.Println(url, string(data))
 		    if err := goRequest(url, string(data)); err != nil {
 				fmt.Println("request err:", err)
 			}
