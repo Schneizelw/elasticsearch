@@ -16,61 +16,61 @@
 package sysfs
 
 import (
-	"path/filepath"
-	"strings"
+    "path/filepath"
+    "strings"
 
-	"github.com/prometheus/procfs/internal/util"
+    "github.com/prometheus/procfs/internal/util"
 )
 
 // ClockSource contains metrics related to the clock source
 type ClockSource struct {
-	Name      string
-	Available []string
-	Current   string
+    Name      string
+    Available []string
+    Current   string
 }
 
 // ClockSources returns clocksource information including current and available clocksources
 // read from '/sys/devices/system/clocksource'
 func (fs FS) ClockSources() ([]ClockSource, error) {
 
-	clocksourcePaths, err := filepath.Glob(fs.sys.Path("devices/system/clocksource/clocksource[0-9]*"))
-	if err != nil {
-		return nil, err
-	}
+    clocksourcePaths, err := filepath.Glob(fs.sys.Path("devices/system/clocksource/clocksource[0-9]*"))
+    if err != nil {
+        return nil, err
+    }
 
-	clocksources := make([]ClockSource, len(clocksourcePaths))
-	for i, clocksourcePath := range clocksourcePaths {
-		clocksourceName := strings.TrimPrefix(filepath.Base(clocksourcePath), "clocksource")
+    clocksources := make([]ClockSource, len(clocksourcePaths))
+    for i, clocksourcePath := range clocksourcePaths {
+        clocksourceName := strings.TrimPrefix(filepath.Base(clocksourcePath), "clocksource")
 
-		clocksource, err := parseClocksource(clocksourcePath)
-		if err != nil {
-			return nil, err
-		}
-		clocksource.Name = clocksourceName
-		clocksources[i] = *clocksource
-	}
+        clocksource, err := parseClocksource(clocksourcePath)
+        if err != nil {
+            return nil, err
+        }
+        clocksource.Name = clocksourceName
+        clocksources[i] = *clocksource
+    }
 
-	return clocksources, nil
+    return clocksources, nil
 }
 
 func parseClocksource(clocksourcePath string) (*ClockSource, error) {
 
-	stringFiles := []string{
-		"available_clocksource",
-		"current_clocksource",
-	}
-	stringOut := make([]string, len(stringFiles))
-	var err error
+    stringFiles := []string{
+        "available_clocksource",
+        "current_clocksource",
+    }
+    stringOut := make([]string, len(stringFiles))
+    var err error
 
-	for i, f := range stringFiles {
-		stringOut[i], err = util.SysReadFile(filepath.Join(clocksourcePath, f))
-		if err != nil {
-			return &ClockSource{}, err
-		}
-	}
+    for i, f := range stringFiles {
+        stringOut[i], err = util.SysReadFile(filepath.Join(clocksourcePath, f))
+        if err != nil {
+            return &ClockSource{}, err
+        }
+    }
 
-	return &ClockSource{
-		Available: strings.Fields(stringOut[0]),
-		Current:   stringOut[1],
-	}, nil
+    return &ClockSource{
+        Available: strings.Fields(stringOut[0]),
+        Current:   stringOut[1],
+    }, nil
 }

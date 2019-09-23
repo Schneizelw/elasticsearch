@@ -16,29 +16,29 @@ package procfs
 import "testing"
 
 func TestLimits(t *testing.T) {
-	p, err := getProcFixtures(t).Proc(26231)
-	if err != nil {
-		t.Fatal(err)
-	}
+    p, err := getProcFixtures(t).Proc(26231)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	l, err := p.Limits()
-	if err != nil {
-		t.Fatal(err)
-	}
+    l, err := p.Limits()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	for _, test := range []struct {
-		name string
-		want int64
-		have int64
-	}{
-		{name: "cpu time", want: -1, have: l.CPUTime},
-		{name: "open files", want: 2048, have: l.OpenFiles},
-		{name: "msgqueue size", want: 819200, have: l.MsqqueueSize},
-		{name: "nice priority", want: 0, have: l.NicePriority},
-		{name: "address space", want: 8589934592, have: l.AddressSpace},
-	} {
-		if test.want != test.have {
-			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
-		}
-	}
+    for _, test := range []struct {
+        name string
+        want int64
+        have int64
+    }{
+        {name: "cpu time", want: -1, have: l.CPUTime},
+        {name: "open files", want: 2048, have: l.OpenFiles},
+        {name: "msgqueue size", want: 819200, have: l.MsqqueueSize},
+        {name: "nice priority", want: 0, have: l.NicePriority},
+        {name: "address space", want: 8589934592, have: l.AddressSpace},
+    } {
+        if test.want != test.have {
+            t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
+        }
+    }
 }

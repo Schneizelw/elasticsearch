@@ -16,130 +16,130 @@
 package sysfs
 
 import (
-	"testing"
+    "testing"
 
-	"github.com/google/go-cmp/cmp"
+    "github.com/google/go-cmp/cmp"
 )
 
 func TestParseSlowRate(t *testing.T) {
-	tests := []struct {
-		rate string
-		want uint64
-	}{
-		{
-			rate: "2.5 Gb/sec (1X SDR)",
-			want: 312500000,
-		},
-		{
-			rate: "500 Gb/sec (4X HDR)",
-			want: 62500000000,
-		},
-	}
+    tests := []struct {
+        rate string
+        want uint64
+    }{
+        {
+            rate: "2.5 Gb/sec (1X SDR)",
+            want: 312500000,
+        },
+        {
+            rate: "500 Gb/sec (4X HDR)",
+            want: 62500000000,
+        },
+    }
 
-	for _, tt := range tests {
-		rate, err := parseRate(tt.rate)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if rate != tt.want {
-			t.Errorf("Result for InfiniBand rate not correct: want %v, have %v", tt.want, rate)
-		}
-	}
+    for _, tt := range tests {
+        rate, err := parseRate(tt.rate)
+        if err != nil {
+            t.Fatal(err)
+        }
+        if rate != tt.want {
+            t.Errorf("Result for InfiniBand rate not correct: want %v, have %v", tt.want, rate)
+        }
+    }
 }
 
 func TestInfiniBandClass(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
+    fs, err := NewFS(sysTestFixtures)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	got, err := fs.InfiniBandClass()
-	if err != nil {
-		t.Fatal(err)
-	}
+    got, err := fs.InfiniBandClass()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	var (
-		port1LinkDowned               uint64
-		port1LinkErrorRecovery        uint64
-		port1PortRcvConstraintErrors  uint64
-		port1PortRcvData              uint64 = 8884894436
-		port1PortRcvErrors            uint64
-		port1PortRcvPackets           uint64 = 87169372
-		port1PortXmitConstraintErrors uint64
-		port1PortXmitData             uint64 = 106036453180
-		port1PortXmitDiscards         uint64
-		port1PortXmitPackets          uint64 = 85734114
-		port1PortXmitWait             uint64 = 3599
+    var (
+        port1LinkDowned               uint64
+        port1LinkErrorRecovery        uint64
+        port1PortRcvConstraintErrors  uint64
+        port1PortRcvData              uint64 = 8884894436
+        port1PortRcvErrors            uint64
+        port1PortRcvPackets           uint64 = 87169372
+        port1PortXmitConstraintErrors uint64
+        port1PortXmitData             uint64 = 106036453180
+        port1PortXmitDiscards         uint64
+        port1PortXmitPackets          uint64 = 85734114
+        port1PortXmitWait             uint64 = 3599
 
-		port2LinkDowned               uint64
-		port2LinkErrorRecovery        uint64
-		port2PortRcvConstraintErrors  uint64
-		port2PortRcvData              uint64 = 9841747136
-		port2PortRcvErrors            uint64
-		port2PortRcvPackets           uint64 = 89332064
-		port2PortXmitConstraintErrors uint64
-		port2PortXmitData             uint64 = 106161427560
-		port2PortXmitDiscards         uint64
-		port2PortXmitPackets          uint64 = 88622850
-		port2PortXmitWait             uint64 = 3846
-	)
+        port2LinkDowned               uint64
+        port2LinkErrorRecovery        uint64
+        port2PortRcvConstraintErrors  uint64
+        port2PortRcvData              uint64 = 9841747136
+        port2PortRcvErrors            uint64
+        port2PortRcvPackets           uint64 = 89332064
+        port2PortXmitConstraintErrors uint64
+        port2PortXmitData             uint64 = 106161427560
+        port2PortXmitDiscards         uint64
+        port2PortXmitPackets          uint64 = 88622850
+        port2PortXmitWait             uint64 = 3846
+    )
 
-	want := InfiniBandClass{
-		"mlx4_0": InfiniBandDevice{
-			Name:            "mlx4_0",
-			BoardID:         "SM_1141000001000",
-			FirmwareVersion: "2.31.5050",
-			HCAType:         "MT4099",
-			Ports: map[uint]InfiniBandPort{
-				1: {
-					Name:        "mlx4_0",
-					Port:        1,
-					State:       "ACTIVE",
-					StateID:     4,
-					PhysState:   "LinkUp",
-					PhysStateID: 5,
-					Rate:        5000000000,
-					Counters: InfiniBandCounters{
-						LinkDowned:               &port1LinkDowned,
-						LinkErrorRecovery:        &port1LinkErrorRecovery,
-						PortRcvConstraintErrors:  &port1PortRcvConstraintErrors,
-						PortRcvData:              &port1PortRcvData,
-						PortRcvErrors:            &port1PortRcvErrors,
-						PortRcvPackets:           &port1PortRcvPackets,
-						PortXmitConstraintErrors: &port1PortXmitConstraintErrors,
-						PortXmitData:             &port1PortXmitData,
-						PortXmitDiscards:         &port1PortXmitDiscards,
-						PortXmitPackets:          &port1PortXmitPackets,
-						PortXmitWait:             &port1PortXmitWait,
-					},
-				},
-				2: {
-					Name:        "mlx4_0",
-					Port:        2,
-					State:       "ACTIVE",
-					StateID:     4,
-					PhysState:   "LinkUp",
-					PhysStateID: 5,
-					Rate:        5000000000,
-					Counters: InfiniBandCounters{
-						LinkDowned:               &port2LinkDowned,
-						LinkErrorRecovery:        &port2LinkErrorRecovery,
-						PortRcvConstraintErrors:  &port2PortRcvConstraintErrors,
-						PortRcvData:              &port2PortRcvData,
-						PortRcvErrors:            &port2PortRcvErrors,
-						PortRcvPackets:           &port2PortRcvPackets,
-						PortXmitConstraintErrors: &port2PortXmitConstraintErrors,
-						PortXmitData:             &port2PortXmitData,
-						PortXmitDiscards:         &port2PortXmitDiscards,
-						PortXmitPackets:          &port2PortXmitPackets,
-						PortXmitWait:             &port2PortXmitWait,
-					},
-				},
-			},
-		},
-	}
+    want := InfiniBandClass{
+        "mlx4_0": InfiniBandDevice{
+            Name:            "mlx4_0",
+            BoardID:         "SM_1141000001000",
+            FirmwareVersion: "2.31.5050",
+            HCAType:         "MT4099",
+            Ports: map[uint]InfiniBandPort{
+                1: {
+                    Name:        "mlx4_0",
+                    Port:        1,
+                    State:       "ACTIVE",
+                    StateID:     4,
+                    PhysState:   "LinkUp",
+                    PhysStateID: 5,
+                    Rate:        5000000000,
+                    Counters: InfiniBandCounters{
+                        LinkDowned:               &port1LinkDowned,
+                        LinkErrorRecovery:        &port1LinkErrorRecovery,
+                        PortRcvConstraintErrors:  &port1PortRcvConstraintErrors,
+                        PortRcvData:              &port1PortRcvData,
+                        PortRcvErrors:            &port1PortRcvErrors,
+                        PortRcvPackets:           &port1PortRcvPackets,
+                        PortXmitConstraintErrors: &port1PortXmitConstraintErrors,
+                        PortXmitData:             &port1PortXmitData,
+                        PortXmitDiscards:         &port1PortXmitDiscards,
+                        PortXmitPackets:          &port1PortXmitPackets,
+                        PortXmitWait:             &port1PortXmitWait,
+                    },
+                },
+                2: {
+                    Name:        "mlx4_0",
+                    Port:        2,
+                    State:       "ACTIVE",
+                    StateID:     4,
+                    PhysState:   "LinkUp",
+                    PhysStateID: 5,
+                    Rate:        5000000000,
+                    Counters: InfiniBandCounters{
+                        LinkDowned:               &port2LinkDowned,
+                        LinkErrorRecovery:        &port2LinkErrorRecovery,
+                        PortRcvConstraintErrors:  &port2PortRcvConstraintErrors,
+                        PortRcvData:              &port2PortRcvData,
+                        PortRcvErrors:            &port2PortRcvErrors,
+                        PortRcvPackets:           &port2PortRcvPackets,
+                        PortXmitConstraintErrors: &port2PortXmitConstraintErrors,
+                        PortXmitData:             &port2PortXmitData,
+                        PortXmitDiscards:         &port2PortXmitDiscards,
+                        PortXmitPackets:          &port2PortXmitPackets,
+                        PortXmitWait:             &port2PortXmitWait,
+                    },
+                },
+            },
+        },
+    }
 
-	if diff := cmp.Diff(want, got); diff != "" {
-		t.Fatalf("unexpected InfiniBand class (-want +got):\n%s", diff)
-	}
+    if diff := cmp.Diff(want, got); diff != "" {
+        t.Fatalf("unexpected InfiniBand class (-want +got):\n%s", diff)
+    }
 }

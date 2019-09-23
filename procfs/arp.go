@@ -14,72 +14,72 @@
 package procfs
 
 import (
-	"fmt"
-	"io/ioutil"
-	"net"
-	"strings"
+    "fmt"
+    "io/ioutil"
+    "net"
+    "strings"
 )
 
 // ARPEntry contains a single row of the columnar data represented in
 // /proc/net/arp.
 type ARPEntry struct {
-	// IP address
-	IPAddr net.IP
-	// MAC address
-	HWAddr net.HardwareAddr
-	// Name of the device
-	Device string
+    // IP address
+    IPAddr net.IP
+    // MAC address
+    HWAddr net.HardwareAddr
+    // Name of the device
+    Device string
 }
 
 // GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
 // and then return a slice of ARPEntry's.
 func (fs FS) GatherARPEntries() ([]ARPEntry, error) {
-	data, err := ioutil.ReadFile(fs.proc.Path("net/arp"))
-	if err != nil {
-		return nil, fmt.Errorf("error reading arp %s: %s", fs.proc.Path("net/arp"), err)
-	}
+    data, err := ioutil.ReadFile(fs.proc.Path("net/arp"))
+    if err != nil {
+        return nil, fmt.Errorf("error reading arp %s: %s", fs.proc.Path("net/arp"), err)
+    }
 
-	return parseARPEntries(data)
+    return parseARPEntries(data)
 }
 
 func parseARPEntries(data []byte) ([]ARPEntry, error) {
-	lines := strings.Split(string(data), "\n")
-	entries := make([]ARPEntry, 0)
-	var err error
-	const (
-		expectedDataWidth   = 6
-		expectedHeaderWidth = 9
-	)
-	for _, line := range lines {
-		columns := strings.Fields(line)
-		width := len(columns)
+    lines := strings.Split(string(data), "\n")
+    entries := make([]ARPEntry, 0)
+    var err error
+    const (
+        expectedDataWidth   = 6
+        expectedHeaderWidth = 9
+    )
+    for _, line := range lines {
+        columns := strings.Fields(line)
+        width := len(columns)
 
-		if width == expectedHeaderWidth || width == 0 {
-			continue
-		} else if width == expectedDataWidth {
-			entry, err := parseARPEntry(columns)
-			if err != nil {
-				return []ARPEntry{}, fmt.Errorf("failed to parse ARP entry: %s", err)
-			}
-			entries = append(entries, entry)
-		} else {
-			return []ARPEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedDataWidth)
-		}
+        if width == expectedHeaderWidth || width == 0 {
+            continue
+        } else if width == expectedDataWidth {
+            entry, err := parseARPEntry(columns)
+            if err != nil {
+                return []ARPEntry{}, fmt.Errorf("failed to parse ARP entry: %s", err)
+            }
+            entries = append(entries, entry)
+        } else {
+            return []ARPEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedDataWidth)
+        }
 
-	}
+    }
 
-	return entries, err
+    return entries, err
 }
 
 func parseARPEntry(columns []string) (ARPEntry, error) {
-	ip := net.ParseIP(columns[0])
-	mac := net.HardwareAddr(columns[3])
+    ip := net.ParseIP(columns[0])
+    mac := net.HardwareAddr(columns[3])
 
-	entry := ARPEntry{
-		IPAddr: ip,
-		HWAddr: mac,
-		Device: columns[5],
-	}
+    entry := ARPEntry{
+        IPAddr: ip,
+        HWAddr: mac,
+        Device: columns[5],
+    }
 
-	return entry, nil
+    return entry, nil
 }

@@ -14,30 +14,30 @@
 package procfs
 
 import (
-	"io/ioutil"
-	"os"
-	"strings"
+    "io/ioutil"
+    "os"
+    "strings"
 )
 
 // Environ reads process environments from /proc/<pid>/environ
 func (p Proc) Environ() ([]string, error) {
-	environments := make([]string, 0)
+    environments := make([]string, 0)
 
-	f, err := os.Open(p.path("environ"))
-	if err != nil {
-		return environments, err
-	}
-	defer f.Close()
+    f, err := os.Open(p.path("environ"))
+    if err != nil {
+        return environments, err
+    }
+    defer f.Close()
 
-	data, err := ioutil.ReadAll(f)
-	if err != nil {
-		return environments, err
-	}
+    data, err := ioutil.ReadAll(f)
+    if err != nil {
+        return environments, err
+    }
 
-	environments = strings.Split(string(data), "\000")
-	if len(environments) > 0 {
-		environments = environments[:len(environments)-1]
-	}
+    environments = strings.Split(string(data), "\000")
+    if len(environments) > 0 {
+        environments = environments[:len(environments)-1]
+    }
 
-	return environments, nil
+    return environments, nil
 }

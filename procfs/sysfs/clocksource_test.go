@@ -16,30 +16,30 @@
 package sysfs
 
 import (
-	"reflect"
-	"testing"
+    "reflect"
+    "testing"
 )
 
 func TestNewClocksource(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
+    fs, err := NewFS(sysTestFixtures)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	c, err := fs.ClockSources()
-	if err != nil {
-		t.Fatal(err)
-	}
+    c, err := fs.ClockSources()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	clocksources := []ClockSource{
-		{
-			Name:      "0",
-			Available: []string{"tsc", "hpet", "acpi_pm"},
-			Current:   "tsc",
-		},
-	}
+    clocksources := []ClockSource{
+        {
+            Name:      "0",
+            Available: []string{"tsc", "hpet", "acpi_pm"},
+            Current:   "tsc",
+        },
+    }
 
-	if !reflect.DeepEqual(clocksources, c) {
-		t.Errorf("Result not correct: want %v, have %v", clocksources, c)
-	}
+    if !reflect.DeepEqual(clocksources, c) {
+        t.Errorf("Result not correct: want %v, have %v", clocksources, c)
+    }
 }

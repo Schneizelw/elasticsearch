@@ -16,37 +16,37 @@
 package sysfs
 
 import (
-	"reflect"
-	"testing"
+    "reflect"
+    "testing"
 )
 
 func TestClassCoolingDeviceStats(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
+    fs, err := NewFS(sysTestFixtures)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	coolingDeviceTest, err := fs.ClassCoolingDeviceStats()
-	if err != nil {
-		t.Fatal(err)
-	}
+    coolingDeviceTest, err := fs.ClassCoolingDeviceStats()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	classCoolingDeviceStats := []ClassCoolingDeviceStats{
-		{
-			Name:     "0",
-			Type:     "Processor",
-			MaxState: 50,
-			CurState: 0,
-		},
-		{
-			Name:     "1",
-			Type:     "intel_powerclamp",
-			MaxState: 27,
-			CurState: -1,
-		},
-	}
+    classCoolingDeviceStats := []ClassCoolingDeviceStats{
+        {
+            Name:     "0",
+            Type:     "Processor",
+            MaxState: 50,
+            CurState: 0,
+        },
+        {
+            Name:     "1",
+            Type:     "intel_powerclamp",
+            MaxState: 27,
+            CurState: -1,
+        },
+    }
 
-	if !reflect.DeepEqual(classCoolingDeviceStats, coolingDeviceTest) {
-		t.Errorf("Result not correct: want %v, have %v", classCoolingDeviceStats, coolingDeviceTest)
-	}
+    if !reflect.DeepEqual(classCoolingDeviceStats, coolingDeviceTest) {
+        t.Errorf("Result not correct: want %v, have %v", classCoolingDeviceStats, coolingDeviceTest)
+    }
 }

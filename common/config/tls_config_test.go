@@ -16,50 +16,50 @@
 package config
 
 import (
-	"crypto/tls"
-	"io/ioutil"
-	"reflect"
-	"testing"
+    "crypto/tls"
+    "io/ioutil"
+    "reflect"
+    "testing"
 
-	"gopkg.in/yaml.v2"
+    "gopkg.in/yaml.v2"
 )
 
 // LoadTLSConfig parses the given YAML file into a tls.Config.
 func LoadTLSConfig(filename string) (*tls.Config, error) {
-	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	cfg := TLSConfig{}
-	if err = yaml.UnmarshalStrict(content, &cfg); err != nil {
-		return nil, err
-	}
-	return NewTLSConfig(&cfg)
+    content, err := ioutil.ReadFile(filename)
+    if err != nil {
+        return nil, err
+    }
+    cfg := TLSConfig{}
+    if err = yaml.UnmarshalStrict(content, &cfg); err != nil {
+        return nil, err
+    }
+    return NewTLSConfig(&cfg)
 }
 
 var expectedTLSConfigs = []struct {
-	filename string
-	config   *tls.Config
+    filename string
+    config   *tls.Config
 }{
-	{
-		filename: "tls_config.empty.good.yml",
-		config:   &tls.Config{},
-	}, {
-		filename: "tls_config.insecure.good.yml",
-		config:   &tls.Config{InsecureSkipVerify: true},
-	},
+    {
+        filename: "tls_config.empty.good.yml",
+        config:   &tls.Config{},
+    }, {
+        filename: "tls_config.insecure.good.yml",
+        config:   &tls.Config{InsecureSkipVerify: true},
+    },
 }
 
 func TestValidTLSConfig(t *testing.T) {
-	for _, cfg := range expectedTLSConfigs {
-		got, err := LoadTLSConfig("testdata/" + cfg.filename)
-		if err != nil {
-			t.Errorf("Error parsing %s: %s", cfg.filename, err)
-		}
-		// non-nil functions are never equal.
-		got.GetClientCertificate = nil
-		if !reflect.DeepEqual(got, cfg.config) {
-			t.Fatalf("%v: unexpected config result: \n\n%v\n expected\n\n%v", cfg.filename, got, cfg.config)
-		}
-	}
+    for _, cfg := range expectedTLSConfigs {
+        got, err := LoadTLSConfig("testdata/" + cfg.filename)
+        if err != nil {
+            t.Errorf("Error parsing %s: %s", cfg.filename, err)
+        }
+        // non-nil functions are never equal.
+        got.GetClientCertificate = nil
+        if !reflect.DeepEqual(got, cfg.config) {
+            t.Fatalf("%v: unexpected config result: \n\n%v\n expected\n\n%v", cfg.filename, got, cfg.config)
+        }
+    }
 }

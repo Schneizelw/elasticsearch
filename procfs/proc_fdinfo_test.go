@@ -16,19 +16,19 @@ package procfs
 import "testing"
 
 func TestInotifyWatchLen(t *testing.T) {
-	p1, err := getProcFixtures(t).Proc(26231)
-	if err != nil {
-		t.Fatal(err)
-	}
-	fdinfos, err := p1.FileDescriptorsInfo()
-	if err != nil {
-		t.Fatal(err)
-	}
-	l, err := fdinfos.InotifyWatchLen()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if want, have := 3, l; want != have {
-		t.Errorf("want length %d, have %d", want, have)
-	}
+    p1, err := getProcFixtures(t).Proc(26231)
+    if err != nil {
+        t.Fatal(err)
+    }
+    fdinfos, err := p1.FileDescriptorsInfo()
+    if err != nil {
+        t.Fatal(err)
+    }
+    l, err := fdinfos.InotifyWatchLen()
+    if err != nil {
+        t.Fatal(err)
+    }
+    if want, have := 3, l; want != have {
+        t.Errorf("want length %d, have %d", want, have)
+    }
 }

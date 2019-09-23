@@ -14,28 +14,28 @@
 package server
 
 import (
-	"net/http"
-	"path/filepath"
+    "net/http"
+    "path/filepath"
 )
 
 var mimeTypes = map[string]string{
-	".js":  "application/javascript",
-	".css": "text/css",
-	".png": "image/png",
-	".jpg": "image/jpeg",
-	".gif": "image/gif",
+    ".js":  "application/javascript",
+    ".css": "text/css",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".gif": "image/gif",
 }
 
 func StaticFileServer(root http.FileSystem) http.Handler {
-	return http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			fileExt := filepath.Ext(r.URL.Path)
+    return http.HandlerFunc(
+        func(w http.ResponseWriter, r *http.Request) {
+            fileExt := filepath.Ext(r.URL.Path)
 
-			if t, ok := mimeTypes[fileExt]; ok {
-				w.Header().Set("Content-Type", t)
-			}
+            if t, ok := mimeTypes[fileExt]; ok {
+                w.Header().Set("Content-Type", t)
+            }
 
-			http.FileServer(root).ServeHTTP(w, r)
-		},
-	)
+            http.FileServer(root).ServeHTTP(w, r)
+        },
+    )
 }

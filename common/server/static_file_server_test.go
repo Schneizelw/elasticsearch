@@ -14,70 +14,70 @@
 package server
 
 import (
-	"net/http"
-	"net/http/httptest"
-	"testing"
+    "net/http"
+    "net/http/httptest"
+    "testing"
 )
 
 type dummyFileSystem struct{}
 
 func (fs dummyFileSystem) Open(path string) (http.File, error) {
-	return http.Dir(".").Open(".")
+    return http.Dir(".").Open(".")
 }
 
 func TestServeHttp(t *testing.T) {
-	cases := []struct {
-		name        string
-		path        string
-		contentType string
-	}{
-		{
-			name:        "normal file",
-			path:        "index.html",
-			contentType: "",
-		},
-		{
-			name:        "javascript",
-			path:        "test.js",
-			contentType: "application/javascript",
-		},
-		{
-			name:        "css",
-			path:        "test.css",
-			contentType: "text/css",
-		},
-		{
-			name:        "png",
-			path:        "test.png",
-			contentType: "image/png",
-		},
-		{
-			name:        "jpg",
-			path:        "test.jpg",
-			contentType: "image/jpeg",
-		},
-		{
-			name:        "gif",
-			path:        "test.gif",
-			contentType: "image/gif",
-		},
-	}
+    cases := []struct {
+        name        string
+        path        string
+        contentType string
+    }{
+        {
+            name:        "normal file",
+            path:        "index.html",
+            contentType: "",
+        },
+        {
+            name:        "javascript",
+            path:        "test.js",
+            contentType: "application/javascript",
+        },
+        {
+            name:        "css",
+            path:        "test.css",
+            contentType: "text/css",
+        },
+        {
+            name:        "png",
+            path:        "test.png",
+            contentType: "image/png",
+        },
+        {
+            name:        "jpg",
+            path:        "test.jpg",
+            contentType: "image/jpeg",
+        },
+        {
+            name:        "gif",
+            path:        "test.gif",
+            contentType: "image/gif",
+        },
+    }
 
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
-			rr := httptest.NewRecorder()
-			req, err := http.NewRequest("GET", "http://localhost/"+c.path, nil)
+    for _, c := range cases {
+        t.Run(c.name, func(t *testing.T) {
+            rr := httptest.NewRecorder()
+            req, err := http.NewRequest("GET", "http://localhost/"+c.path, nil)
 
-			if err != nil {
-				t.Fatal(err)
-			}
+            if err != nil {
+                t.Fatal(err)
+            }
 
-			s := StaticFileServer(dummyFileSystem{})
-			s.ServeHTTP(rr, req)
+            s := StaticFileServer(dummyFileSystem{})
+            s.ServeHTTP(rr, req)
 
-			if rr.Header().Get("Content-Type") != c.contentType {
-				t.Fatalf("Unexpected Content-Type: %s", rr.Header().Get("Content-Type"))
-			}
-		})
-	}
+            if rr.Header().Get("Content-Type") != c.contentType {
+                t.Fatalf("Unexpected Content-Type: %s", rr.Header().Get("Content-Type"))
+            }
+        })
+    }
 }

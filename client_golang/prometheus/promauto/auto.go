@@ -54,29 +54,29 @@
 //      package main
 //
 //      import (
-//      	"fmt"
-//      	"net/http"
+//          "fmt"
+//          "net/http"
 //
-//      	"github.com/prometheus/client_golang/prometheus"
-//      	"github.com/prometheus/client_golang/prometheus/promauto"
-//      	"github.com/prometheus/client_golang/prometheus/promhttp"
+//          "github.com/prometheus/client_golang/prometheus"
+//          "github.com/prometheus/client_golang/prometheus/promauto"
+//          "github.com/prometheus/client_golang/prometheus/promhttp"
 //      )
 //
 //      func main() {
-//      	http.Handle("/", promhttp.InstrumentHandlerCounter(
-//      		promauto.NewCounterVec(
-//      			prometheus.CounterOpts{
-//      				Name: "hello_requests_total",
-//      				Help: "Total number of hello-world requests by HTTP code.",
-//      			},
-//      			[]string{"code"},
-//      		),
-//      		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-//      			fmt.Fprint(w, "Hello, world!")
-//      		}),
-//      	))
-//      	http.Handle("/metrics", promhttp.Handler())
-//      	http.ListenAndServe(":1971", nil)
+//          http.Handle("/", promhttp.InstrumentHandlerCounter(
+//              promauto.NewCounterVec(
+//                  prometheus.CounterOpts{
+//                      Name: "hello_requests_total",
+//                      Help: "Total number of hello-world requests by HTTP code.",
+//                  },
+//                  []string{"code"},
+//              ),
+//              http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+//                  fmt.Fprint(w, "Hello, world!")
+//              }),
+//          ))
+//          http.Handle("/metrics", promhttp.Handler())
+//          http.ListenAndServe(":1971", nil)
 //      }
 //
 // This appears very handy. So why are these constructors locked away in a
@@ -132,9 +132,9 @@ import "github.com/prometheus/client_golang/prometheus"
 // but it automatically registers the Counter with the
 // prometheus.DefaultRegisterer. If the registration fails, NewCounter panics.
 func NewCounter(opts prometheus.CounterOpts) prometheus.Counter {
-	c := prometheus.NewCounter(opts)
-	prometheus.MustRegister(c)
-	return c
+    c := prometheus.NewCounter(opts)
+    prometheus.MustRegister(c)
+    return c
 }
 
 // NewCounterVec works like the function of the same name in the prometheus
@@ -142,9 +142,9 @@ func NewCounter(opts prometheus.CounterOpts) prometheus.Counter {
 // prometheus.DefaultRegisterer. If the registration fails, NewCounterVec
 // panics.
 func NewCounterVec(opts prometheus.CounterOpts, labelNames []string) *prometheus.CounterVec {
-	c := prometheus.NewCounterVec(opts, labelNames)
-	prometheus.MustRegister(c)
-	return c
+    c := prometheus.NewCounterVec(opts, labelNames)
+    prometheus.MustRegister(c)
+    return c
 }
 
 // NewCounterFunc works like the function of the same name in the prometheus
@@ -152,45 +152,45 @@ func NewCounterVec(opts prometheus.CounterOpts, labelNames []string) *prometheus
 // prometheus.DefaultRegisterer. If the registration fails, NewCounterFunc
 // panics.
 func NewCounterFunc(opts prometheus.CounterOpts, function func() float64) prometheus.CounterFunc {
-	g := prometheus.NewCounterFunc(opts, function)
-	prometheus.MustRegister(g)
-	return g
+    g := prometheus.NewCounterFunc(opts, function)
+    prometheus.MustRegister(g)
+    return g
 }
 
 // NewGauge works like the function of the same name in the prometheus package
 // but it automatically registers the Gauge with the
 // prometheus.DefaultRegisterer. If the registration fails, NewGauge panics.
 func NewGauge(opts prometheus.GaugeOpts) prometheus.Gauge {
-	g := prometheus.NewGauge(opts)
-	prometheus.MustRegister(g)
-	return g
+    g := prometheus.NewGauge(opts)
+    prometheus.MustRegister(g)
+    return g
 }
 
 // NewGaugeVec works like the function of the same name in the prometheus
 // package but it automatically registers the GaugeVec with the
 // prometheus.DefaultRegisterer. If the registration fails, NewGaugeVec panics.
 func NewGaugeVec(opts prometheus.GaugeOpts, labelNames []string) *prometheus.GaugeVec {
-	g := prometheus.NewGaugeVec(opts, labelNames)
-	prometheus.MustRegister(g)
-	return g
+    g := prometheus.NewGaugeVec(opts, labelNames)
+    prometheus.MustRegister(g)
+    return g
 }
 
 // NewGaugeFunc works like the function of the same name in the prometheus
 // package but it automatically registers the GaugeFunc with the
 // prometheus.DefaultRegisterer. If the registration fails, NewGaugeFunc panics.
 func NewGaugeFunc(opts prometheus.GaugeOpts, function func() float64) prometheus.GaugeFunc {
-	g := prometheus.NewGaugeFunc(opts, function)
-	prometheus.MustRegister(g)
-	return g
+    g := prometheus.NewGaugeFunc(opts, function)
+    prometheus.MustRegister(g)
+    return g
 }
 
 // NewSummary works like the function of the same name in the prometheus package
 // but it automatically registers the Summary with the
 // prometheus.DefaultRegisterer. If the registration fails, NewSummary panics.
 func NewSummary(opts prometheus.SummaryOpts) prometheus.Summary {
-	s := prometheus.NewSummary(opts)
-	prometheus.MustRegister(s)
-	return s
+    s := prometheus.NewSummary(opts)
+    prometheus.MustRegister(s)
+    return s
 }
 
 // NewSummaryVec works like the function of the same name in the prometheus
@@ -198,18 +198,18 @@ func NewSummary(opts prometheus.SummaryOpts) prometheus.Summary {
 // prometheus.DefaultRegisterer. If the registration fails, NewSummaryVec
 // panics.
 func NewSummaryVec(opts prometheus.SummaryOpts, labelNames []string) *prometheus.SummaryVec {
-	s := prometheus.NewSummaryVec(opts, labelNames)
-	prometheus.MustRegister(s)
-	return s
+    s := prometheus.NewSummaryVec(opts, labelNames)
+    prometheus.MustRegister(s)
+    return s
 }
 
 // NewHistogram works like the function of the same name in the prometheus
 // package but it automatically registers the Histogram with the
 // prometheus.DefaultRegisterer. If the registration fails, NewHistogram panics.
 func NewHistogram(opts prometheus.HistogramOpts) prometheus.Histogram {
-	h := prometheus.NewHistogram(opts)
-	prometheus.MustRegister(h)
-	return h
+    h := prometheus.NewHistogram(opts)
+    prometheus.MustRegister(h)
+    return h
 }
 
 // NewHistogramVec works like the function of the same name in the prometheus
@@ -217,7 +217,7 @@ func NewHistogram(opts prometheus.HistogramOpts) prometheus.Histogram {
 // prometheus.DefaultRegisterer. If the registration fails, NewHistogramVec
 // panics.
 func NewHistogramVec(opts prometheus.HistogramOpts, labelNames []string) *prometheus.HistogramVec {
-	h := prometheus.NewHistogramVec(opts, labelNames)
-	prometheus.MustRegister(h)
-	return h
+    h := prometheus.NewHistogramVec(opts, labelNames)
+    prometheus.MustRegister(h)
+    return h
 }

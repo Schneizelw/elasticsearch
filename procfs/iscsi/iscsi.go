@@ -15,10 +15,10 @@
 package iscsi
 
 import (
-	"path/filepath"
-	"strings"
+    "path/filepath"
+    "strings"
 
-	"github.com/prometheus/procfs/internal/fs"
+    "github.com/prometheus/procfs/internal/fs"
 )
 
 // iscsi target started with /sys/kernel/config/target/iscsi/iqn*
@@ -36,11 +36,11 @@ const devicePath = "devices/rbd"
 
 // FS represents the pseudo-filesystem configfs, which provides an interface to
 // iscsi kernel data structures in
-// sysfs	as /sys
+// sysfs    as /sys
 // configfs as /sys/kernel/config
 type FS struct {
-	sysfs    *fs.FS
-	configfs *fs.FS
+    sysfs    *fs.FS
+    configfs *fs.FS
 }
 
 // NewFS returns a new configfs mounted under the given mount point. It will
@@ -48,98 +48,98 @@ type FS struct {
 // use, an empty string parameter configfsMountPoint will call internal fs for
 // the default sys path as /sys/kernel/config
 func NewFS(sysfsPath string, configfsMountPoint string) (FS, error) {
-	if strings.TrimSpace(sysfsPath) == "" {
-		sysfsPath = fs.DefaultSysMountPoint
-	}
-	sysfs, err := fs.NewFS(sysfsPath)
-	if err != nil {
-		return FS{}, err
-	}
-	if strings.TrimSpace(configfsMountPoint) == "" {
-		configfsMountPoint = fs.DefaultConfigfsMountPoint
-	}
-	configfs, err := fs.NewFS(configfsMountPoint)
-	if err != nil {
-		return FS{}, err
-	}
-	return FS{&sysfs, &configfs}, nil
+    if strings.TrimSpace(sysfsPath) == "" {
+        sysfsPath = fs.DefaultSysMountPoint
+    }
+    sysfs, err := fs.NewFS(sysfsPath)
+    if err != nil {
+        return FS{}, err
+    }
+    if strings.TrimSpace(configfsMountPoint) == "" {
+        configfsMountPoint = fs.DefaultConfigfsMountPoint
+    }
+    configfs, err := fs.NewFS(configfsMountPoint)
+    if err != nil {
+        return FS{}, err
+    }
+    return FS{&sysfs, &configfs}, nil
 }
 
 // helper function to get configfs path
 func (fs FS) Path(p ...string) string {
-	return fs.configfs.Path(p...)
+    return fs.configfs.Path(p...)
 }
 
 // ISCSIStats getting iscsi runtime information
 func (fs FS) ISCSIStats() ([]*Stats, error) {
-	matches, err := filepath.Glob(fs.configfs.Path(iqnGlob))
-	if err != nil {
-		return nil, err
-	}
+    matches, err := filepath.Glob(fs.configfs.Path(iqnGlob))
+    if err != nil {
+        return nil, err
+    }
 
-	stats := make([]*Stats, 0, len(matches))
-	for _, iqnPath := range matches {
-		// stats
-		s, err := GetStats(iqnPath)
-		if err != nil {
-			return nil, err
-		}
-		stats = append(stats, s)
-	}
+    stats := make([]*Stats, 0, len(matches))
+    for _, iqnPath := range matches {
+        // stats
+        s, err := GetStats(iqnPath)
+        if err != nil {
+            return nil, err
+        }
+        stats = append(stats, s)
+    }
 
-	return stats, nil
+    return stats, nil
 }
 
 // TPGT struct for sys target portal group tag info
 type TPGT struct {
-	Name     string // name of the tpgt group
-	TpgtPath string // file path of tpgt
-	IsEnable bool   // is the tpgt enable
-	Luns     []LUN  // the Luns that tpgt has
+    Name     string // name of the tpgt group
+    TpgtPath string // file path of tpgt
+    IsEnable bool   // is the tpgt enable
+    Luns     []LUN  // the Luns that tpgt has
 }
 
 // LUN struct for sys logical unit number info
 type LUN struct {
-	Name       string // name of the lun
-	LunPath    string // file path of the lun
-	Backstore  string // backstore of the lun
-	ObjectName string // place holder for object
-	TypeNumber string // place holder for number of the device
+    Name       string // name of the lun
+    LunPath    string // file path of the lun
+    Backstore  string // backstore of the lun
+    ObjectName string // place holder for object
+    TypeNumber string // place holder for number of the device
 }
 
 // FILEIO struct for backstore info
 type FILEIO struct {
-	Name       string // name of the fileio
-	Fnumber    string // number related to the backstore
-	ObjectName string // place holder for object in iscsi object
-	Filename   string // link to the actual file being export
+    Name       string // name of the fileio
+    Fnumber    string // number related to the backstore
+    ObjectName string // place holder for object in iscsi object
+    Filename   string // link to the actual file being export
 }
 
 // IBLOCK struct for backstore info
 type IBLOCK struct {
-	Name       string // name of the iblock
-	Bnumber    string // number related to the backstore
-	ObjectName string // place holder for object in iscsi object
-	Iblock     string // link to the actual block being export
+    Name       string // name of the iblock
+    Bnumber    string // number related to the backstore
+    ObjectName string // place holder for object in iscsi object
+    Iblock     string // link to the actual block being export
 }
 
 // RBD struct for backstore info
 type RBD struct {
-	Name    string // name of the rbd
-	Rnumber string // number related to the backstore
-	Pool    string // place holder for the rbd pool
-	Image   string // place holder for the rbd image
+    Name    string // name of the rbd
+    Rnumber string // number related to the backstore
+    Pool    string // place holder for the rbd pool
+    Image   string // place holder for the rbd image
 }
 
 // RDMCP struct for backstore info
 type RDMCP struct {
-	Name       string // name of the rdm_cp
-	ObjectName string // place holder for object name
+    Name       string // name of the rdm_cp
+    ObjectName string // place holder for object name
 }
 
 // Stats struct for all targets info
 type Stats struct {
-	Name     string
-	Tpgt     []TPGT
-	RootPath string
+    Name     string
+    Tpgt     []TPGT
+    RootPath string
 }

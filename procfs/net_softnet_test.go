@@ -14,29 +14,29 @@
 package procfs
 
 import (
-	"testing"
+    "testing"
 )
 
 func TestSoftnet(t *testing.T) {
-	fs, err := NewFS(procTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
+    fs, err := NewFS(procTestFixtures)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	entries, err := fs.GatherSoftnetStats()
-	if err != nil {
-		t.Fatal(err)
-	}
+    entries, err := fs.GatherSoftnetStats()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	if want, got := uint(0x00015c73), entries[0].Processed; want != got {
-		t.Errorf("want %08x, got %08x", want, got)
-	}
+    if want, got := uint(0x00015c73), entries[0].Processed; want != got {
+        t.Errorf("want %08x, got %08x", want, got)
+    }
 
-	if want, got := uint(0x00020e76), entries[0].Dropped; want != got {
-		t.Errorf("want %08x, got %08x", want, got)
-	}
+    if want, got := uint(0x00020e76), entries[0].Dropped; want != got {
+        t.Errorf("want %08x, got %08x", want, got)
+    }
 
-	if want, got := uint(0xF0000769), entries[0].TimeSqueezed; want != got {
-		t.Errorf("want %08x, got %08x", want, got)
-	}
+    if want, got := uint(0xF0000769), entries[0].TimeSqueezed; want != got {
+        t.Errorf("want %08x, got %08x", want, got)
+    }
 }

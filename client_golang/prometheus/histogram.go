@@ -14,16 +14,16 @@
 package prometheus
 
 import (
-	"fmt"
-	"math"
-	"runtime"
-	"sort"
-	"sync"
-	"sync/atomic"
+    "fmt"
+    "math"
+    "runtime"
+    "sort"
+    "sync"
+    "sync/atomic"
 
-	"github.com/golang/protobuf/proto"
+    "github.com/golang/protobuf/proto"
 
-	dto "github.com/prometheus/client_model/go"
+    dto "github.com/prometheus/client_model/go"
 )
 
 // A Histogram counts individual observations from an event or sample stream in
@@ -42,11 +42,11 @@ import (
 //
 // To create Histogram instances, use NewHistogram.
 type Histogram interface {
-	Metric
-	Collector
+    Metric
+    Collector
 
-	// Observe adds a single observation to the histogram.
-	Observe(float64)
+    // Observe adds a single observation to the histogram.
+    Observe(float64)
 }
 
 // bucketLabel is used for the label that defines the upper bound of a
@@ -58,11 +58,11 @@ const bucketLabel = "le"
 // service. Most likely, however, you will be required to define buckets
 // customized to your use case.
 var (
-	DefBuckets = []float64{.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10}
+    DefBuckets = []float64{.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10}
 
-	errBucketLabelNotAllowed = fmt.Errorf(
-		"%q is not allowed as label name in histograms", bucketLabel,
-	)
+    errBucketLabelNotAllowed = fmt.Errorf(
+        "%q is not allowed as label name in histograms", bucketLabel,
+    )
 )
 
 // LinearBuckets creates 'count' buckets, each 'width' wide, where the lowest
@@ -72,15 +72,15 @@ var (
 //
 // The function panics if 'count' is zero or negative.
 func LinearBuckets(start, width float64, count int) []float64 {
-	if count < 1 {
-		panic("LinearBuckets needs a positive count")
-	}
-	buckets := make([]float64, count)
-	for i := range buckets {
-		buckets[i] = start
-		start += width
-	}
-	return buckets
+    if count < 1 {
+        panic("LinearBuckets needs a positive count")
+    }
+    buckets := make([]float64, count)
+    for i := range buckets {
+        buckets[i] = start
+        start += width
+    }
+    return buckets
 }
 
 // ExponentialBuckets creates 'count' buckets, where the lowest bucket has an
@@ -92,21 +92,21 @@ func LinearBuckets(start, width float64, count int) []float64 {
 // The function panics if 'count' is 0 or negative, if 'start' is 0 or negative,
 // or if 'factor' is less than or equal 1.
 func ExponentialBuckets(start, factor float64, count int) []float64 {
-	if count < 1 {
-		panic("ExponentialBuckets needs a positive count")
-	}
-	if start <= 0 {
-		panic("ExponentialBuckets needs a positive start value")
-	}
-	if factor <= 1 {
-		panic("ExponentialBuckets needs a factor greater than 1")
-	}
-	buckets := make([]float64, count)
-	for i := range buckets {
-		buckets[i] = start
-		start *= factor
-	}
-	return buckets
+    if count < 1 {
+        panic("ExponentialBuckets needs a positive count")
+    }
+    if start <= 0 {
+        panic("ExponentialBuckets needs a positive start value")
+    }
+    if factor <= 1 {
+        panic("ExponentialBuckets needs a factor greater than 1")
+    }
+    buckets := make([]float64, count)
+    for i := range buckets {
+        buckets[i] = start
+        start *= factor
+    }
+    return buckets
 }
 
 // HistogramOpts bundles the options for creating a Histogram metric. It is
@@ -114,39 +114,39 @@ func ExponentialBuckets(start, factor float64, count int) []float64 {
 // and can safely be left at their zero value, although it is strongly
 // encouraged to set a Help string.
 type HistogramOpts struct {
-	// Namespace, Subsystem, and Name are components of the fully-qualified
-	// name of the Histogram (created by joining these components with
-	// "_"). Only Name is mandatory, the others merely help structuring the
-	// name. Note that the fully-qualified name of the Histogram must be a
-	// valid Prometheus metric name.
-	Namespace string
-	Subsystem string
-	Name      string
+    // Namespace, Subsystem, and Name are components of the fully-qualified
+    // name of the Histogram (created by joining these components with
+    // "_"). Only Name is mandatory, the others merely help structuring the
+    // name. Note that the fully-qualified name of the Histogram must be a
+    // valid Prometheus metric name.
+    Namespace string
+    Subsystem string
+    Name      string
 
-	// Help provides information about this Histogram.
-	//
-	// Metrics with the same fully-qualified name must have the same Help
-	// string.
-	Help string
+    // Help provides information about this Histogram.
+    //
+    // Metrics with the same fully-qualified name must have the same Help
+    // string.
+    Help string
 
-	// ConstLabels are used to attach fixed labels to this metric. Metrics
-	// with the same fully-qualified name must have the same label names in
-	// their ConstLabels.
-	//
-	// ConstLabels are only used rarely. In particular, do not use them to
-	// attach the same labels to all your metrics. Those use cases are
-	// better covered by target labels set by the scraping Prometheus
-	// server, or by one specific metric (e.g. a build_info or a
-	// machine_role metric). See also
-	// https://prometheus.io/docs/instrumenting/writing_exporters/#target-labels,-not-static-scraped-labels
-	ConstLabels Labels
+    // ConstLabels are used to attach fixed labels to this metric. Metrics
+    // with the same fully-qualified name must have the same label names in
+    // their ConstLabels.
+    //
+    // ConstLabels are only used rarely. In particular, do not use them to
+    // attach the same labels to all your metrics. Those use cases are
+    // better covered by target labels set by the scraping Prometheus
+    // server, or by one specific metric (e.g. a build_info or a
+    // machine_role metric). See also
+    // https://prometheus.io/docs/instrumenting/writing_exporters/#target-labels,-not-static-scraped-labels
+    ConstLabels Labels
 
-	// Buckets defines the buckets into which observations are counted. Each
-	// element in the slice is the upper inclusive bound of a bucket. The
-	// values must be sorted in strictly increasing order. There is no need
-	// to add a highest bucket with +Inf bound, it will be added
-	// implicitly. The default value is DefBuckets.
-	Buckets []float64
+    // Buckets defines the buckets into which observations are counted. Each
+    // element in the slice is the upper inclusive bound of a bucket. The
+    // values must be sorted in strictly increasing order. There is no need
+    // to add a highest bucket with +Inf bound, it will be added
+    // implicitly. The default value is DefBuckets.
+    Buckets []float64
 }
 
 type HistogramEsOpts EsOpts
@@ -154,204 +154,204 @@ type HistogramEsOpts EsOpts
 // NewHistogram creates a new Histogram based on the provided HistogramOpts. It
 // panics if the buckets in HistogramOpts are not in strictly increasing order.
 func NewHistogram(opts HistogramOpts) Histogram {
-	return newHistogram(
-		NewDesc(
-			BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
-			opts.Help,
-			nil,
-			opts.ConstLabels,
-		),
-		opts,
-	)
+    return newHistogram(
+        NewDesc(
+            BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
+            opts.Help,
+            nil,
+            opts.ConstLabels,
+        ),
+        opts,
+    )
 }
 
 func newHistogram(desc *Desc, opts HistogramOpts, labelValues ...string) Histogram {
-	if len(desc.variableLabels) != len(labelValues) {
-		panic(makeInconsistentCardinalityError(desc.fqName, desc.variableLabels, labelValues))
-	}
+    if len(desc.variableLabels) != len(labelValues) {
+        panic(makeInconsistentCardinalityError(desc.fqName, desc.variableLabels, labelValues))
+    }
 
-	for _, n := range desc.variableLabels {
-		if n == bucketLabel {
-			panic(errBucketLabelNotAllowed)
-		}
-	}
-	for _, lp := range desc.constLabelPairs {
-		if lp.GetName() == bucketLabel {
-			panic(errBucketLabelNotAllowed)
-		}
-	}
+    for _, n := range desc.variableLabels {
+        if n == bucketLabel {
+            panic(errBucketLabelNotAllowed)
+        }
+    }
+    for _, lp := range desc.constLabelPairs {
+        if lp.GetName() == bucketLabel {
+            panic(errBucketLabelNotAllowed)
+        }
+    }
 
-	if len(opts.Buckets) == 0 {
-		opts.Buckets = DefBuckets
-	}
+    if len(opts.Buckets) == 0 {
+        opts.Buckets = DefBuckets
+    }
 
-	h := &histogram{
-		desc:        desc,
-		upperBounds: opts.Buckets,
-		labelPairs:  makeLabelPairs(desc, labelValues),
-		counts:      [2]*histogramCounts{&histogramCounts{}, &histogramCounts{}},
-	}
-	for i, upperBound := range h.upperBounds {
-		if i < len(h.upperBounds)-1 {
-			if upperBound >= h.upperBounds[i+1] {
-				panic(fmt.Errorf(
-					"histogram buckets must be in increasing order: %f >= %f",
-					upperBound, h.upperBounds[i+1],
-				))
-			}
-		} else {
-			if math.IsInf(upperBound, +1) {
-				// The +Inf bucket is implicit. Remove it here.
-				h.upperBounds = h.upperBounds[:i]
-			}
-		}
-	}
-	// Finally we know the final length of h.upperBounds and can make buckets
-	// for both counts:
-	h.counts[0].buckets = make([]uint64, len(h.upperBounds))
-	h.counts[1].buckets = make([]uint64, len(h.upperBounds))
+    h := &histogram{
+        desc:        desc,
+        upperBounds: opts.Buckets,
+        labelPairs:  makeLabelPairs(desc, labelValues),
+        counts:      [2]*histogramCounts{&histogramCounts{}, &histogramCounts{}},
+    }
+    for i, upperBound := range h.upperBounds {
+        if i < len(h.upperBounds)-1 {
+            if upperBound >= h.upperBounds[i+1] {
+                panic(fmt.Errorf(
+                    "histogram buckets must be in increasing order: %f >= %f",
+                    upperBound, h.upperBounds[i+1],
+                ))
+            }
+        } else {
+            if math.IsInf(upperBound, +1) {
+                // The +Inf bucket is implicit. Remove it here.
+                h.upperBounds = h.upperBounds[:i]
+            }
+        }
+    }
+    // Finally we know the final length of h.upperBounds and can make buckets
+    // for both counts:
+    h.counts[0].buckets = make([]uint64, len(h.upperBounds))
+    h.counts[1].buckets = make([]uint64, len(h.upperBounds))
 
-	h.init(h) // Init self-collection.
-	return h
+    h.init(h) // Init self-collection.
+    return h
 }
 
 type histogramCounts struct {
-	// sumBits contains the bits of the float64 representing the sum of all
-	// observations. sumBits and count have to go first in the struct to
-	// guarantee alignment for atomic operations.
-	// http://golang.org/pkg/sync/atomic/#pkg-note-BUG
-	sumBits uint64
-	count   uint64
-	buckets []uint64
+    // sumBits contains the bits of the float64 representing the sum of all
+    // observations. sumBits and count have to go first in the struct to
+    // guarantee alignment for atomic operations.
+    // http://golang.org/pkg/sync/atomic/#pkg-note-BUG
+    sumBits uint64
+    count   uint64
+    buckets []uint64
 }
 
 type histogram struct {
-	// countAndHotIdx enables lock-free writes with use of atomic updates.
-	// The most significant bit is the hot index [0 or 1] of the count field
-	// below. Observe calls update the hot one. All remaining bits count the
-	// number of Observe calls. Observe starts by incrementing this counter,
-	// and finish by incrementing the count field in the respective
-	// histogramCounts, as a marker for completion.
-	//
-	// Calls of the Write method (which are non-mutating reads from the
-	// perspective of the histogram) swap the hot–cold under the writeMtx
-	// lock. A cooldown is awaited (while locked) by comparing the number of
-	// observations with the initiation count. Once they match, then the
-	// last observation on the now cool one has completed. All cool fields must
-	// be merged into the new hot before releasing writeMtx.
-	//
-	// Fields with atomic access first! See alignment constraint:
-	// http://golang.org/pkg/sync/atomic/#pkg-note-BUG
-	countAndHotIdx uint64
+    // countAndHotIdx enables lock-free writes with use of atomic updates.
+    // The most significant bit is the hot index [0 or 1] of the count field
+    // below. Observe calls update the hot one. All remaining bits count the
+    // number of Observe calls. Observe starts by incrementing this counter,
+    // and finish by incrementing the count field in the respective
+    // histogramCounts, as a marker for completion.
+    //
+    // Calls of the Write method (which are non-mutating reads from the
+    // perspective of the histogram) swap the hot–cold under the writeMtx
+    // lock. A cooldown is awaited (while locked) by comparing the number of
+    // observations with the initiation count. Once they match, then the
+    // last observation on the now cool one has completed. All cool fields must
+    // be merged into the new hot before releasing writeMtx.
+    //
+    // Fields with atomic access first! See alignment constraint:
+    // http://golang.org/pkg/sync/atomic/#pkg-note-BUG
+    countAndHotIdx uint64
 
-	selfCollector
-	desc     *Desc
-	writeMtx sync.Mutex // Only used in the Write method.
+    selfCollector
+    desc     *Desc
+    writeMtx sync.Mutex // Only used in the Write method.
 
-	// Two counts, one is "hot" for lock-free observations, the other is
-	// "cold" for writing out a dto.Metric. It has to be an array of
-	// pointers to guarantee 64bit alignment of the histogramCounts, see
-	// http://golang.org/pkg/sync/atomic/#pkg-note-BUG.
-	counts [2]*histogramCounts
+    // Two counts, one is "hot" for lock-free observations, the other is
+    // "cold" for writing out a dto.Metric. It has to be an array of
+    // pointers to guarantee 64bit alignment of the histogramCounts, see
+    // http://golang.org/pkg/sync/atomic/#pkg-note-BUG.
+    counts [2]*histogramCounts
 
-	upperBounds []float64
-	labelPairs  []*dto.LabelPair
+    upperBounds []float64
+    labelPairs  []*dto.LabelPair
 }
 
 func (h *histogram) Desc() *Desc {
-	return h.desc
+    return h.desc
 }
 
 func (h *histogram) Observe(v float64) {
-	// TODO(beorn7): For small numbers of buckets (<30), a linear search is
-	// slightly faster than the binary search. If we really care, we could
-	// switch from one search strategy to the other depending on the number
-	// of buckets.
-	//
-	// Microbenchmarks (BenchmarkHistogramNoLabels):
-	// 11 buckets: 38.3 ns/op linear - binary 48.7 ns/op
-	// 100 buckets: 78.1 ns/op linear - binary 54.9 ns/op
-	// 300 buckets: 154 ns/op linear - binary 61.6 ns/op
-	i := sort.SearchFloat64s(h.upperBounds, v)
+    // TODO(beorn7): For small numbers of buckets (<30), a linear search is
+    // slightly faster than the binary search. If we really care, we could
+    // switch from one search strategy to the other depending on the number
+    // of buckets.
+    //
+    // Microbenchmarks (BenchmarkHistogramNoLabels):
+    // 11 buckets: 38.3 ns/op linear - binary 48.7 ns/op
+    // 100 buckets: 78.1 ns/op linear - binary 54.9 ns/op
+    // 300 buckets: 154 ns/op linear - binary 61.6 ns/op
+    i := sort.SearchFloat64s(h.upperBounds, v)
 
-	// We increment h.countAndHotIdx so that the counter in the lower
-	// 63 bits gets incremented. At the same time, we get the new value
-	// back, which we can use to find the currently-hot counts.
-	n := atomic.AddUint64(&h.countAndHotIdx, 1)
-	hotCounts := h.counts[n>>63]
+    // We increment h.countAndHotIdx so that the counter in the lower
+    // 63 bits gets incremented. At the same time, we get the new value
+    // back, which we can use to find the currently-hot counts.
+    n := atomic.AddUint64(&h.countAndHotIdx, 1)
+    hotCounts := h.counts[n>>63]
 
-	if i < len(h.upperBounds) {
-		atomic.AddUint64(&hotCounts.buckets[i], 1)
-	}
-	for {
-		oldBits := atomic.LoadUint64(&hotCounts.sumBits)
-		newBits := math.Float64bits(math.Float64frombits(oldBits) + v)
-		if atomic.CompareAndSwapUint64(&hotCounts.sumBits, oldBits, newBits) {
-			break
-		}
-	}
-	// Increment count last as we take it as a signal that the observation
-	// is complete.
-	atomic.AddUint64(&hotCounts.count, 1)
+    if i < len(h.upperBounds) {
+        atomic.AddUint64(&hotCounts.buckets[i], 1)
+    }
+    for {
+        oldBits := atomic.LoadUint64(&hotCounts.sumBits)
+        newBits := math.Float64bits(math.Float64frombits(oldBits) + v)
+        if atomic.CompareAndSwapUint64(&hotCounts.sumBits, oldBits, newBits) {
+            break
+        }
+    }
+    // Increment count last as we take it as a signal that the observation
+    // is complete.
+    atomic.AddUint64(&hotCounts.count, 1)
 }
 
 func (h *histogram) Write(out *dto.Metric) error {
-	// For simplicity, we protect this whole method by a mutex. It is not in
-	// the hot path, i.e. Observe is called much more often than Write. The
-	// complication of making Write lock-free isn't worth it, if possible at
-	// all.
-	h.writeMtx.Lock()
-	defer h.writeMtx.Unlock()
+    // For simplicity, we protect this whole method by a mutex. It is not in
+    // the hot path, i.e. Observe is called much more often than Write. The
+    // complication of making Write lock-free isn't worth it, if possible at
+    // all.
+    h.writeMtx.Lock()
+    defer h.writeMtx.Unlock()
 
-	// Adding 1<<63 switches the hot index (from 0 to 1 or from 1 to 0)
-	// without touching the count bits. See the struct comments for a full
-	// description of the algorithm.
-	n := atomic.AddUint64(&h.countAndHotIdx, 1<<63)
-	// count is contained unchanged in the lower 63 bits.
-	count := n & ((1 << 63) - 1)
-	// The most significant bit tells us which counts is hot. The complement
-	// is thus the cold one.
-	hotCounts := h.counts[n>>63]
-	coldCounts := h.counts[(^n)>>63]
+    // Adding 1<<63 switches the hot index (from 0 to 1 or from 1 to 0)
+    // without touching the count bits. See the struct comments for a full
+    // description of the algorithm.
+    n := atomic.AddUint64(&h.countAndHotIdx, 1<<63)
+    // count is contained unchanged in the lower 63 bits.
+    count := n & ((1 << 63) - 1)
+    // The most significant bit tells us which counts is hot. The complement
+    // is thus the cold one.
+    hotCounts := h.counts[n>>63]
+    coldCounts := h.counts[(^n)>>63]
 
-	// Await cooldown.
-	for count != atomic.LoadUint64(&coldCounts.count) {
-		runtime.Gosched() // Let observations get work done.
-	}
+    // Await cooldown.
+    for count != atomic.LoadUint64(&coldCounts.count) {
+        runtime.Gosched() // Let observations get work done.
+    }
 
-	his := &dto.Histogram{
-		Bucket:      make([]*dto.Bucket, len(h.upperBounds)),
-		SampleCount: proto.Uint64(count),
-		SampleSum:   proto.Float64(math.Float64frombits(atomic.LoadUint64(&coldCounts.sumBits))),
-	}
-	var cumCount uint64
-	for i, upperBound := range h.upperBounds {
-		cumCount += atomic.LoadUint64(&coldCounts.buckets[i])
-		his.Bucket[i] = &dto.Bucket{
-			CumulativeCount: proto.Uint64(cumCount),
-			UpperBound:      proto.Float64(upperBound),
-		}
-	}
+    his := &dto.Histogram{
+        Bucket:      make([]*dto.Bucket, len(h.upperBounds)),
+        SampleCount: proto.Uint64(count),
+        SampleSum:   proto.Float64(math.Float64frombits(atomic.LoadUint64(&coldCounts.sumBits))),
+    }
+    var cumCount uint64
+    for i, upperBound := range h.upperBounds {
+        cumCount += atomic.LoadUint64(&coldCounts.buckets[i])
+        his.Bucket[i] = &dto.Bucket{
+            CumulativeCount: proto.Uint64(cumCount),
+            UpperBound:      proto.Float64(upperBound),
+        }
+    }
 
-	out.Histogram = his
-	out.Label = h.labelPairs
+    out.Histogram = his
+    out.Label = h.labelPairs
 
-	// Finally add all the cold counts to the new hot counts and reset the cold counts.
-	atomic.AddUint64(&hotCounts.count, count)
-	atomic.StoreUint64(&coldCounts.count, 0)
-	for {
-		oldBits := atomic.LoadUint64(&hotCounts.sumBits)
-		newBits := math.Float64bits(math.Float64frombits(oldBits) + his.GetSampleSum())
-		if atomic.CompareAndSwapUint64(&hotCounts.sumBits, oldBits, newBits) {
-			atomic.StoreUint64(&coldCounts.sumBits, 0)
-			break
-		}
-	}
-	for i := range h.upperBounds {
-		atomic.AddUint64(&hotCounts.buckets[i], atomic.LoadUint64(&coldCounts.buckets[i]))
-		atomic.StoreUint64(&coldCounts.buckets[i], 0)
-	}
-	return nil
+    // Finally add all the cold counts to the new hot counts and reset the cold counts.
+    atomic.AddUint64(&hotCounts.count, count)
+    atomic.StoreUint64(&coldCounts.count, 0)
+    for {
+        oldBits := atomic.LoadUint64(&hotCounts.sumBits)
+        newBits := math.Float64bits(math.Float64frombits(oldBits) + his.GetSampleSum())
+        if atomic.CompareAndSwapUint64(&hotCounts.sumBits, oldBits, newBits) {
+            atomic.StoreUint64(&coldCounts.sumBits, 0)
+            break
+        }
+    }
+    for i := range h.upperBounds {
+        atomic.AddUint64(&hotCounts.buckets[i], atomic.LoadUint64(&coldCounts.buckets[i]))
+        atomic.StoreUint64(&coldCounts.buckets[i], 0)
+    }
+    return nil
 }
 
 // HistogramVec is a Collector that bundles a set of Histograms that all share the
@@ -360,24 +360,24 @@ func (h *histogram) Write(out *dto.Metric) error {
 // (e.g. HTTP request latencies, partitioned by status code and method). Create
 // instances with NewHistogramVec.
 type HistogramVec struct {
-	*metricVec
+    *metricVec
 }
 
 // NewHistogramVec creates a new HistogramVec based on the provided HistogramOpts and
 // partitioned by the given label names.
 func NewHistogramVec(opts HistogramOpts, esOpts HistogramEsOpts, labelNames []string) *HistogramVec {
-	desc := NewDesc(
-		BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
-		opts.Help,
-		labelNames,
-		opts.ConstLabels,
-	)
+    desc := NewDesc(
+        BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
+        opts.Help,
+        labelNames,
+        opts.ConstLabels,
+    )
     url := BuildEsUrl(esOpts.Host, esOpts.Port, esOpts.EsIndex, esOpts.EsType)
-	return &HistogramVec{
-		metricVec: newMetricVec(desc, url, func(lvs ...string) Metric {
-			return newHistogram(desc, opts, lvs...)
-		}),
-	}
+    return &HistogramVec{
+        metricVec: newMetricVec(desc, url, func(lvs ...string) Metric {
+            return newHistogram(desc, opts, lvs...)
+        }),
+    }
 }
 
 // GetMetricWithLabelValues returns the Histogram for the given slice of label
@@ -405,11 +405,11 @@ func NewHistogramVec(opts HistogramOpts, esOpts HistogramEsOpts, labelNames []st
 // with a performance overhead (for creating and processing the Labels map).
 // See also the GaugeVec example.
 func (v *HistogramVec) GetMetricWithLabelValues(lvs ...string) (Observer, error) {
-	metric, err := v.metricVec.getMetricWithLabelValues(lvs...)
-	if metric != nil {
-		return metric.(Observer), err
-	}
-	return nil, err
+    metric, err := v.metricVec.getMetricWithLabelValues(lvs...)
+    if metric != nil {
+        return metric.(Observer), err
+    }
+    return nil, err
 }
 
 // GetMetricWith returns the Histogram for the given Labels map (the label names
@@ -425,11 +425,11 @@ func (v *HistogramVec) GetMetricWithLabelValues(lvs ...string) (Observer, error)
 // GetMetricWithLabelValues(...string). See there for pros and cons of the two
 // methods.
 func (v *HistogramVec) GetMetricWith(labels Labels) (Observer, error) {
-	metric, err := v.metricVec.getMetricWith(labels)
-	if metric != nil {
-		return metric.(Observer), err
-	}
-	return nil, err
+    metric, err := v.metricVec.getMetricWith(labels)
+    if metric != nil {
+        return metric.(Observer), err
+    }
+    return nil, err
 }
 
 // WithLabelValues works as GetMetricWithLabelValues, but panics where
@@ -437,22 +437,22 @@ func (v *HistogramVec) GetMetricWith(labels Labels) (Observer, error) {
 // error allows shortcuts like
 //     myVec.WithLabelValues("404", "GET").Observe(42.21)
 func (v *HistogramVec) WithLabelValues(lvs ...string) Observer {
-	h, err := v.GetMetricWithLabelValues(lvs...)
-	if err != nil {
-		panic(err)
-	}
-	return h
+    h, err := v.GetMetricWithLabelValues(lvs...)
+    if err != nil {
+        panic(err)
+    }
+    return h
 }
 
 // With works as GetMetricWith but panics where GetMetricWithLabels would have
 // returned an error. Not returning an error allows shortcuts like
 //     myVec.With(prometheus.Labels{"code": "404", "method": "GET"}).Observe(42.21)
 func (v *HistogramVec) With(labels Labels) Observer {
-	h, err := v.GetMetricWith(labels)
-	if err != nil {
-		panic(err)
-	}
-	return h
+    h, err := v.GetMetricWith(labels)
+    if err != nil {
+        panic(err)
+    }
+    return h
 }
 
 // CurryWith returns a vector curried with the provided labels, i.e. the
@@ -469,58 +469,58 @@ func (v *HistogramVec) With(labels Labels) Observer {
 // registered with a given registry (usually the uncurried version). The Reset
 // method deletes all metrics, even if called on a curried vector.
 func (v *HistogramVec) CurryWith(labels Labels) (ObserverVec, error) {
-	vec, err := v.curryWith(labels)
-	if vec != nil {
-		return &HistogramVec{vec}, err
-	}
-	return nil, err
+    vec, err := v.curryWith(labels)
+    if vec != nil {
+        return &HistogramVec{vec}, err
+    }
+    return nil, err
 }
 
 // MustCurryWith works as CurryWith but panics where CurryWith would have
 // returned an error.
 func (v *HistogramVec) MustCurryWith(labels Labels) ObserverVec {
-	vec, err := v.CurryWith(labels)
-	if err != nil {
-		panic(err)
-	}
-	return vec
+    vec, err := v.CurryWith(labels)
+    if err != nil {
+        panic(err)
+    }
+    return vec
 }
 
 type constHistogram struct {
-	desc       *Desc
-	count      uint64
-	sum        float64
-	buckets    map[float64]uint64
-	labelPairs []*dto.LabelPair
+    desc       *Desc
+    count      uint64
+    sum        float64
+    buckets    map[float64]uint64
+    labelPairs []*dto.LabelPair
 }
 
 func (h *constHistogram) Desc() *Desc {
-	return h.desc
+    return h.desc
 }
 
 func (h *constHistogram) Write(out *dto.Metric) error {
-	his := &dto.Histogram{}
-	buckets := make([]*dto.Bucket, 0, len(h.buckets))
+    his := &dto.Histogram{}
+    buckets := make([]*dto.Bucket, 0, len(h.buckets))
 
-	his.SampleCount = proto.Uint64(h.count)
-	his.SampleSum = proto.Float64(h.sum)
+    his.SampleCount = proto.Uint64(h.count)
+    his.SampleSum = proto.Float64(h.sum)
 
-	for upperBound, count := range h.buckets {
-		buckets = append(buckets, &dto.Bucket{
-			CumulativeCount: proto.Uint64(count),
-			UpperBound:      proto.Float64(upperBound),
-		})
-	}
+    for upperBound, count := range h.buckets {
+        buckets = append(buckets, &dto.Bucket{
+            CumulativeCount: proto.Uint64(count),
+            UpperBound:      proto.Float64(upperBound),
+        })
+    }
 
-	if len(buckets) > 0 {
-		sort.Sort(buckSort(buckets))
-	}
-	his.Bucket = buckets
+    if len(buckets) > 0 {
+        sort.Sort(buckSort(buckets))
+    }
+    his.Bucket = buckets
 
-	out.Histogram = his
-	out.Label = h.labelPairs
+    out.Histogram = his
+    out.Label = h.labelPairs
 
-	return nil
+    return nil
 }
 
 // NewConstHistogram returns a metric representing a Prometheus histogram with
@@ -537,53 +537,53 @@ func (h *constHistogram) Write(out *dto.Metric) error {
 // NewConstHistogram returns an error if the length of labelValues is not
 // consistent with the variable labels in Desc or if Desc is invalid.
 func NewConstHistogram(
-	desc *Desc,
-	count uint64,
-	sum float64,
-	buckets map[float64]uint64,
-	labelValues ...string,
+    desc *Desc,
+    count uint64,
+    sum float64,
+    buckets map[float64]uint64,
+    labelValues ...string,
 ) (Metric, error) {
-	if desc.err != nil {
-		return nil, desc.err
-	}
-	if err := validateLabelValues(labelValues, len(desc.variableLabels)); err != nil {
-		return nil, err
-	}
-	return &constHistogram{
-		desc:       desc,
-		count:      count,
-		sum:        sum,
-		buckets:    buckets,
-		labelPairs: makeLabelPairs(desc, labelValues),
-	}, nil
+    if desc.err != nil {
+        return nil, desc.err
+    }
+    if err := validateLabelValues(labelValues, len(desc.variableLabels)); err != nil {
+        return nil, err
+    }
+    return &constHistogram{
+        desc:       desc,
+        count:      count,
+        sum:        sum,
+        buckets:    buckets,
+        labelPairs: makeLabelPairs(desc, labelValues),
+    }, nil
 }
 
 // MustNewConstHistogram is a version of NewConstHistogram that panics where
 // NewConstMetric would have returned an error.
 func MustNewConstHistogram(
-	desc *Desc,
-	count uint64,
-	sum float64,
-	buckets map[float64]uint64,
-	labelValues ...string,
+    desc *Desc,
+    count uint64,
+    sum float64,
+    buckets map[float64]uint64,
+    labelValues ...string,
 ) Metric {
-	m, err := NewConstHistogram(desc, count, sum, buckets, labelValues...)
-	if err != nil {
-		panic(err)
-	}
-	return m
+    m, err := NewConstHistogram(desc, count, sum, buckets, labelValues...)
+    if err != nil {
+        panic(err)
+    }
+    return m
 }
 
 type buckSort []*dto.Bucket
 
 func (s buckSort) Len() int {
-	return len(s)
+    return len(s)
 }
 
 func (s buckSort) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
+    s[i], s[j] = s[j], s[i]
 }
 
 func (s buckSort) Less(i, j int) bool {
-	return s[i].GetUpperBound() < s[j].GetUpperBound()
+    return s[i].GetUpperBound() < s[j].GetUpperBound()
 }

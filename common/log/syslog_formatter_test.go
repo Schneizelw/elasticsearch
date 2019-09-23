@@ -16,37 +16,37 @@
 package log
 
 import (
-	"errors"
-	"log/syslog"
-	"testing"
+    "errors"
+    "log/syslog"
+    "testing"
 )
 
 func TestGetFacility(t *testing.T) {
-	testCases := []struct {
-		facility         string
-		expectedPriority syslog.Priority
-		expectedErr      error
-	}{
-		{"0", syslog.LOG_LOCAL0, nil},
-		{"1", syslog.LOG_LOCAL1, nil},
-		{"2", syslog.LOG_LOCAL2, nil},
-		{"3", syslog.LOG_LOCAL3, nil},
-		{"4", syslog.LOG_LOCAL4, nil},
-		{"5", syslog.LOG_LOCAL5, nil},
-		{"6", syslog.LOG_LOCAL6, nil},
-		{"7", syslog.LOG_LOCAL7, nil},
-		{"8", syslog.LOG_LOCAL0, errors.New("invalid local(8) for syslog")},
-	}
-	for _, tc := range testCases {
-		priority, err := getFacility(tc.facility)
-		if err != tc.expectedErr {
-			if err.Error() != tc.expectedErr.Error() {
-				t.Errorf("want %s, got %s", tc.expectedErr.Error(), err.Error())
-			}
-		}
+    testCases := []struct {
+        facility         string
+        expectedPriority syslog.Priority
+        expectedErr      error
+    }{
+        {"0", syslog.LOG_LOCAL0, nil},
+        {"1", syslog.LOG_LOCAL1, nil},
+        {"2", syslog.LOG_LOCAL2, nil},
+        {"3", syslog.LOG_LOCAL3, nil},
+        {"4", syslog.LOG_LOCAL4, nil},
+        {"5", syslog.LOG_LOCAL5, nil},
+        {"6", syslog.LOG_LOCAL6, nil},
+        {"7", syslog.LOG_LOCAL7, nil},
+        {"8", syslog.LOG_LOCAL0, errors.New("invalid local(8) for syslog")},
+    }
+    for _, tc := range testCases {
+        priority, err := getFacility(tc.facility)
+        if err != tc.expectedErr {
+            if err.Error() != tc.expectedErr.Error() {
+                t.Errorf("want %s, got %s", tc.expectedErr.Error(), err.Error())
+            }
+        }
 
-		if priority != tc.expectedPriority {
-			t.Errorf("want %q, got %q", tc.expectedPriority, priority)
-		}
-	}
+        if priority != tc.expectedPriority {
+            t.Errorf("want %q, got %q", tc.expectedPriority, priority)
+        }
+    }
 }

@@ -14,12 +14,12 @@
 package prometheus
 
 import (
-	"fmt"
-	"sort"
+    "fmt"
+    "sort"
 
-	"github.com/golang/protobuf/proto"
+    "github.com/golang/protobuf/proto"
 
-	dto "github.com/prometheus/client_model/go"
+    dto "github.com/prometheus/client_model/go"
 )
 
 // ValueType is an enumeration of metric types that represent a simple value.
@@ -27,10 +27,10 @@ type ValueType int
 
 // Possible values for the ValueType enum.
 const (
-	_ ValueType = iota
-	CounterValue
-	GaugeValue
-	UntypedValue
+    _ ValueType = iota
+    CounterValue
+    GaugeValue
+    UntypedValue
 )
 
 // valueFunc is a generic metric for simple values retrieved on collect time
@@ -39,12 +39,12 @@ const (
 // library to back the implementations of CounterFunc, GaugeFunc, and
 // UntypedFunc.
 type valueFunc struct {
-	selfCollector
+    selfCollector
 
-	desc       *Desc
-	valType    ValueType
-	function   func() float64
-	labelPairs []*dto.LabelPair
+    desc       *Desc
+    valType    ValueType
+    function   func() float64
+    labelPairs []*dto.LabelPair
 }
 
 // newValueFunc returns a newly allocated valueFunc with the given Desc and
@@ -54,22 +54,22 @@ type valueFunc struct {
 // the case where a valueFunc is directly registered with Prometheus, the
 // provided function must be concurrency-safe.
 func newValueFunc(desc *Desc, valueType ValueType, function func() float64) *valueFunc {
-	result := &valueFunc{
-		desc:       desc,
-		valType:    valueType,
-		function:   function,
-		labelPairs: makeLabelPairs(desc, nil),
-	}
-	result.init(result)
-	return result
+    result := &valueFunc{
+        desc:       desc,
+        valType:    valueType,
+        function:   function,
+        labelPairs: makeLabelPairs(desc, nil),
+    }
+    result.init(result)
+    return result
 }
 
 func (v *valueFunc) Desc() *Desc {
-	return v.desc
+    return v.desc
 }
 
 func (v *valueFunc) Write(out *dto.Metric) error {
-	return populateMetric(v.valType, v.function(), v.labelPairs, out)
+    return populateMetric(v.valType, v.function(), v.labelPairs, out)
 }
 
 // NewConstMetric returns a metric with one fixed value that cannot be
@@ -80,83 +80,83 @@ func (v *valueFunc) Write(out *dto.Metric) error {
 // labelValues is not consistent with the variable labels in Desc or if Desc is
 // invalid.
 func NewConstMetric(desc *Desc, valueType ValueType, value float64, labelValues ...string) (Metric, error) {
-	if desc.err != nil {
-		return nil, desc.err
-	}
-	if err := validateLabelValues(labelValues, len(desc.variableLabels)); err != nil {
-		return nil, err
-	}
-	return &constMetric{
-		desc:       desc,
-		valType:    valueType,
-		val:        value,
-		labelPairs: makeLabelPairs(desc, labelValues),
-	}, nil
+    if desc.err != nil {
+        return nil, desc.err
+    }
+    if err := validateLabelValues(labelValues, len(desc.variableLabels)); err != nil {
+        return nil, err
+    }
+    return &constMetric{
+        desc:       desc,
+        valType:    valueType,
+        val:        value,
+        labelPairs: makeLabelPairs(desc, labelValues),
+    }, nil
 }
 
 // MustNewConstMetric is a version of NewConstMetric that panics where
 // NewConstMetric would have returned an error.
 func MustNewConstMetric(desc *Desc, valueType ValueType, value float64, labelValues ...string) Metric {
-	m, err := NewConstMetric(desc, valueType, value, labelValues...)
-	if err != nil {
-		panic(err)
-	}
-	return m
+    m, err := NewConstMetric(desc, valueType, value, labelValues...)
+    if err != nil {
+        panic(err)
+    }
+    return m
 }
 
 type constMetric struct {
-	desc       *Desc
-	valType    ValueType
-	val        float64
-	labelPairs []*dto.LabelPair
+    desc       *Desc
+    valType    ValueType
+    val        float64
+    labelPairs []*dto.LabelPair
 }
 
 func (m *constMetric) Desc() *Desc {
-	return m.desc
+    return m.desc
 }
 
 func (m *constMetric) Write(out *dto.Metric) error {
-	return populateMetric(m.valType, m.val, m.labelPairs, out)
+    return populateMetric(m.valType, m.val, m.labelPairs, out)
 }
 
 func populateMetric(
-	t ValueType,
-	v float64,
-	labelPairs []*dto.LabelPair,
-	m *dto.Metric,
+    t ValueType,
+    v float64,
+    labelPairs []*dto.LabelPair,
+    m *dto.Metric,
 ) error {
-	m.Label = labelPairs
-	switch t {
-	case CounterValue:
-		m.Counter = &dto.Counter{Value: proto.Float64(v)}
-	case GaugeValue:
-		m.Gauge = &dto.Gauge{Value: proto.Float64(v)}
-	case UntypedValue:
-		m.Untyped = &dto.Untyped{Value: proto.Float64(v)}
-	default:
-		return fmt.Errorf("encountered unknown type %v", t)
-	}
-	return nil
+    m.Label = labelPairs
+    switch t {
+    case CounterValue:
+        m.Counter = &dto.Counter{Value: proto.Float64(v)}
+    case GaugeValue:
+        m.Gauge = &dto.Gauge{Value: proto.Float64(v)}
+    case UntypedValue:
+        m.Untyped = &dto.Untyped{Value: proto.Float64(v)}
+    default:
+        return fmt.Errorf("encountered unknown type %v", t)
+    }
+    return nil
 }
 
 func makeLabelPairs(desc *Desc, labelValues []string) []*dto.LabelPair {
-	totalLen := len(desc.variableLabels) + len(desc.constLabelPairs)
-	if totalLen == 0 {
-		// Super fast path.
-		return nil
-	}
-	if len(desc.variableLabels) == 0 {
-		// Moderately fast path.
-		return desc.constLabelPairs
-	}
-	labelPairs := make([]*dto.LabelPair, 0, totalLen)
-	for i, n := range desc.variableLabels {
-		labelPairs = append(labelPairs, &dto.LabelPair{
-			Name:  proto.String(n),
-			Value: proto.String(labelValues[i]),
-		})
-	}
-	labelPairs = append(labelPairs, desc.constLabelPairs...)
-	sort.Sort(labelPairSorter(labelPairs))
-	return labelPairs
+    totalLen := len(desc.variableLabels) + len(desc.constLabelPairs)
+    if totalLen == 0 {
+        // Super fast path.
+        return nil
+    }
+    if len(desc.variableLabels) == 0 {
+        // Moderately fast path.
+        return desc.constLabelPairs
+    }
+    labelPairs := make([]*dto.LabelPair, 0, totalLen)
+    for i, n := range desc.variableLabels {
+        labelPairs = append(labelPairs, &dto.LabelPair{
+            Name:  proto.String(n),
+            Value: proto.String(labelValues[i]),
+        })
+    }
+    labelPairs = append(labelPairs, desc.constLabelPairs...)
+    sort.Sort(labelPairSorter(labelPairs))
+    return labelPairs
 }

@@ -15,68 +15,68 @@
 package xfs_test
 
 import (
-	"testing"
+    "testing"
 
-	"github.com/prometheus/procfs/xfs"
+    "github.com/prometheus/procfs/xfs"
 )
 
 func TestReadProcStat(t *testing.T) {
-	xfs, err := xfs.NewFS("../fixtures/proc", "../fixtures/sys")
-	if err != nil {
-		t.Fatalf("failed to access xfs fs: %v", err)
-	}
-	stats, err := xfs.ProcStat()
-	if err != nil {
-		t.Fatalf("failed to parse XFS stats: %v", err)
-	}
+    xfs, err := xfs.NewFS("../fixtures/proc", "../fixtures/sys")
+    if err != nil {
+        t.Fatalf("failed to access xfs fs: %v", err)
+    }
+    stats, err := xfs.ProcStat()
+    if err != nil {
+        t.Fatalf("failed to parse XFS stats: %v", err)
+    }
 
-	// Very lightweight test just to sanity check the path used
-	// to open XFS stats. Heavier tests in package xfs.
-	if want, got := uint32(92447), stats.ExtentAllocation.ExtentsAllocated; want != got {
-		t.Errorf("unexpected extents allocated:\nwant: %d\nhave: %d", want, got)
-	}
+    // Very lightweight test just to sanity check the path used
+    // to open XFS stats. Heavier tests in package xfs.
+    if want, got := uint32(92447), stats.ExtentAllocation.ExtentsAllocated; want != got {
+        t.Errorf("unexpected extents allocated:\nwant: %d\nhave: %d", want, got)
+    }
 }
 
 func TestReadSysStats(t *testing.T) {
-	xfs, err := xfs.NewFS("../fixtures/proc", "../fixtures/sys")
-	if err != nil {
-		t.Fatalf("failed to access xfs fs: %v", err)
-	}
-	stats, err := xfs.SysStats()
-	if err != nil {
-		t.Fatalf("failed to parse XFS stats: %v", err)
-	}
+    xfs, err := xfs.NewFS("../fixtures/proc", "../fixtures/sys")
+    if err != nil {
+        t.Fatalf("failed to access xfs fs: %v", err)
+    }
+    stats, err := xfs.SysStats()
+    if err != nil {
+        t.Fatalf("failed to parse XFS stats: %v", err)
+    }
 
-	tests := []struct {
-		name      string
-		allocated uint32
-	}{
-		{
-			name:      "sda1",
-			allocated: 1,
-		},
-		{
-			name:      "sdb1",
-			allocated: 2,
-		},
-	}
+    tests := []struct {
+        name      string
+        allocated uint32
+    }{
+        {
+            name:      "sda1",
+            allocated: 1,
+        },
+        {
+            name:      "sdb1",
+            allocated: 2,
+        },
+    }
 
-	const expect = 2
+    const expect = 2
 
-	if l := len(stats); l != expect {
-		t.Fatalf("unexpected number of XFS stats: %d", l)
-	}
-	if l := len(tests); l != expect {
-		t.Fatalf("unexpected number of tests: %d", l)
-	}
+    if l := len(stats); l != expect {
+        t.Fatalf("unexpected number of XFS stats: %d", l)
+    }
+    if l := len(tests); l != expect {
+        t.Fatalf("unexpected number of tests: %d", l)
+    }
 
-	for i, tt := range tests {
-		if want, got := tt.name, stats[i].Name; want != got {
-			t.Errorf("unexpected stats name:\nwant: %q\nhave: %q", want, got)
-		}
+    for i, tt := range tests {
+        if want, got := tt.name, stats[i].Name; want != got {
+            t.Errorf("unexpected stats name:\nwant: %q\nhave: %q", want, got)
+        }
 
-		if want, got := tt.allocated, stats[i].ExtentAllocation.ExtentsAllocated; want != got {
-			t.Errorf("unexpected extents allocated:\nwant: %d\nhave: %d", want, got)
-		}
-	}
+        if want, got := tt.allocated, stats[i].ExtentAllocation.ExtentsAllocated; want != got {
+            t.Errorf("unexpected extents allocated:\nwant: %d\nhave: %d", want, got)
+        }
+    }
 }

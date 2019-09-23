@@ -16,24 +16,24 @@ package procfs
 import "testing"
 
 const (
-	procTestFixtures = "fixtures/proc"
+    procTestFixtures = "fixtures/proc"
 )
 
 func TestNewFS(t *testing.T) {
-	if _, err := NewFS("foobar"); err == nil {
-		t.Error("want NewFS to fail for non-existing mount point")
-	}
+    if _, err := NewFS("foobar"); err == nil {
+        t.Error("want NewFS to fail for non-existing mount point")
+    }
 
-	if _, err := NewFS("procfs.go"); err == nil {
-		t.Error("want NewFS to fail if mount point is not a directory")
-	}
-	getProcFixtures(t)
+    if _, err := NewFS("procfs.go"); err == nil {
+        t.Error("want NewFS to fail if mount point is not a directory")
+    }
+    getProcFixtures(t)
 }
 
 func getProcFixtures(t *testing.T) FS {
-	fs, err := NewFS(procTestFixtures)
-	if err != nil {
-		t.Fatalf("Creating pseudo fs from getProcFixtures failed at fixtures/proc with error: %s", err)
-	}
-	return fs
+    fs, err := NewFS(procTestFixtures)
+    if err != nil {
+        t.Fatalf("Creating pseudo fs from getProcFixtures failed at fixtures/proc with error: %s", err)
+    }
+    return fs
 }

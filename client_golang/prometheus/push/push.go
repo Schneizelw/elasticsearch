@@ -35,48 +35,48 @@
 package push
 
 import (
-	"bytes"
-	"encoding/base64"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"strings"
+    "bytes"
+    "encoding/base64"
+    "fmt"
+    "io/ioutil"
+    "net/http"
+    "net/url"
+    "strings"
 
-	"github.com/prometheus/common/expfmt"
-	"github.com/prometheus/common/model"
+    "github.com/prometheus/common/expfmt"
+    "github.com/prometheus/common/model"
 
-	"github.com/prometheus/client_golang/prometheus"
+    "github.com/prometheus/client_golang/prometheus"
 )
 
 const (
-	contentTypeHeader = "Content-Type"
-	// base64Suffix is appended to a label name in the request URL path to
-	// mark the following label value as base64 encoded.
-	base64Suffix = "@base64"
+    contentTypeHeader = "Content-Type"
+    // base64Suffix is appended to a label name in the request URL path to
+    // mark the following label value as base64 encoded.
+    base64Suffix = "@base64"
 )
 
 // HTTPDoer is an interface for the one method of http.Client that is used by Pusher
 type HTTPDoer interface {
-	Do(*http.Request) (*http.Response, error)
+    Do(*http.Request) (*http.Response, error)
 }
 
 // Pusher manages a push to the Pushgateway. Use New to create one, configure it
 // with its methods, and finally use the Add or Push method to push.
 type Pusher struct {
-	error error
+    error error
 
-	url, job string
-	grouping map[string]string
+    url, job string
+    grouping map[string]string
 
-	gatherers  prometheus.Gatherers
-	registerer prometheus.Registerer
+    gatherers  prometheus.Gatherers
+    registerer prometheus.Registerer
 
-	client             HTTPDoer
-	useBasicAuth       bool
-	username, password string
+    client             HTTPDoer
+    useBasicAuth       bool
+    username, password string
 
-	expfmt expfmt.Format
+    expfmt expfmt.Format
 }
 
 // New creates a new Pusher to push to the provided URL with the provided job
@@ -84,27 +84,27 @@ type Pusher struct {
 // is added automatically. Alternatively, include the schema in the
 // URL. However, do not include the “/metrics/jobs/…” part.
 func New(url, job string) *Pusher {
-	var (
-		reg = prometheus.NewRegistry()
-		err error
-	)
-	if !strings.Contains(url, "://") {
-		url = "http://" + url
-	}
-	if strings.HasSuffix(url, "/") {
-		url = url[:len(url)-1]
-	}
+    var (
+        reg = prometheus.NewRegistry()
+        err error
+    )
+    if !strings.Contains(url, "://") {
+        url = "http://" + url
+    }
+    if strings.HasSuffix(url, "/") {
+        url = url[:len(url)-1]
+    }
 
-	return &Pusher{
-		error:      err,
-		url:        url,
-		job:        job,
-		grouping:   map[string]string{},
-		gatherers:  prometheus.Gatherers{reg},
-		registerer: reg,
-		client:     &http.Client{},
-		expfmt:     expfmt.FmtProtoDelim,
-	}
+    return &Pusher{
+        error:      err,
+        url:        url,
+        job:        job,
+        grouping:   map[string]string{},
+        gatherers:  prometheus.Gatherers{reg},
+        registerer: reg,
+        client:     &http.Client{},
+        expfmt:     expfmt.FmtProtoDelim,
+    }
 }
 
 // Push collects/gathers all metrics from all Collectors and Gatherers added to
@@ -117,14 +117,14 @@ func New(url, job string) *Pusher {
 // Push returns the first error encountered by any method call (including this
 // one) in the lifetime of the Pusher.
 func (p *Pusher) Push() error {
-	return p.push(http.MethodPut)
+    return p.push(http.MethodPut)
 }
 
 // Add works like push, but only previously pushed metrics with the same name
 // (and the same job and other grouping labels) will be replaced. (It uses HTTP
 // method “POST” to push to the Pushgateway.)
 func (p *Pusher) Add() error {
-	return p.push(http.MethodPost)
+    return p.push(http.MethodPost)
 }
 
 // Gatherer adds a Gatherer to the Pusher, from which metrics will be gathered
@@ -133,8 +133,8 @@ func (p *Pusher) Add() error {
 //
 // For convenience, this method returns a pointer to the Pusher itself.
 func (p *Pusher) Gatherer(g prometheus.Gatherer) *Pusher {
-	p.gatherers = append(p.gatherers, g)
-	return p
+    p.gatherers = append(p.gatherers, g)
+    return p
 }
 
 // Collector adds a Collector to the Pusher, from which metrics will be
@@ -143,10 +143,10 @@ func (p *Pusher) Gatherer(g prometheus.Gatherer) *Pusher {
 //
 // For convenience, this method returns a pointer to the Pusher itself.
 func (p *Pusher) Collector(c prometheus.Collector) *Pusher {
-	if p.error == nil {
-		p.error = p.registerer.Register(c)
-	}
-	return p
+    if p.error == nil {
+        p.error = p.registerer.Register(c)
+    }
+    return p
 }
 
 // Grouping adds a label pair to the grouping key of the Pusher, replacing any
@@ -156,14 +156,14 @@ func (p *Pusher) Collector(c prometheus.Collector) *Pusher {
 //
 // For convenience, this method returns a pointer to the Pusher itself.
 func (p *Pusher) Grouping(name, value string) *Pusher {
-	if p.error == nil {
-		if !model.LabelName(name).IsValid() {
-			p.error = fmt.Errorf("grouping label has invalid name: %s", name)
-			return p
-		}
-		p.grouping[name] = value
-	}
-	return p
+    if p.error == nil {
+        if !model.LabelName(name).IsValid() {
+            p.error = fmt.Errorf("grouping label has invalid name: %s", name)
+            return p
+        }
+        p.grouping[name] = value
+    }
+    return p
 }
 
 // Client sets a custom HTTP client for the Pusher. For convenience, this method
@@ -173,18 +173,18 @@ func (p *Pusher) Grouping(name, value string) *Pusher {
 // the provided client only needs to implement the HTTPDoer interface.
 // Since *http.Client naturally implements that interface, it can still be used normally.
 func (p *Pusher) Client(c HTTPDoer) *Pusher {
-	p.client = c
-	return p
+    p.client = c
+    return p
 }
 
 // BasicAuth configures the Pusher to use HTTP Basic Authentication with the
 // provided username and password. For convenience, this method returns a
 // pointer to the Pusher itself.
 func (p *Pusher) BasicAuth(username, password string) *Pusher {
-	p.useBasicAuth = true
-	p.username = username
-	p.password = password
-	return p
+    p.useBasicAuth = true
+    p.username = username
+    p.password = password
+    return p
 }
 
 // Format configures the Pusher to use an encoding format given by the
@@ -193,8 +193,8 @@ func (p *Pusher) BasicAuth(username, password string) *Pusher {
 // implementations may require different formats. For convenience, this
 // method returns a pointer to the Pusher itself.
 func (p *Pusher) Format(format expfmt.Format) *Pusher {
-	p.expfmt = format
-	return p
+    p.expfmt = format
+    return p
 }
 
 // Delete sends a “DELETE” request to the Pushgateway configured while creating
@@ -205,73 +205,73 @@ func (p *Pusher) Format(format expfmt.Format) *Pusher {
 // Delete returns the first error encountered by any method call (including this
 // one) in the lifetime of the Pusher.
 func (p *Pusher) Delete() error {
-	if p.error != nil {
-		return p.error
-	}
-	req, err := http.NewRequest(http.MethodDelete, p.fullURL(), nil)
-	if err != nil {
-		return err
-	}
-	if p.useBasicAuth {
-		req.SetBasicAuth(p.username, p.password)
-	}
-	resp, err := p.client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 202 {
-		body, _ := ioutil.ReadAll(resp.Body) // Ignore any further error as this is for an error message only.
-		return fmt.Errorf("unexpected status code %d while deleting %s: %s", resp.StatusCode, p.fullURL(), body)
-	}
-	return nil
+    if p.error != nil {
+        return p.error
+    }
+    req, err := http.NewRequest(http.MethodDelete, p.fullURL(), nil)
+    if err != nil {
+        return err
+    }
+    if p.useBasicAuth {
+        req.SetBasicAuth(p.username, p.password)
+    }
+    resp, err := p.client.Do(req)
+    if err != nil {
+        return err
+    }
+    defer resp.Body.Close()
+    if resp.StatusCode != 202 {
+        body, _ := ioutil.ReadAll(resp.Body) // Ignore any further error as this is for an error message only.
+        return fmt.Errorf("unexpected status code %d while deleting %s: %s", resp.StatusCode, p.fullURL(), body)
+    }
+    return nil
 }
 
 func (p *Pusher) push(method string) error {
-	if p.error != nil {
-		return p.error
-	}
-	mfs, err := p.gatherers.Gather()
-	if err != nil {
-		return err
-	}
-	buf := &bytes.Buffer{}
-	enc := expfmt.NewEncoder(buf, p.expfmt)
-	// Check for pre-existing grouping labels:
-	for _, mf := range mfs {
-		for _, m := range mf.GetMetric() {
-			for _, l := range m.GetLabel() {
-				if l.GetName() == "job" {
-					return fmt.Errorf("pushed metric %s (%s) already contains a job label", mf.GetName(), m)
-				}
-				if _, ok := p.grouping[l.GetName()]; ok {
-					return fmt.Errorf(
-						"pushed metric %s (%s) already contains grouping label %s",
-						mf.GetName(), m, l.GetName(),
-					)
-				}
-			}
-		}
-		enc.Encode(mf)
-	}
-	req, err := http.NewRequest(method, p.fullURL(), buf)
-	if err != nil {
-		return err
-	}
-	if p.useBasicAuth {
-		req.SetBasicAuth(p.username, p.password)
-	}
-	req.Header.Set(contentTypeHeader, string(p.expfmt))
-	resp, err := p.client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 202 {
-		body, _ := ioutil.ReadAll(resp.Body) // Ignore any further error as this is for an error message only.
-		return fmt.Errorf("unexpected status code %d while pushing to %s: %s", resp.StatusCode, p.fullURL(), body)
-	}
-	return nil
+    if p.error != nil {
+        return p.error
+    }
+    mfs, err := p.gatherers.Gather()
+    if err != nil {
+        return err
+    }
+    buf := &bytes.Buffer{}
+    enc := expfmt.NewEncoder(buf, p.expfmt)
+    // Check for pre-existing grouping labels:
+    for _, mf := range mfs {
+        for _, m := range mf.GetMetric() {
+            for _, l := range m.GetLabel() {
+                if l.GetName() == "job" {
+                    return fmt.Errorf("pushed metric %s (%s) already contains a job label", mf.GetName(), m)
+                }
+                if _, ok := p.grouping[l.GetName()]; ok {
+                    return fmt.Errorf(
+                        "pushed metric %s (%s) already contains grouping label %s",
+                        mf.GetName(), m, l.GetName(),
+                    )
+                }
+            }
+        }
+        enc.Encode(mf)
+    }
+    req, err := http.NewRequest(method, p.fullURL(), buf)
+    if err != nil {
+        return err
+    }
+    if p.useBasicAuth {
+        req.SetBasicAuth(p.username, p.password)
+    }
+    req.Header.Set(contentTypeHeader, string(p.expfmt))
+    resp, err := p.client.Do(req)
+    if err != nil {
+        return err
+    }
+    defer resp.Body.Close()
+    if resp.StatusCode != 202 {
+        body, _ := ioutil.ReadAll(resp.Body) // Ignore any further error as this is for an error message only.
+        return fmt.Errorf("unexpected status code %d while pushing to %s: %s", resp.StatusCode, p.fullURL(), body)
+    }
+    return nil
 }
 
 // fullURL assembles the URL used to push/delete metrics and returns it as a
@@ -281,28 +281,28 @@ func (p *Pusher) push(method string) error {
 // special character, the usual url.QueryEscape is used for compatibility with
 // older versions of the Pushgateway and for better readability.
 func (p *Pusher) fullURL() string {
-	urlComponents := []string{}
-	if encodedJob, base64 := encodeComponent(p.job); base64 {
-		urlComponents = append(urlComponents, "job"+base64Suffix, encodedJob)
-	} else {
-		urlComponents = append(urlComponents, "job", encodedJob)
-	}
-	for ln, lv := range p.grouping {
-		if encodedLV, base64 := encodeComponent(lv); base64 {
-			urlComponents = append(urlComponents, ln+base64Suffix, encodedLV)
-		} else {
-			urlComponents = append(urlComponents, ln, encodedLV)
-		}
-	}
-	return fmt.Sprintf("%s/metrics/%s", p.url, strings.Join(urlComponents, "/"))
+    urlComponents := []string{}
+    if encodedJob, base64 := encodeComponent(p.job); base64 {
+        urlComponents = append(urlComponents, "job"+base64Suffix, encodedJob)
+    } else {
+        urlComponents = append(urlComponents, "job", encodedJob)
+    }
+    for ln, lv := range p.grouping {
+        if encodedLV, base64 := encodeComponent(lv); base64 {
+            urlComponents = append(urlComponents, ln+base64Suffix, encodedLV)
+        } else {
+            urlComponents = append(urlComponents, ln, encodedLV)
+        }
+    }
+    return fmt.Sprintf("%s/metrics/%s", p.url, strings.Join(urlComponents, "/"))
 }
 
 // encodeComponent encodes the provided string with base64.RawURLEncoding in
 // case it contains '/'. If not, it uses url.QueryEscape instead. It returns
 // true in the former case.
 func encodeComponent(s string) (string, bool) {
-	if strings.Contains(s, "/") {
-		return base64.RawURLEncoding.EncodeToString([]byte(s)), true
-	}
-	return url.QueryEscape(s), false
+    if strings.Contains(s, "/") {
+        return base64.RawURLEncoding.EncodeToString([]byte(s)), true
+    }
+    return url.QueryEscape(s), false
 }

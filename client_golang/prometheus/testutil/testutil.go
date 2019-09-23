@@ -34,16 +34,16 @@
 package testutil
 
 import (
-	"bytes"
-	"fmt"
-	"io"
+    "bytes"
+    "fmt"
+    "io"
 
-	"github.com/prometheus/common/expfmt"
+    "github.com/prometheus/common/expfmt"
 
-	dto "github.com/prometheus/client_model/go"
+    dto "github.com/prometheus/client_model/go"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/internal"
+    "github.com/prometheus/client_golang/prometheus"
+    "github.com/prometheus/client_golang/prometheus/internal"
 )
 
 // ToFloat64 collects all Metrics from the provided Collector. It expects that
@@ -72,51 +72,51 @@ import (
 // considering Prometheus metrics) and then expose the number with a
 // prometheus.GaugeFunc.
 func ToFloat64(c prometheus.Collector) float64 {
-	var (
-		m      prometheus.Metric
-		mCount int
-		mChan  = make(chan prometheus.Metric)
-		done   = make(chan struct{})
-	)
+    var (
+        m      prometheus.Metric
+        mCount int
+        mChan  = make(chan prometheus.Metric)
+        done   = make(chan struct{})
+    )
 
-	go func() {
-		for m = range mChan {
-			mCount++
-		}
-		close(done)
-	}()
+    go func() {
+        for m = range mChan {
+            mCount++
+        }
+        close(done)
+    }()
 
-	c.Collect(mChan)
-	close(mChan)
-	<-done
+    c.Collect(mChan)
+    close(mChan)
+    <-done
 
-	if mCount != 1 {
-		panic(fmt.Errorf("collected %d metrics instead of exactly 1", mCount))
-	}
+    if mCount != 1 {
+        panic(fmt.Errorf("collected %d metrics instead of exactly 1", mCount))
+    }
 
-	pb := &dto.Metric{}
-	m.Write(pb)
-	if pb.Gauge != nil {
-		return pb.Gauge.GetValue()
-	}
-	if pb.Counter != nil {
-		return pb.Counter.GetValue()
-	}
-	if pb.Untyped != nil {
-		return pb.Untyped.GetValue()
-	}
-	panic(fmt.Errorf("collected a non-gauge/counter/untyped metric: %s", pb))
+    pb := &dto.Metric{}
+    m.Write(pb)
+    if pb.Gauge != nil {
+        return pb.Gauge.GetValue()
+    }
+    if pb.Counter != nil {
+        return pb.Counter.GetValue()
+    }
+    if pb.Untyped != nil {
+        return pb.Untyped.GetValue()
+    }
+    panic(fmt.Errorf("collected a non-gauge/counter/untyped metric: %s", pb))
 }
 
 // CollectAndCompare registers the provided Collector with a newly created
 // pedantic Registry. It then does the same as GatherAndCompare, gathering the
 // metrics from the pedantic Registry.
 func CollectAndCompare(c prometheus.Collector, expected io.Reader, metricNames ...string) error {
-	reg := prometheus.NewPedanticRegistry()
-	if err := reg.Register(c); err != nil {
-		return fmt.Errorf("registering collector failed: %s", err)
-	}
-	return GatherAndCompare(reg, expected, metricNames...)
+    reg := prometheus.NewPedanticRegistry()
+    if err := reg.Register(c); err != nil {
+        return fmt.Errorf("registering collector failed: %s", err)
+    }
+    return GatherAndCompare(reg, expected, metricNames...)
 }
 
 // GatherAndCompare gathers all metrics from the provided Gatherer and compares
@@ -124,21 +124,21 @@ func CollectAndCompare(c prometheus.Collector, expected io.Reader, metricNames .
 // exposition format. If any metricNames are provided, only metrics with those
 // names are compared.
 func GatherAndCompare(g prometheus.Gatherer, expected io.Reader, metricNames ...string) error {
-	got, err := g.Gather()
-	if err != nil {
-		return fmt.Errorf("gathering metrics failed: %s", err)
-	}
-	if metricNames != nil {
-		got = filterMetrics(got, metricNames)
-	}
-	var tp expfmt.TextParser
-	wantRaw, err := tp.TextToMetricFamilies(expected)
-	if err != nil {
-		return fmt.Errorf("parsing expected metrics failed: %s", err)
-	}
-	want := internal.NormalizeMetricFamilies(wantRaw)
+    got, err := g.Gather()
+    if err != nil {
+        return fmt.Errorf("gathering metrics failed: %s", err)
+    }
+    if metricNames != nil {
+        got = filterMetrics(got, metricNames)
+    }
+    var tp expfmt.TextParser
+    wantRaw, err := tp.TextToMetricFamilies(expected)
+    if err != nil {
+        return fmt.Errorf("parsing expected metrics failed: %s", err)
+    }
+    want := internal.NormalizeMetricFamilies(wantRaw)
 
-	return compare(got, want)
+    return compare(got, want)
 }
 
 // compare encodes both provided slices of metric families into the text format,
@@ -146,22 +146,22 @@ func GatherAndCompare(g prometheus.Gatherer, expected io.Reader, metricNames ...
 // The error contains the encoded text of both the desired and the actual
 // result.
 func compare(got, want []*dto.MetricFamily) error {
-	var gotBuf, wantBuf bytes.Buffer
-	enc := expfmt.NewEncoder(&gotBuf, expfmt.FmtText)
-	for _, mf := range got {
-		if err := enc.Encode(mf); err != nil {
-			return fmt.Errorf("encoding gathered metrics failed: %s", err)
-		}
-	}
-	enc = expfmt.NewEncoder(&wantBuf, expfmt.FmtText)
-	for _, mf := range want {
-		if err := enc.Encode(mf); err != nil {
-			return fmt.Errorf("encoding expected metrics failed: %s", err)
-		}
-	}
+    var gotBuf, wantBuf bytes.Buffer
+    enc := expfmt.NewEncoder(&gotBuf, expfmt.FmtText)
+    for _, mf := range got {
+        if err := enc.Encode(mf); err != nil {
+            return fmt.Errorf("encoding gathered metrics failed: %s", err)
+        }
+    }
+    enc = expfmt.NewEncoder(&wantBuf, expfmt.FmtText)
+    for _, mf := range want {
+        if err := enc.Encode(mf); err != nil {
+            return fmt.Errorf("encoding expected metrics failed: %s", err)
+        }
+    }
 
-	if wantBuf.String() != gotBuf.String() {
-		return fmt.Errorf(`
+    if wantBuf.String() != gotBuf.String() {
+        return fmt.Errorf(`
 metric output does not match expectation; want:
 
 %s
@@ -169,19 +169,19 @@ got:
 
 %s`, wantBuf.String(), gotBuf.String())
 
-	}
-	return nil
+    }
+    return nil
 }
 
 func filterMetrics(metrics []*dto.MetricFamily, names []string) []*dto.MetricFamily {
-	var filtered []*dto.MetricFamily
-	for _, m := range metrics {
-		for _, name := range names {
-			if m.GetName() == name {
-				filtered = append(filtered, m)
-				break
-			}
-		}
-	}
-	return filtered
+    var filtered []*dto.MetricFamily
+    for _, m := range metrics {
+        for _, name := range names {
+            if m.GetName() == name {
+                filtered = append(filtered, m)
+                break
+            }
+        }
+    }
+    return filtered
 }

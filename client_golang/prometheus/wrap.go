@@ -14,12 +14,12 @@
 package prometheus
 
 import (
-	"fmt"
-	"sort"
+    "fmt"
+    "sort"
 
-	"github.com/golang/protobuf/proto"
+    "github.com/golang/protobuf/proto"
 
-	dto "github.com/prometheus/client_model/go"
+    dto "github.com/prometheus/client_model/go"
 )
 
 // WrapRegistererWith returns a Registerer wrapping the provided
@@ -40,10 +40,10 @@ import (
 //
 // The Collector example demonstrates a use of WrapRegistererWith.
 func WrapRegistererWith(labels Labels, reg Registerer) Registerer {
-	return &wrappingRegisterer{
-		wrappedRegisterer: reg,
-		labels:            labels,
-	}
+    return &wrappingRegisterer{
+        wrappedRegisterer: reg,
+        labels:            labels,
+    }
 }
 
 // WrapRegistererWithPrefix returns a Registerer wrapping the provided
@@ -67,134 +67,134 @@ func WrapRegistererWith(labels Labels, reg Registerer) Registerer {
 // either Registerer will contain the ExistingCollector in the form it was
 // provided to the respective registry.
 func WrapRegistererWithPrefix(prefix string, reg Registerer) Registerer {
-	return &wrappingRegisterer{
-		wrappedRegisterer: reg,
-		prefix:            prefix,
-	}
+    return &wrappingRegisterer{
+        wrappedRegisterer: reg,
+        prefix:            prefix,
+    }
 }
 
 type wrappingRegisterer struct {
-	wrappedRegisterer Registerer
-	prefix            string
-	labels            Labels
+    wrappedRegisterer Registerer
+    prefix            string
+    labels            Labels
 }
 
 func (r *wrappingRegisterer) Register(c Collector) error {
-	return r.wrappedRegisterer.Register(&wrappingCollector{
-		wrappedCollector: c,
-		prefix:           r.prefix,
-		labels:           r.labels,
-	})
+    return r.wrappedRegisterer.Register(&wrappingCollector{
+        wrappedCollector: c,
+        prefix:           r.prefix,
+        labels:           r.labels,
+    })
 }
 
 func (r *wrappingRegisterer) MustRegister(cs ...Collector) {
-	for _, c := range cs {
-		if err := r.Register(c); err != nil {
-			panic(err)
-		}
-	}
+    for _, c := range cs {
+        if err := r.Register(c); err != nil {
+            panic(err)
+        }
+    }
 }
 
 func (r *wrappingRegisterer) Unregister(c Collector) bool {
-	return r.wrappedRegisterer.Unregister(&wrappingCollector{
-		wrappedCollector: c,
-		prefix:           r.prefix,
-		labels:           r.labels,
-	})
+    return r.wrappedRegisterer.Unregister(&wrappingCollector{
+        wrappedCollector: c,
+        prefix:           r.prefix,
+        labels:           r.labels,
+    })
 }
 
 type wrappingCollector struct {
-	wrappedCollector Collector
-	prefix           string
-	labels           Labels
+    wrappedCollector Collector
+    prefix           string
+    labels           Labels
 }
 
 func (c *wrappingCollector) Collect(ch chan<- Metric) {
-	wrappedCh := make(chan Metric)
-	go func() {
-		c.wrappedCollector.Collect(wrappedCh)
-		close(wrappedCh)
-	}()
-	for m := range wrappedCh {
-		ch <- &wrappingMetric{
-			wrappedMetric: m,
-			prefix:        c.prefix,
-			labels:        c.labels,
-		}
-	}
+    wrappedCh := make(chan Metric)
+    go func() {
+        c.wrappedCollector.Collect(wrappedCh)
+        close(wrappedCh)
+    }()
+    for m := range wrappedCh {
+        ch <- &wrappingMetric{
+            wrappedMetric: m,
+            prefix:        c.prefix,
+            labels:        c.labels,
+        }
+    }
 }
 
 func (c *wrappingCollector) Describe(ch chan<- *Desc) {
-	wrappedCh := make(chan *Desc)
-	go func() {
-		c.wrappedCollector.Describe(wrappedCh)
-		close(wrappedCh)
-	}()
-	for desc := range wrappedCh {
-		ch <- wrapDesc(desc, c.prefix, c.labels)
-	}
+    wrappedCh := make(chan *Desc)
+    go func() {
+        c.wrappedCollector.Describe(wrappedCh)
+        close(wrappedCh)
+    }()
+    for desc := range wrappedCh {
+        ch <- wrapDesc(desc, c.prefix, c.labels)
+    }
 }
 
 func (c *wrappingCollector) unwrapRecursively() Collector {
-	switch wc := c.wrappedCollector.(type) {
-	case *wrappingCollector:
-		return wc.unwrapRecursively()
-	default:
-		return wc
-	}
+    switch wc := c.wrappedCollector.(type) {
+    case *wrappingCollector:
+        return wc.unwrapRecursively()
+    default:
+        return wc
+    }
 }
 
 type wrappingMetric struct {
-	wrappedMetric Metric
-	prefix        string
-	labels        Labels
+    wrappedMetric Metric
+    prefix        string
+    labels        Labels
 }
 
 func (m *wrappingMetric) Desc() *Desc {
-	return wrapDesc(m.wrappedMetric.Desc(), m.prefix, m.labels)
+    return wrapDesc(m.wrappedMetric.Desc(), m.prefix, m.labels)
 }
 
 func (m *wrappingMetric) Write(out *dto.Metric) error {
-	if err := m.wrappedMetric.Write(out); err != nil {
-		return err
-	}
-	if len(m.labels) == 0 {
-		// No wrapping labels.
-		return nil
-	}
-	for ln, lv := range m.labels {
-		out.Label = append(out.Label, &dto.LabelPair{
-			Name:  proto.String(ln),
-			Value: proto.String(lv),
-		})
-	}
-	sort.Sort(labelPairSorter(out.Label))
-	return nil
+    if err := m.wrappedMetric.Write(out); err != nil {
+        return err
+    }
+    if len(m.labels) == 0 {
+        // No wrapping labels.
+        return nil
+    }
+    for ln, lv := range m.labels {
+        out.Label = append(out.Label, &dto.LabelPair{
+            Name:  proto.String(ln),
+            Value: proto.String(lv),
+        })
+    }
+    sort.Sort(labelPairSorter(out.Label))
+    return nil
 }
 
 func wrapDesc(desc *Desc, prefix string, labels Labels) *Desc {
-	constLabels := Labels{}
-	for _, lp := range desc.constLabelPairs {
-		constLabels[*lp.Name] = *lp.Value
-	}
-	for ln, lv := range labels {
-		if _, alreadyUsed := constLabels[ln]; alreadyUsed {
-			return &Desc{
-				fqName:          desc.fqName,
-				help:            desc.help,
-				variableLabels:  desc.variableLabels,
-				constLabelPairs: desc.constLabelPairs,
-				err:             fmt.Errorf("attempted wrapping with already existing label name %q", ln),
-			}
-		}
-		constLabels[ln] = lv
-	}
-	// NewDesc will do remaining validations.
-	newDesc := NewDesc(prefix+desc.fqName, desc.help, desc.variableLabels, constLabels)
-	// Propagate errors if there was any. This will override any errer
-	// created by NewDesc above, i.e. earlier errors get precedence.
-	if desc.err != nil {
-		newDesc.err = desc.err
-	}
-	return newDesc
+    constLabels := Labels{}
+    for _, lp := range desc.constLabelPairs {
+        constLabels[*lp.Name] = *lp.Value
+    }
+    for ln, lv := range labels {
+        if _, alreadyUsed := constLabels[ln]; alreadyUsed {
+            return &Desc{
+                fqName:          desc.fqName,
+                help:            desc.help,
+                variableLabels:  desc.variableLabels,
+                constLabelPairs: desc.constLabelPairs,
+                err:             fmt.Errorf("attempted wrapping with already existing label name %q", ln),
+            }
+        }
+        constLabels[ln] = lv
+    }
+    // NewDesc will do remaining validations.
+    newDesc := NewDesc(prefix+desc.fqName, desc.help, desc.variableLabels, constLabels)
+    // Propagate errors if there was any. This will override any errer
+    // created by NewDesc above, i.e. earlier errors get precedence.
+    if desc.err != nil {
+        newDesc.err = desc.err
+    }
+    return newDesc
 }

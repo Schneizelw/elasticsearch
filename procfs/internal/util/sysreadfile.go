@@ -16,30 +16,30 @@
 package util
 
 import (
-	"bytes"
-	"os"
-	"syscall"
+    "bytes"
+    "os"
+    "syscall"
 )
 
 // SysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.
 // https://github.com/prometheus/node_exporter/pull/728/files
 func SysReadFile(file string) (string, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
+    f, err := os.Open(file)
+    if err != nil {
+        return "", err
+    }
+    defer f.Close()
 
-	// On some machines, hwmon drivers are broken and return EAGAIN.  This causes
-	// Go's ioutil.ReadFile implementation to poll forever.
-	//
-	// Since we either want to read data or bail immediately, do the simplest
-	// possible read using syscall directly.
-	b := make([]byte, 128)
-	n, err := syscall.Read(int(f.Fd()), b)
-	if err != nil {
-		return "", err
-	}
+    // On some machines, hwmon drivers are broken and return EAGAIN.  This causes
+    // Go's ioutil.ReadFile implementation to poll forever.
+    //
+    // Since we either want to read data or bail immediately, do the simplest
+    // possible read using syscall directly.
+    b := make([]byte, 128)
+    n, err := syscall.Read(int(f.Fd()), b)
+    if err != nil {
+        return "", err
+    }
 
-	return string(bytes.TrimSpace(b[:n])), nil
+    return string(bytes.TrimSpace(b[:n])), nil
 }

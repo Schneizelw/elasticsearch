@@ -16,32 +16,32 @@ package procfs
 import "testing"
 
 func TestProcEnviron(t *testing.T) {
-	p, err := getProcFixtures(t).Proc(26231)
-	if err != nil {
-		t.Fatal(err)
-	}
+    p, err := getProcFixtures(t).Proc(26231)
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	environments, err := p.Environ()
-	if err != nil {
-		t.Fatal(err)
-	}
+    environments, err := p.Environ()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	expectedEnvironments := []string{
-		"PATH=/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-		"HOSTNAME=cd24e11f73a5",
-		"TERM=xterm",
-		"GOLANG_VERSION=1.12.5",
-		"GOPATH=/go",
-		"HOME=/root",
-	}
+    expectedEnvironments := []string{
+        "PATH=/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "HOSTNAME=cd24e11f73a5",
+        "TERM=xterm",
+        "GOLANG_VERSION=1.12.5",
+        "GOPATH=/go",
+        "HOME=/root",
+    }
 
-	if want, have := len(expectedEnvironments), len(environments); want != have {
-		t.Errorf("want %d parsed environments, have %d", want, have)
-	}
+    if want, have := len(expectedEnvironments), len(environments); want != have {
+        t.Errorf("want %d parsed environments, have %d", want, have)
+    }
 
-	for i, environment := range environments {
-		if want, have := expectedEnvironments[i], environment; want != have {
-			t.Errorf("%d: want %v, have %v", i, want, have)
-		}
-	}
+    for i, environment := range environments {
+        if want, have := expectedEnvironments[i], environment; want != have {
+            t.Errorf("%d: want %v, have %v", i, want, have)
+        }
+    }
 }

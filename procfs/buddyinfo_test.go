@@ -14,61 +14,61 @@
 package procfs
 
 import (
-	"strings"
-	"testing"
+    "strings"
+    "testing"
 )
 
 func TestBuddyInfo(t *testing.T) {
-	buddyInfo, err := getProcFixtures(t).BuddyInfo()
-	if err != nil {
-		t.Fatal(err)
-	}
+    buddyInfo, err := getProcFixtures(t).BuddyInfo()
+    if err != nil {
+        t.Fatal(err)
+    }
 
-	if want, got := "DMA", buddyInfo[0].Zone; want != got {
-		t.Errorf("want Node 0, Zone %s, got %s", want, got)
-	}
+    if want, got := "DMA", buddyInfo[0].Zone; want != got {
+        t.Errorf("want Node 0, Zone %s, got %s", want, got)
+    }
 
-	if want, got := "Normal", buddyInfo[2].Zone; want != got {
-		t.Errorf("want Node 0, Zone %s, got %s", want, got)
-	}
+    if want, got := "Normal", buddyInfo[2].Zone; want != got {
+        t.Errorf("want Node 0, Zone %s, got %s", want, got)
+    }
 
-	if want, got := 4381.0, buddyInfo[2].Sizes[0]; want != got {
-		t.Errorf("want Node 0, Zone Normal %f, got %f", want, got)
-	}
+    if want, got := 4381.0, buddyInfo[2].Sizes[0]; want != got {
+        t.Errorf("want Node 0, Zone Normal %f, got %f", want, got)
+    }
 
-	if want, got := 572.0, buddyInfo[1].Sizes[1]; want != got {
-		t.Errorf("want Node 0, Zone DMA32 %f, got %f", want, got)
-	}
+    if want, got := 572.0, buddyInfo[1].Sizes[1]; want != got {
+        t.Errorf("want Node 0, Zone DMA32 %f, got %f", want, got)
+    }
 }
 
 func TestParseBuddyInfoShort(t *testing.T) {
 
-	testdata := `Node 0, zone
+    testdata := `Node 0, zone
 Node 0, zone
 Node 0, zone
 `
-	reader := strings.NewReader(testdata)
-	_, err := parseBuddyInfo(reader)
-	if err == nil {
-		t.Fatalf("expected error, but none occurred")
-	}
-	if want, got := "invalid number of fields when parsing buddyinfo", err.Error(); want != got {
-		t.Fatalf("wrong error returned, wanted %q, got %q", want, got)
-	}
+    reader := strings.NewReader(testdata)
+    _, err := parseBuddyInfo(reader)
+    if err == nil {
+        t.Fatalf("expected error, but none occurred")
+    }
+    if want, got := "invalid number of fields when parsing buddyinfo", err.Error(); want != got {
+        t.Fatalf("wrong error returned, wanted %q, got %q", want, got)
+    }
 }
 
 func TestParseBuddyInfoSizeMismatch(t *testing.T) {
 
-	testdata := `Node 0, zone      DMA      1      0      1      0      2      1      1      0      1      1      3
+    testdata := `Node 0, zone      DMA      1      0      1      0      2      1      1      0      1      1      3
 Node 0, zone    DMA32    759    572    791    475    194     45     12      0      0      0      0      0
 Node 0, zone   Normal   4381   1093    185   1530    567    102      4      0      0      0
 `
-	reader := strings.NewReader(testdata)
-	_, err := parseBuddyInfo(reader)
-	if err == nil {
-		t.Fatalf("expected error, but none occurred")
-	}
-	if want, got := "mismatch in number of buddyinfo buckets", err.Error(); !strings.HasPrefix(got, want) {
-		t.Fatalf("wrong error returned, wanted prefix %q, got %q", want, got)
-	}
+    reader := strings.NewReader(testdata)
+    _, err := parseBuddyInfo(reader)
+    if err == nil {
+        t.Fatalf("expected error, but none occurred")
+    }
+    if want, got := "mismatch in number of buddyinfo buckets", err.Error(); !strings.HasPrefix(got, want) {
+        t.Fatalf("wrong error returned, wanted prefix %q, got %q", want, got)
+    }
 }

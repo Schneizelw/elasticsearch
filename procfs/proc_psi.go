@@ -24,11 +24,11 @@ package procfs
 // > full avg10=0.00 avg60=0.13 avg300=0.96 total=8183134
 
 import (
-	"fmt"
-	"io"
-	"io/ioutil"
-	"os"
-	"strings"
+    "fmt"
+    "io"
+    "io/ioutil"
+    "os"
+    "strings"
 )
 
 const lineFormat = "avg10=%f avg60=%f avg300=%f total=%d"
@@ -37,65 +37,65 @@ const lineFormat = "avg10=%f avg60=%f avg300=%f total=%d"
 // The Avg entries are averages over n seconds, as a percentage
 // The Total line is in microseconds
 type PSILine struct {
-	Avg10  float64
-	Avg60  float64
-	Avg300 float64
-	Total  uint64
+    Avg10  float64
+    Avg60  float64
+    Avg300 float64
+    Total  uint64
 }
 
 // PSIStats represent pressure stall information from /proc/pressure/*
 // Some indicates the share of time in which at least some tasks are stalled
 // Full indicates the share of time in which all non-idle tasks are stalled simultaneously
 type PSIStats struct {
-	Some *PSILine
-	Full *PSILine
+    Some *PSILine
+    Full *PSILine
 }
 
 // PSIStatsForResource reads pressure stall information for the specified
 // resource from /proc/pressure/<resource>. At time of writing this can be
 // either "cpu", "memory" or "io".
 func (fs FS) PSIStatsForResource(resource string) (PSIStats, error) {
-	file, err := os.Open(fs.proc.Path(fmt.Sprintf("%s/%s", "pressure", resource)))
-	if err != nil {
-		return PSIStats{}, fmt.Errorf("psi_stats: unavailable for %s", resource)
-	}
+    file, err := os.Open(fs.proc.Path(fmt.Sprintf("%s/%s", "pressure", resource)))
+    if err != nil {
+        return PSIStats{}, fmt.Errorf("psi_stats: unavailable for %s", resource)
+    }
 
-	defer file.Close()
-	return parsePSIStats(resource, file)
+    defer file.Close()
+    return parsePSIStats(resource, file)
 }
 
 // parsePSIStats parses the specified file for pressure stall information
 func parsePSIStats(resource string, file io.Reader) (PSIStats, error) {
-	psiStats := PSIStats{}
-	stats, err := ioutil.ReadAll(file)
-	if err != nil {
-		return psiStats, fmt.Errorf("psi_stats: unable to read data for %s", resource)
-	}
+    psiStats := PSIStats{}
+    stats, err := ioutil.ReadAll(file)
+    if err != nil {
+        return psiStats, fmt.Errorf("psi_stats: unable to read data for %s", resource)
+    }
 
-	for _, l := range strings.Split(string(stats), "\n") {
-		prefix := strings.Split(l, " ")[0]
-		switch prefix {
-		case "some":
-			psi := PSILine{}
-			_, err := fmt.Sscanf(l, fmt.Sprintf("some %s", lineFormat), &psi.Avg10, &psi.Avg60, &psi.Avg300, &psi.Total)
-			if err != nil {
-				return PSIStats{}, err
-			}
-			psiStats.Some = &psi
-		case "full":
-			psi := PSILine{}
-			_, err := fmt.Sscanf(l, fmt.Sprintf("full %s", lineFormat), &psi.Avg10, &psi.Avg60, &psi.Avg300, &psi.Total)
-			if err != nil {
-				return PSIStats{}, err
-			}
-			psiStats.Full = &psi
-		default:
-			// If we encounter a line with an unknown prefix, ignore it and move on
-			// Should new measurement types be added in the future we'll simply ignore them instead
-			// of erroring on retrieval
-			continue
-		}
-	}
+    for _, l := range strings.Split(string(stats), "\n") {
+        prefix := strings.Split(l, " ")[0]
+        switch prefix {
+        case "some":
+            psi := PSILine{}
+            _, err := fmt.Sscanf(l, fmt.Sprintf("some %s", lineFormat), &psi.Avg10, &psi.Avg60, &psi.Avg300, &psi.Total)
+            if err != nil {
+                return PSIStats{}, err
+            }
+            psiStats.Some = &psi
+        case "full":
+            psi := PSILine{}
+            _, err := fmt.Sscanf(l, fmt.Sprintf("full %s", lineFormat), &psi.Avg10, &psi.Avg60, &psi.Avg300, &psi.Total)
+            if err != nil {
+                return PSIStats{}, err
+            }
+            psiStats.Full = &psi
+        default:
+            // If we encounter a line with an unknown prefix, ignore it and move on
+            // Should new measurement types be added in the future we'll simply ignore them instead
+            // of erroring on retrieval
+            continue
+        }
+    }
 
-	return psiStats, nil
+    return psiStats, nil
 }

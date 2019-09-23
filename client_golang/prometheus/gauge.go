@@ -14,11 +14,11 @@
 package prometheus
 
 import (
-	"math"
-	"sync/atomic"
-	"time"
+    "math"
+    "sync/atomic"
+    "time"
 
-	dto "github.com/prometheus/client_model/go"
+    dto "github.com/prometheus/client_model/go"
 )
 
 // Gauge is a Metric that represents a single numerical value that can
@@ -30,26 +30,26 @@ import (
 //
 // To create Gauge instances, use NewGauge.
 type Gauge interface {
-	Metric
-	Collector
+    Metric
+    Collector
 
-	// Set sets the Gauge to an arbitrary value.
-	Set(float64)
-	// Inc increments the Gauge by 1. Use Add to increment it by arbitrary
-	// values.
-	Inc()
-	// Dec decrements the Gauge by 1. Use Sub to decrement it by arbitrary
-	// values.
-	Dec()
-	// Add adds the given value to the Gauge. (The value can be negative,
-	// resulting in a decrease of the Gauge.)
-	Add(float64)
-	// Sub subtracts the given value from the Gauge. (The value can be
-	// negative, resulting in an increase of the Gauge.)
-	Sub(float64)
+    // Set sets the Gauge to an arbitrary value.
+    Set(float64)
+    // Inc increments the Gauge by 1. Use Add to increment it by arbitrary
+    // values.
+    Inc()
+    // Dec decrements the Gauge by 1. Use Sub to decrement it by arbitrary
+    // values.
+    Dec()
+    // Add adds the given value to the Gauge. (The value can be negative,
+    // resulting in a decrease of the Gauge.)
+    Add(float64)
+    // Sub subtracts the given value from the Gauge. (The value can be
+    // negative, resulting in an increase of the Gauge.)
+    Sub(float64)
 
-	// SetToCurrentTime sets the Gauge to the current Unix time in seconds.
-	SetToCurrentTime()
+    // SetToCurrentTime sets the Gauge to the current Unix time in seconds.
+    SetToCurrentTime()
 }
 
 // GaugeOpts is an alias for Opts. See there for doc comments.
@@ -65,66 +65,66 @@ type GaugeEsOpts EsOpts
 // scenarios for Gauges and Counters, where the former tends to be Set-heavy and
 // the latter Inc-heavy.
 func NewGauge(opts GaugeOpts) Gauge {
-	desc := NewDesc(
-		BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
-		opts.Help,
-		nil,
-		opts.ConstLabels,
-	)
-	result := &gauge{desc: desc, labelPairs: desc.constLabelPairs}
-	result.init(result) // Init self-collection.
-	return result
+    desc := NewDesc(
+        BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
+        opts.Help,
+        nil,
+        opts.ConstLabels,
+    )
+    result := &gauge{desc: desc, labelPairs: desc.constLabelPairs}
+    result.init(result) // Init self-collection.
+    return result
 }
 
 type gauge struct {
-	// valBits contains the bits of the represented float64 value. It has
-	// to go first in the struct to guarantee alignment for atomic
-	// operations.  http://golang.org/pkg/sync/atomic/#pkg-note-BUG
-	valBits uint64
+    // valBits contains the bits of the represented float64 value. It has
+    // to go first in the struct to guarantee alignment for atomic
+    // operations.  http://golang.org/pkg/sync/atomic/#pkg-note-BUG
+    valBits uint64
 
-	selfCollector
+    selfCollector
 
-	desc       *Desc
-	labelPairs []*dto.LabelPair
+    desc       *Desc
+    labelPairs []*dto.LabelPair
 }
 
 func (g *gauge) Desc() *Desc {
-	return g.desc
+    return g.desc
 }
 
 func (g *gauge) Set(val float64) {
-	atomic.StoreUint64(&g.valBits, math.Float64bits(val))
+    atomic.StoreUint64(&g.valBits, math.Float64bits(val))
 }
 
 func (g *gauge) SetToCurrentTime() {
-	g.Set(float64(time.Now().UnixNano()) / 1e9)
+    g.Set(float64(time.Now().UnixNano()) / 1e9)
 }
 
 func (g *gauge) Inc() {
-	g.Add(1)
+    g.Add(1)
 }
 
 func (g *gauge) Dec() {
-	g.Add(-1)
+    g.Add(-1)
 }
 
 func (g *gauge) Add(val float64) {
-	for {
-		oldBits := atomic.LoadUint64(&g.valBits)
-		newBits := math.Float64bits(math.Float64frombits(oldBits) + val)
-		if atomic.CompareAndSwapUint64(&g.valBits, oldBits, newBits) {
-			return
-		}
-	}
+    for {
+        oldBits := atomic.LoadUint64(&g.valBits)
+        newBits := math.Float64bits(math.Float64frombits(oldBits) + val)
+        if atomic.CompareAndSwapUint64(&g.valBits, oldBits, newBits) {
+            return
+        }
+    }
 }
 
 func (g *gauge) Sub(val float64) {
-	g.Add(val * -1)
+    g.Add(val * -1)
 }
 
 func (g *gauge) Write(out *dto.Metric) error {
-	val := math.Float64frombits(atomic.LoadUint64(&g.valBits))
-	return populateMetric(GaugeValue, val, g.labelPairs, out)
+    val := math.Float64frombits(atomic.LoadUint64(&g.valBits))
+    return populateMetric(GaugeValue, val, g.labelPairs, out)
 }
 
 // GaugeVec is a Collector that bundles a set of Gauges that all share the same
@@ -133,31 +133,31 @@ func (g *gauge) Write(out *dto.Metric) error {
 // (e.g. number of operations queued, partitioned by user and operation
 // type). Create instances with NewGaugeVec.
 type GaugeVec struct {
-	*metricVec
+    *metricVec
 }
 
 // NewGaugeVec creates a new GaugeVec based on the provided GaugeOpts and
 // partitioned by the given label names.
 func NewGaugeVec(opts GaugeOpts, esOpts GaugeEsOpts, labelNames []string) *GaugeVec {
-	desc := NewDesc(
-		BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
-		opts.Help,
-		labelNames,
-		opts.ConstLabels,
-	)
+    desc := NewDesc(
+        BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
+        opts.Help,
+        labelNames,
+        opts.ConstLabels,
+    )
     url := BuildEsUrl(esOpts.Host, esOpts.Port, esOpts.EsIndex, esOpts.EsType)
-	gv := GaugeVec{
-		metricVec: newMetricVec(desc, url, func(lvs ...string) Metric {
-			if len(lvs) != len(desc.variableLabels) {
-				panic(makeInconsistentCardinalityError(desc.fqName, desc.variableLabels, lvs))
-			}
-			result := &gauge{desc: desc, labelPairs: makeLabelPairs(desc, lvs)}
-			result.init(result) // Init self-collection.
-			return result
-		}),
-	}
+    gv := GaugeVec{
+        metricVec: newMetricVec(desc, url, func(lvs ...string) Metric {
+            if len(lvs) != len(desc.variableLabels) {
+                panic(makeInconsistentCardinalityError(desc.fqName, desc.variableLabels, lvs))
+            }
+            result := &gauge{desc: desc, labelPairs: makeLabelPairs(desc, lvs)}
+            result.init(result) // Init self-collection.
+            return result
+        }),
+    }
     go gv.monitor(esOpts.Interval)
-	return &gv
+    return &gv
 }
 
 
@@ -165,8 +165,8 @@ func (v *GaugeVec) monitor(second int) {
     ticker := time.NewTicker(time.Duration(second)*time.Second)
     for {
         <-ticker.C
-		//2 is gauge metric
-	    v.metricVec.metricMap.pushDocToEs(2)
+        //2 is gauge metric
+        v.metricVec.metricMap.pushDocToEs(2)
     }
 }
 
@@ -194,11 +194,11 @@ func (v *GaugeVec) monitor(second int) {
 // latter has a much more readable (albeit more verbose) syntax, but it comes
 // with a performance overhead (for creating and processing the Labels map).
 func (v *GaugeVec) GetMetricWithLabelValues(lvs ...string) (Gauge, error) {
-	metric, err := v.metricVec.getMetricWithLabelValues(lvs...)
-	if metric != nil {
-		return metric.(Gauge), err
-	}
-	return nil, err
+    metric, err := v.metricVec.getMetricWithLabelValues(lvs...)
+    if metric != nil {
+        return metric.(Gauge), err
+    }
+    return nil, err
 }
 
 // GetMetricWith returns the Gauge for the given Labels map (the label names
@@ -214,11 +214,11 @@ func (v *GaugeVec) GetMetricWithLabelValues(lvs ...string) (Gauge, error) {
 // GetMetricWithLabelValues(...string). See there for pros and cons of the two
 // methods.
 func (v *GaugeVec) GetMetricWith(labels Labels) (Gauge, error) {
-	metric, err := v.metricVec.getMetricWith(labels)
-	if metric != nil {
-		return metric.(Gauge), err
-	}
-	return nil, err
+    metric, err := v.metricVec.getMetricWith(labels)
+    if metric != nil {
+        return metric.(Gauge), err
+    }
+    return nil, err
 }
 
 // WithLabelValues works as GetMetricWithLabelValues, but panics where
@@ -226,22 +226,22 @@ func (v *GaugeVec) GetMetricWith(labels Labels) (Gauge, error) {
 // error allows shortcuts like
 //     myVec.WithLabelValues("404", "GET").Add(42)
 func (v *GaugeVec) WithLabelValues(lvs ...string) Gauge {
-	g, err := v.GetMetricWithLabelValues(lvs...)
-	if err != nil {
-		panic(err)
-	}
-	return g
+    g, err := v.GetMetricWithLabelValues(lvs...)
+    if err != nil {
+        panic(err)
+    }
+    return g
 }
 
 // With works as GetMetricWith, but panics where GetMetricWithLabels would have
 // returned an error. Not returning an error allows shortcuts like
 //     myVec.With(prometheus.Labels{"code": "404", "method": "GET"}).Add(42)
 func (v *GaugeVec) With(labels Labels) Gauge {
-	g, err := v.GetMetricWith(labels)
-	if err != nil {
-		panic(err)
-	}
-	return g
+    g, err := v.GetMetricWith(labels)
+    if err != nil {
+        panic(err)
+    }
+    return g
 }
 
 // CurryWith returns a vector curried with the provided labels, i.e. the
@@ -258,21 +258,21 @@ func (v *GaugeVec) With(labels Labels) Gauge {
 // registered with a given registry (usually the uncurried version). The Reset
 // method deletes all metrics, even if called on a curried vector.
 func (v *GaugeVec) CurryWith(labels Labels) (*GaugeVec, error) {
-	vec, err := v.curryWith(labels)
-	if vec != nil {
-		return &GaugeVec{vec}, err
-	}
-	return nil, err
+    vec, err := v.curryWith(labels)
+    if vec != nil {
+        return &GaugeVec{vec}, err
+    }
+    return nil, err
 }
 
 // MustCurryWith works as CurryWith but panics where CurryWith would have
 // returned an error.
 func (v *GaugeVec) MustCurryWith(labels Labels) *GaugeVec {
-	vec, err := v.CurryWith(labels)
-	if err != nil {
-		panic(err)
-	}
-	return vec
+    vec, err := v.CurryWith(labels)
+    if err != nil {
+        panic(err)
+    }
+    return vec
 }
 
 // GaugeFunc is a Gauge whose value is determined at collect time by calling a
@@ -280,8 +280,8 @@ func (v *GaugeVec) MustCurryWith(labels Labels) *GaugeVec {
 //
 // To create GaugeFunc instances, use NewGaugeFunc.
 type GaugeFunc interface {
-	Metric
-	Collector
+    Metric
+    Collector
 }
 
 // NewGaugeFunc creates a new GaugeFunc based on the provided GaugeOpts. The
@@ -291,10 +291,10 @@ type GaugeFunc interface {
 // where a GaugeFunc is directly registered with Prometheus, the provided
 // function must be concurrency-safe.
 func NewGaugeFunc(opts GaugeOpts, function func() float64) GaugeFunc {
-	return newValueFunc(NewDesc(
-		BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
-		opts.Help,
-		nil,
-		opts.ConstLabels,
-	), GaugeValue, function)
+    return newValueFunc(NewDesc(
+        BuildFQName(opts.Namespace, opts.Subsystem, opts.Name),
+        opts.Help,
+        nil,
+        opts.ConstLabels,
+    ), GaugeValue, function)
 }

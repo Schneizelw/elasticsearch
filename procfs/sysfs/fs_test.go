@@ -16,19 +16,19 @@ package sysfs
 import "testing"
 
 const (
-	sysTestFixtures = "../fixtures/sys"
+    sysTestFixtures = "../fixtures/sys"
 )
 
 func TestNewFS(t *testing.T) {
-	if _, err := NewFS("foobar"); err == nil {
-		t.Error("want NewFS to fail for non-existing mount point")
-	}
+    if _, err := NewFS("foobar"); err == nil {
+        t.Error("want NewFS to fail for non-existing mount point")
+    }
 
-	if _, err := NewFS("doc.go"); err == nil {
-		t.Error("want NewFS to fail if mount point is not a directory")
-	}
+    if _, err := NewFS("doc.go"); err == nil {
+        t.Error("want NewFS to fail if mount point is not a directory")
+    }
 
-	if _, err := NewFS(sysTestFixtures); err != nil {
-		t.Error("want NewFS to succeed if mount point exists")
-	}
+    if _, err := NewFS(sysTestFixtures); err != nil {
+        t.Error("want NewFS to succeed if mount point exists")
+    }
 }

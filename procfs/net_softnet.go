@@ -14,10 +14,10 @@
 package procfs
 
 import (
-	"fmt"
-	"io/ioutil"
-	"strconv"
-	"strings"
+    "fmt"
+    "io/ioutil"
+    "strconv"
+    "strings"
 )
 
 // For the proc file format details,
@@ -26,66 +26,66 @@ import (
 
 // SoftnetEntry contains a single row of data from /proc/net/softnet_stat
 type SoftnetEntry struct {
-	// Number of processed packets
-	Processed uint
-	// Number of dropped packets
-	Dropped uint
-	// Number of times processing packets ran out of quota
-	TimeSqueezed uint
+    // Number of processed packets
+    Processed uint
+    // Number of dropped packets
+    Dropped uint
+    // Number of times processing packets ran out of quota
+    TimeSqueezed uint
 }
 
 // GatherSoftnetStats reads /proc/net/softnet_stat, parse the relevant columns,
 // and then return a slice of SoftnetEntry's.
 func (fs FS) GatherSoftnetStats() ([]SoftnetEntry, error) {
-	data, err := ioutil.ReadFile(fs.proc.Path("net/softnet_stat"))
-	if err != nil {
-		return nil, fmt.Errorf("error reading softnet %s: %s", fs.proc.Path("net/softnet_stat"), err)
-	}
+    data, err := ioutil.ReadFile(fs.proc.Path("net/softnet_stat"))
+    if err != nil {
+        return nil, fmt.Errorf("error reading softnet %s: %s", fs.proc.Path("net/softnet_stat"), err)
+    }
 
-	return parseSoftnetEntries(data)
+    return parseSoftnetEntries(data)
 }
 
 func parseSoftnetEntries(data []byte) ([]SoftnetEntry, error) {
-	lines := strings.Split(string(data), "\n")
-	entries := make([]SoftnetEntry, 0)
-	var err error
-	const (
-		expectedColumns = 11
-	)
-	for _, line := range lines {
-		columns := strings.Fields(line)
-		width := len(columns)
-		if width == 0 {
-			continue
-		}
-		if width != expectedColumns {
-			return []SoftnetEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedColumns)
-		}
-		var entry SoftnetEntry
-		if entry, err = parseSoftnetEntry(columns); err != nil {
-			return []SoftnetEntry{}, err
-		}
-		entries = append(entries, entry)
-	}
+    lines := strings.Split(string(data), "\n")
+    entries := make([]SoftnetEntry, 0)
+    var err error
+    const (
+        expectedColumns = 11
+    )
+    for _, line := range lines {
+        columns := strings.Fields(line)
+        width := len(columns)
+        if width == 0 {
+            continue
+        }
+        if width != expectedColumns {
+            return []SoftnetEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedColumns)
+        }
+        var entry SoftnetEntry
+        if entry, err = parseSoftnetEntry(columns); err != nil {
+            return []SoftnetEntry{}, err
+        }
+        entries = append(entries, entry)
+    }
 
-	return entries, nil
+    return entries, nil
 }
 
 func parseSoftnetEntry(columns []string) (SoftnetEntry, error) {
-	var err error
-	var processed, dropped, timeSqueezed uint64
-	if processed, err = strconv.ParseUint(columns[0], 16, 32); err != nil {
-		return SoftnetEntry{}, fmt.Errorf("Unable to parse column 0: %s", err)
-	}
-	if dropped, err = strconv.ParseUint(columns[1], 16, 32); err != nil {
-		return SoftnetEntry{}, fmt.Errorf("Unable to parse column 1: %s", err)
-	}
-	if timeSqueezed, err = strconv.ParseUint(columns[2], 16, 32); err != nil {
-		return SoftnetEntry{}, fmt.Errorf("Unable to parse column 2: %s", err)
-	}
-	return SoftnetEntry{
-		Processed:    uint(processed),
-		Dropped:      uint(dropped),
-		TimeSqueezed: uint(timeSqueezed),
-	}, nil
+    var err error
+    var processed, dropped, timeSqueezed uint64
+    if processed, err = strconv.ParseUint(columns[0], 16, 32); err != nil {
+        return SoftnetEntry{}, fmt.Errorf("Unable to parse column 0: %s", err)
+    }
+    if dropped, err = strconv.ParseUint(columns[1], 16, 32); err != nil {
+        return SoftnetEntry{}, fmt.Errorf("Unable to parse column 1: %s", err)
+    }
+    if timeSqueezed, err = strconv.ParseUint(columns[2], 16, 32); err != nil {
+        return SoftnetEntry{}, fmt.Errorf("Unable to parse column 2: %s", err)
+    }
+    return SoftnetEntry{
+        Processed:    uint(processed),
+        Dropped:      uint(dropped),
+        TimeSqueezed: uint(timeSqueezed),
+    }, nil
 }
