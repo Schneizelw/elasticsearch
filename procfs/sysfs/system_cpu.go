@@ -22,7 +22,7 @@ import (
 
     "golang.org/x/sync/errgroup"
 
-    "github.com/prometheus/procfs/internal/util"
+    "github.com/elasticsearch/procfs/internal/util"
 )
 
 // SystemCPUCpufreqStats contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...

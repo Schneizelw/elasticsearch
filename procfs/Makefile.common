@@ -12,8 +12,8 @@
 # limitations under the License.
 
 
-# A common Makefile that includes rules to be reused in different prometheus projects.
-# !!! Open PRs only against the prometheus/prometheus/Makefile.common repository!
+# A common Makefile that includes rules to be reused in different elasticsearch projects.
+# !!! Open PRs only against the elasticsearch/elasticsearch/Makefile.common repository!
 
 # Example usage :
 # Create the main Makefile in the root project directory.
@@ -70,7 +70,7 @@ else
 endif
 
 PROMU_VERSION ?= 0.4.0
-PROMU_URL     := https://github.com/prometheus/promu/releases/download/v$(PROMU_VERSION)/promu-$(PROMU_VERSION).$(GO_BUILD_PLATFORM).tar.gz
+PROMU_URL     := https://github.com/elasticsearch/promu/releases/download/v$(PROMU_VERSION)/promu-$(PROMU_VERSION).$(GO_BUILD_PLATFORM).tar.gz
 
 GOLANGCI_LINT :=
 GOLANGCI_LINT_OPTS ?=

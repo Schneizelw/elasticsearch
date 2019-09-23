@@ -71,7 +71,7 @@ func TestProcStatusName(t *testing.T) {
     if err != nil {
         t.Fatal(err)
     }
-    if want, have := "prometheus", s.Name; want != have {
+    if want, have := "elasticsearch", s.Name; want != have {
         t.Errorf("want name %s, have %s", want, have)
     }
 }

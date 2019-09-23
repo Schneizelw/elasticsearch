@@ -17,7 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace io {
-namespace prometheus {
+namespace elasticsearch {
 namespace client {
 
 namespace {
@@ -296,32 +296,32 @@ void protobuf_AddDesc_metrics_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\rmetrics.proto\022\024io.prometheus.client\"(\n"
+    "\n\rmetrics.proto\022\024io.elasticsearch.client\"(\n"
     "\tLabelPair\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\""
     "\026\n\005Gauge\022\r\n\005value\030\001 \001(\001\"\030\n\007Counter\022\r\n\005va"
     "lue\030\001 \001(\001\"+\n\010Quantile\022\020\n\010quantile\030\001 \001(\001\022"
     "\r\n\005value\030\002 \001(\001\"e\n\007Summary\022\024\n\014sample_coun"
     "t\030\001 \001(\004\022\022\n\nsample_sum\030\002 \001(\001\0220\n\010quantile\030"
-    "\003 \003(\0132\036.io.prometheus.client.Quantile\"\030\n"
+    "\003 \003(\0132\036.io.elasticsearch.client.Quantile\"\030\n"
     "\007Untyped\022\r\n\005value\030\001 \001(\001\"c\n\tHistogram\022\024\n\014"
     "sample_count\030\001 \001(\004\022\022\n\nsample_sum\030\002 \001(\001\022,"
-    "\n\006bucket\030\003 \003(\0132\034.io.prometheus.client.Bu"
+    "\n\006bucket\030\003 \003(\0132\034.io.elasticsearch.client.Bu"
     "cket\"7\n\006Bucket\022\030\n\020cumulative_count\030\001 \001(\004"
     "\022\023\n\013upper_bound\030\002 \001(\001\"\276\002\n\006Metric\022.\n\005labe"
-    "l\030\001 \003(\0132\037.io.prometheus.client.LabelPair"
-    "\022*\n\005gauge\030\002 \001(\0132\033.io.prometheus.client.G"
-    "auge\022.\n\007counter\030\003 \001(\0132\035.io.prometheus.cl"
+    "l\030\001 \003(\0132\037.io.elasticsearch.client.LabelPair"
+    "\022*\n\005gauge\030\002 \001(\0132\033.io.elasticsearch.client.G"
+    "auge\022.\n\007counter\030\003 \001(\0132\035.io.elasticsearch.cl"
     "ient.Counter\022.\n\007summary\030\004 \001(\0132\035.io.prome"
     "theus.client.Summary\022.\n\007untyped\030\005 \001(\0132\035."
-    "io.prometheus.client.Untyped\0222\n\thistogra"
-    "m\030\007 \001(\0132\037.io.prometheus.client.Histogram"
+    "io.elasticsearch.client.Untyped\0222\n\thistogra"
+    "m\030\007 \001(\0132\037.io.elasticsearch.client.Histogram"
     "\022\024\n\014timestamp_ms\030\006 \001(\003\"\210\001\n\014MetricFamily\022"
     "\014\n\004name\030\001 \001(\t\022\014\n\004help\030\002 \001(\t\022.\n\004type\030\003 \001("
-    "\0162 .io.prometheus.client.MetricType\022,\n\006m"
-    "etric\030\004 \003(\0132\034.io.prometheus.client.Metri"
+    "\0162 .io.elasticsearch.client.MetricType\022,\n\006m"
+    "etric\030\004 \003(\0132\034.io.elasticsearch.client.Metri"
     "c*M\n\nMetricType\022\013\n\007COUNTER\020\000\022\t\n\005GAUGE\020\001\022"
     "\013\n\007SUMMARY\020\002\022\013\n\007UNTYPED\020\003\022\r\n\tHISTOGRAM\020\004"
-    "B\026\n\024io.prometheus.client", 1024);
+    "B\026\n\024io.elasticsearch.client", 1024);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "metrics.proto", &protobuf_RegisterTypes);
   LabelPair::default_instance_ = new LabelPair();
@@ -381,7 +381,7 @@ const int LabelPair::kValueFieldNumber;
 LabelPair::LabelPair()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.LabelPair)
 }
 
 void LabelPair::InitAsDefaultInstance() {
@@ -391,7 +391,7 @@ LabelPair::LabelPair(const LabelPair& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.LabelPair)
 }
 
 void LabelPair::SharedCtor() {
@@ -403,7 +403,7 @@ void LabelPair::SharedCtor() {
 }
 
 LabelPair::~LabelPair() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.LabelPair)
   SharedDtor();
 }
 
@@ -460,7 +460,7 @@ bool LabelPair::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.LabelPair)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -513,17 +513,17 @@ bool LabelPair::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.LabelPair)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.LabelPair)
   return false;
 #undef DO_
 }
 
 void LabelPair::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.LabelPair)
   // optional string name = 1;
   if (has_name()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -548,12 +548,12 @@ void LabelPair::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.LabelPair)
 }
 
 ::google::protobuf::uint8* LabelPair::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.LabelPair)
   // optional string name = 1;
   if (has_name()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -580,7 +580,7 @@ void LabelPair::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.LabelPair)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.LabelPair)
   return target;
 }
 
@@ -684,7 +684,7 @@ const int Gauge::kValueFieldNumber;
 Gauge::Gauge()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Gauge)
 }
 
 void Gauge::InitAsDefaultInstance() {
@@ -694,7 +694,7 @@ Gauge::Gauge(const Gauge& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Gauge)
 }
 
 void Gauge::SharedCtor() {
@@ -704,7 +704,7 @@ void Gauge::SharedCtor() {
 }
 
 Gauge::~Gauge() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Gauge)
   SharedDtor();
 }
 
@@ -744,7 +744,7 @@ bool Gauge::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Gauge)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -778,17 +778,17 @@ bool Gauge::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Gauge)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Gauge)
   return false;
 #undef DO_
 }
 
 void Gauge::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Gauge)
   // optional double value = 1;
   if (has_value()) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->value(), output);
@@ -798,12 +798,12 @@ void Gauge::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Gauge)
 }
 
 ::google::protobuf::uint8* Gauge::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Gauge)
   // optional double value = 1;
   if (has_value()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->value(), target);
@@ -813,7 +813,7 @@ void Gauge::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Gauge)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Gauge)
   return target;
 }
 
@@ -904,7 +904,7 @@ const int Counter::kValueFieldNumber;
 Counter::Counter()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Counter)
 }
 
 void Counter::InitAsDefaultInstance() {
@@ -914,7 +914,7 @@ Counter::Counter(const Counter& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Counter)
 }
 
 void Counter::SharedCtor() {
@@ -924,7 +924,7 @@ void Counter::SharedCtor() {
 }
 
 Counter::~Counter() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Counter)
   SharedDtor();
 }
 
@@ -964,7 +964,7 @@ bool Counter::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Counter)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -998,17 +998,17 @@ bool Counter::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Counter)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Counter)
   return false;
 #undef DO_
 }
 
 void Counter::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Counter)
   // optional double value = 1;
   if (has_value()) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->value(), output);
@@ -1018,12 +1018,12 @@ void Counter::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Counter)
 }
 
 ::google::protobuf::uint8* Counter::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Counter)
   // optional double value = 1;
   if (has_value()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->value(), target);
@@ -1033,7 +1033,7 @@ void Counter::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Counter)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Counter)
   return target;
 }
 
@@ -1125,7 +1125,7 @@ const int Quantile::kValueFieldNumber;
 Quantile::Quantile()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Quantile)
 }
 
 void Quantile::InitAsDefaultInstance() {
@@ -1135,7 +1135,7 @@ Quantile::Quantile(const Quantile& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Quantile)
 }
 
 void Quantile::SharedCtor() {
@@ -1146,7 +1146,7 @@ void Quantile::SharedCtor() {
 }
 
 Quantile::~Quantile() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Quantile)
   SharedDtor();
 }
 
@@ -1200,7 +1200,7 @@ bool Quantile::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Quantile)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -1249,17 +1249,17 @@ bool Quantile::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Quantile)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Quantile)
   return false;
 #undef DO_
 }
 
 void Quantile::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Quantile)
   // optional double quantile = 1;
   if (has_quantile()) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->quantile(), output);
@@ -1274,12 +1274,12 @@ void Quantile::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Quantile)
 }
 
 ::google::protobuf::uint8* Quantile::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Quantile)
   // optional double quantile = 1;
   if (has_quantile()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->quantile(), target);
@@ -1294,7 +1294,7 @@ void Quantile::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Quantile)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Quantile)
   return target;
 }
 
@@ -1396,7 +1396,7 @@ const int Summary::kQuantileFieldNumber;
 Summary::Summary()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Summary)
 }
 
 void Summary::InitAsDefaultInstance() {
@@ -1406,7 +1406,7 @@ Summary::Summary(const Summary& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Summary)
 }
 
 void Summary::SharedCtor() {
@@ -1417,7 +1417,7 @@ void Summary::SharedCtor() {
 }
 
 Summary::~Summary() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Summary)
   SharedDtor();
 }
 
@@ -1472,7 +1472,7 @@ bool Summary::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Summary)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -1507,7 +1507,7 @@ bool Summary::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .io.prometheus.client.Quantile quantile = 3;
+      // repeated .io.elasticsearch.client.Quantile quantile = 3;
       case 3: {
         if (tag == 26) {
          parse_quantile:
@@ -1535,17 +1535,17 @@ bool Summary::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Summary)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Summary)
   return false;
 #undef DO_
 }
 
 void Summary::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Summary)
   // optional uint64 sample_count = 1;
   if (has_sample_count()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->sample_count(), output);
@@ -1556,7 +1556,7 @@ void Summary::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->sample_sum(), output);
   }
 
-  // repeated .io.prometheus.client.Quantile quantile = 3;
+  // repeated .io.elasticsearch.client.Quantile quantile = 3;
   for (int i = 0; i < this->quantile_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->quantile(i), output);
@@ -1566,12 +1566,12 @@ void Summary::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Summary)
 }
 
 ::google::protobuf::uint8* Summary::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Summary)
   // optional uint64 sample_count = 1;
   if (has_sample_count()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->sample_count(), target);
@@ -1582,7 +1582,7 @@ void Summary::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->sample_sum(), target);
   }
 
-  // repeated .io.prometheus.client.Quantile quantile = 3;
+  // repeated .io.elasticsearch.client.Quantile quantile = 3;
   for (int i = 0; i < this->quantile_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -1593,7 +1593,7 @@ void Summary::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Summary)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Summary)
   return target;
 }
 
@@ -1614,7 +1614,7 @@ int Summary::ByteSize() const {
     }
 
   }
-  // repeated .io.prometheus.client.Quantile quantile = 3;
+  // repeated .io.elasticsearch.client.Quantile quantile = 3;
   total_size += 1 * this->quantile_size();
   for (int i = 0; i < this->quantile_size(); i++) {
     total_size +=
@@ -1705,7 +1705,7 @@ const int Untyped::kValueFieldNumber;
 Untyped::Untyped()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Untyped)
 }
 
 void Untyped::InitAsDefaultInstance() {
@@ -1715,7 +1715,7 @@ Untyped::Untyped(const Untyped& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Untyped)
 }
 
 void Untyped::SharedCtor() {
@@ -1725,7 +1725,7 @@ void Untyped::SharedCtor() {
 }
 
 Untyped::~Untyped() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Untyped)
   SharedDtor();
 }
 
@@ -1765,7 +1765,7 @@ bool Untyped::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Untyped)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -1799,17 +1799,17 @@ bool Untyped::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Untyped)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Untyped)
   return false;
 #undef DO_
 }
 
 void Untyped::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Untyped)
   // optional double value = 1;
   if (has_value()) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->value(), output);
@@ -1819,12 +1819,12 @@ void Untyped::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Untyped)
 }
 
 ::google::protobuf::uint8* Untyped::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Untyped)
   // optional double value = 1;
   if (has_value()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->value(), target);
@@ -1834,7 +1834,7 @@ void Untyped::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Untyped)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Untyped)
   return target;
 }
 
@@ -1927,7 +1927,7 @@ const int Histogram::kBucketFieldNumber;
 Histogram::Histogram()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Histogram)
 }
 
 void Histogram::InitAsDefaultInstance() {
@@ -1937,7 +1937,7 @@ Histogram::Histogram(const Histogram& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Histogram)
 }
 
 void Histogram::SharedCtor() {
@@ -1948,7 +1948,7 @@ void Histogram::SharedCtor() {
 }
 
 Histogram::~Histogram() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Histogram)
   SharedDtor();
 }
 
@@ -2003,7 +2003,7 @@ bool Histogram::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Histogram)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -2038,7 +2038,7 @@ bool Histogram::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .io.prometheus.client.Bucket bucket = 3;
+      // repeated .io.elasticsearch.client.Bucket bucket = 3;
       case 3: {
         if (tag == 26) {
          parse_bucket:
@@ -2066,17 +2066,17 @@ bool Histogram::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Histogram)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Histogram)
   return false;
 #undef DO_
 }
 
 void Histogram::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Histogram)
   // optional uint64 sample_count = 1;
   if (has_sample_count()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->sample_count(), output);
@@ -2087,7 +2087,7 @@ void Histogram::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->sample_sum(), output);
   }
 
-  // repeated .io.prometheus.client.Bucket bucket = 3;
+  // repeated .io.elasticsearch.client.Bucket bucket = 3;
   for (int i = 0; i < this->bucket_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->bucket(i), output);
@@ -2097,12 +2097,12 @@ void Histogram::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Histogram)
 }
 
 ::google::protobuf::uint8* Histogram::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Histogram)
   // optional uint64 sample_count = 1;
   if (has_sample_count()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->sample_count(), target);
@@ -2113,7 +2113,7 @@ void Histogram::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->sample_sum(), target);
   }
 
-  // repeated .io.prometheus.client.Bucket bucket = 3;
+  // repeated .io.elasticsearch.client.Bucket bucket = 3;
   for (int i = 0; i < this->bucket_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -2124,7 +2124,7 @@ void Histogram::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Histogram)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Histogram)
   return target;
 }
 
@@ -2145,7 +2145,7 @@ int Histogram::ByteSize() const {
     }
 
   }
-  // repeated .io.prometheus.client.Bucket bucket = 3;
+  // repeated .io.elasticsearch.client.Bucket bucket = 3;
   total_size += 1 * this->bucket_size();
   for (int i = 0; i < this->bucket_size(); i++) {
     total_size +=
@@ -2237,7 +2237,7 @@ const int Bucket::kUpperBoundFieldNumber;
 Bucket::Bucket()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Bucket)
 }
 
 void Bucket::InitAsDefaultInstance() {
@@ -2247,7 +2247,7 @@ Bucket::Bucket(const Bucket& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Bucket)
 }
 
 void Bucket::SharedCtor() {
@@ -2258,7 +2258,7 @@ void Bucket::SharedCtor() {
 }
 
 Bucket::~Bucket() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Bucket)
   SharedDtor();
 }
 
@@ -2312,7 +2312,7 @@ bool Bucket::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Bucket)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -2361,17 +2361,17 @@ bool Bucket::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Bucket)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Bucket)
   return false;
 #undef DO_
 }
 
 void Bucket::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Bucket)
   // optional uint64 cumulative_count = 1;
   if (has_cumulative_count()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->cumulative_count(), output);
@@ -2386,12 +2386,12 @@ void Bucket::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Bucket)
 }
 
 ::google::protobuf::uint8* Bucket::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Bucket)
   // optional uint64 cumulative_count = 1;
   if (has_cumulative_count()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->cumulative_count(), target);
@@ -2406,7 +2406,7 @@ void Bucket::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Bucket)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Bucket)
   return target;
 }
 
@@ -2514,22 +2514,22 @@ const int Metric::kTimestampMsFieldNumber;
 Metric::Metric()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.Metric)
 }
 
 void Metric::InitAsDefaultInstance() {
-  gauge_ = const_cast< ::io::prometheus::client::Gauge*>(&::io::prometheus::client::Gauge::default_instance());
-  counter_ = const_cast< ::io::prometheus::client::Counter*>(&::io::prometheus::client::Counter::default_instance());
-  summary_ = const_cast< ::io::prometheus::client::Summary*>(&::io::prometheus::client::Summary::default_instance());
-  untyped_ = const_cast< ::io::prometheus::client::Untyped*>(&::io::prometheus::client::Untyped::default_instance());
-  histogram_ = const_cast< ::io::prometheus::client::Histogram*>(&::io::prometheus::client::Histogram::default_instance());
+  gauge_ = const_cast< ::io::elasticsearch::client::Gauge*>(&::io::elasticsearch::client::Gauge::default_instance());
+  counter_ = const_cast< ::io::elasticsearch::client::Counter*>(&::io::elasticsearch::client::Counter::default_instance());
+  summary_ = const_cast< ::io::elasticsearch::client::Summary*>(&::io::elasticsearch::client::Summary::default_instance());
+  untyped_ = const_cast< ::io::elasticsearch::client::Untyped*>(&::io::elasticsearch::client::Untyped::default_instance());
+  histogram_ = const_cast< ::io::elasticsearch::client::Histogram*>(&::io::elasticsearch::client::Histogram::default_instance());
 }
 
 Metric::Metric(const Metric& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.Metric)
 }
 
 void Metric::SharedCtor() {
@@ -2544,7 +2544,7 @@ void Metric::SharedCtor() {
 }
 
 Metric::~Metric() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.Metric)
   SharedDtor();
 }
 
@@ -2582,19 +2582,19 @@ Metric* Metric::New() const {
 void Metric::Clear() {
   if (_has_bits_[0 / 32] & 126) {
     if (has_gauge()) {
-      if (gauge_ != NULL) gauge_->::io::prometheus::client::Gauge::Clear();
+      if (gauge_ != NULL) gauge_->::io::elasticsearch::client::Gauge::Clear();
     }
     if (has_counter()) {
-      if (counter_ != NULL) counter_->::io::prometheus::client::Counter::Clear();
+      if (counter_ != NULL) counter_->::io::elasticsearch::client::Counter::Clear();
     }
     if (has_summary()) {
-      if (summary_ != NULL) summary_->::io::prometheus::client::Summary::Clear();
+      if (summary_ != NULL) summary_->::io::elasticsearch::client::Summary::Clear();
     }
     if (has_untyped()) {
-      if (untyped_ != NULL) untyped_->::io::prometheus::client::Untyped::Clear();
+      if (untyped_ != NULL) untyped_->::io::elasticsearch::client::Untyped::Clear();
     }
     if (has_histogram()) {
-      if (histogram_ != NULL) histogram_->::io::prometheus::client::Histogram::Clear();
+      if (histogram_ != NULL) histogram_->::io::elasticsearch::client::Histogram::Clear();
     }
     timestamp_ms_ = GOOGLE_LONGLONG(0);
   }
@@ -2607,13 +2607,13 @@ bool Metric::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.Metric)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .io.prometheus.client.LabelPair label = 1;
+      // repeated .io.elasticsearch.client.LabelPair label = 1;
       case 1: {
         if (tag == 10) {
          parse_label:
@@ -2627,7 +2627,7 @@ bool Metric::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.Gauge gauge = 2;
+      // optional .io.elasticsearch.client.Gauge gauge = 2;
       case 2: {
         if (tag == 18) {
          parse_gauge:
@@ -2640,7 +2640,7 @@ bool Metric::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.Counter counter = 3;
+      // optional .io.elasticsearch.client.Counter counter = 3;
       case 3: {
         if (tag == 26) {
          parse_counter:
@@ -2653,7 +2653,7 @@ bool Metric::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.Summary summary = 4;
+      // optional .io.elasticsearch.client.Summary summary = 4;
       case 4: {
         if (tag == 34) {
          parse_summary:
@@ -2666,7 +2666,7 @@ bool Metric::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.Untyped untyped = 5;
+      // optional .io.elasticsearch.client.Untyped untyped = 5;
       case 5: {
         if (tag == 42) {
          parse_untyped:
@@ -2694,7 +2694,7 @@ bool Metric::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.Histogram histogram = 7;
+      // optional .io.elasticsearch.client.Histogram histogram = 7;
       case 7: {
         if (tag == 58) {
          parse_histogram:
@@ -2721,42 +2721,42 @@ bool Metric::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.Metric)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.Metric)
   return false;
 #undef DO_
 }
 
 void Metric::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.Metric)
-  // repeated .io.prometheus.client.LabelPair label = 1;
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.Metric)
+  // repeated .io.elasticsearch.client.LabelPair label = 1;
   for (int i = 0; i < this->label_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->label(i), output);
   }
 
-  // optional .io.prometheus.client.Gauge gauge = 2;
+  // optional .io.elasticsearch.client.Gauge gauge = 2;
   if (has_gauge()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->gauge(), output);
   }
 
-  // optional .io.prometheus.client.Counter counter = 3;
+  // optional .io.elasticsearch.client.Counter counter = 3;
   if (has_counter()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->counter(), output);
   }
 
-  // optional .io.prometheus.client.Summary summary = 4;
+  // optional .io.elasticsearch.client.Summary summary = 4;
   if (has_summary()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->summary(), output);
   }
 
-  // optional .io.prometheus.client.Untyped untyped = 5;
+  // optional .io.elasticsearch.client.Untyped untyped = 5;
   if (has_untyped()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       5, this->untyped(), output);
@@ -2767,7 +2767,7 @@ void Metric::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(6, this->timestamp_ms(), output);
   }
 
-  // optional .io.prometheus.client.Histogram histogram = 7;
+  // optional .io.elasticsearch.client.Histogram histogram = 7;
   if (has_histogram()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       7, this->histogram(), output);
@@ -2777,41 +2777,41 @@ void Metric::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.Metric)
 }
 
 ::google::protobuf::uint8* Metric::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.Metric)
-  // repeated .io.prometheus.client.LabelPair label = 1;
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.Metric)
+  // repeated .io.elasticsearch.client.LabelPair label = 1;
   for (int i = 0; i < this->label_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         1, this->label(i), target);
   }
 
-  // optional .io.prometheus.client.Gauge gauge = 2;
+  // optional .io.elasticsearch.client.Gauge gauge = 2;
   if (has_gauge()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         2, this->gauge(), target);
   }
 
-  // optional .io.prometheus.client.Counter counter = 3;
+  // optional .io.elasticsearch.client.Counter counter = 3;
   if (has_counter()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->counter(), target);
   }
 
-  // optional .io.prometheus.client.Summary summary = 4;
+  // optional .io.elasticsearch.client.Summary summary = 4;
   if (has_summary()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         4, this->summary(), target);
   }
 
-  // optional .io.prometheus.client.Untyped untyped = 5;
+  // optional .io.elasticsearch.client.Untyped untyped = 5;
   if (has_untyped()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -2823,7 +2823,7 @@ void Metric::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(6, this->timestamp_ms(), target);
   }
 
-  // optional .io.prometheus.client.Histogram histogram = 7;
+  // optional .io.elasticsearch.client.Histogram histogram = 7;
   if (has_histogram()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -2834,7 +2834,7 @@ void Metric::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.Metric)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.Metric)
   return target;
 }
 
@@ -2842,35 +2842,35 @@ int Metric::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[1 / 32] & (0xffu << (1 % 32))) {
-    // optional .io.prometheus.client.Gauge gauge = 2;
+    // optional .io.elasticsearch.client.Gauge gauge = 2;
     if (has_gauge()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gauge());
     }
 
-    // optional .io.prometheus.client.Counter counter = 3;
+    // optional .io.elasticsearch.client.Counter counter = 3;
     if (has_counter()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->counter());
     }
 
-    // optional .io.prometheus.client.Summary summary = 4;
+    // optional .io.elasticsearch.client.Summary summary = 4;
     if (has_summary()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->summary());
     }
 
-    // optional .io.prometheus.client.Untyped untyped = 5;
+    // optional .io.elasticsearch.client.Untyped untyped = 5;
     if (has_untyped()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->untyped());
     }
 
-    // optional .io.prometheus.client.Histogram histogram = 7;
+    // optional .io.elasticsearch.client.Histogram histogram = 7;
     if (has_histogram()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -2885,7 +2885,7 @@ int Metric::ByteSize() const {
     }
 
   }
-  // repeated .io.prometheus.client.LabelPair label = 1;
+  // repeated .io.elasticsearch.client.LabelPair label = 1;
   total_size += 1 * this->label_size();
   for (int i = 0; i < this->label_size(); i++) {
     total_size +=
@@ -2921,19 +2921,19 @@ void Metric::MergeFrom(const Metric& from) {
   label_.MergeFrom(from.label_);
   if (from._has_bits_[1 / 32] & (0xffu << (1 % 32))) {
     if (from.has_gauge()) {
-      mutable_gauge()->::io::prometheus::client::Gauge::MergeFrom(from.gauge());
+      mutable_gauge()->::io::elasticsearch::client::Gauge::MergeFrom(from.gauge());
     }
     if (from.has_counter()) {
-      mutable_counter()->::io::prometheus::client::Counter::MergeFrom(from.counter());
+      mutable_counter()->::io::elasticsearch::client::Counter::MergeFrom(from.counter());
     }
     if (from.has_summary()) {
-      mutable_summary()->::io::prometheus::client::Summary::MergeFrom(from.summary());
+      mutable_summary()->::io::elasticsearch::client::Summary::MergeFrom(from.summary());
     }
     if (from.has_untyped()) {
-      mutable_untyped()->::io::prometheus::client::Untyped::MergeFrom(from.untyped());
+      mutable_untyped()->::io::elasticsearch::client::Untyped::MergeFrom(from.untyped());
     }
     if (from.has_histogram()) {
-      mutable_histogram()->::io::prometheus::client::Histogram::MergeFrom(from.histogram());
+      mutable_histogram()->::io::elasticsearch::client::Histogram::MergeFrom(from.histogram());
     }
     if (from.has_timestamp_ms()) {
       set_timestamp_ms(from.timestamp_ms());
@@ -2995,7 +2995,7 @@ const int MetricFamily::kMetricFieldNumber;
 MetricFamily::MetricFamily()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(constructor:io.elasticsearch.client.MetricFamily)
 }
 
 void MetricFamily::InitAsDefaultInstance() {
@@ -3005,7 +3005,7 @@ MetricFamily::MetricFamily(const MetricFamily& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(copy_constructor:io.elasticsearch.client.MetricFamily)
 }
 
 void MetricFamily::SharedCtor() {
@@ -3018,7 +3018,7 @@ void MetricFamily::SharedCtor() {
 }
 
 MetricFamily::~MetricFamily() {
-  // @@protoc_insertion_point(destructor:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(destructor:io.elasticsearch.client.MetricFamily)
   SharedDtor();
 }
 
@@ -3077,7 +3077,7 @@ bool MetricFamily::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(parse_start:io.elasticsearch.client.MetricFamily)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -3116,7 +3116,7 @@ bool MetricFamily::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .io.prometheus.client.MetricType type = 3;
+      // optional .io.elasticsearch.client.MetricType type = 3;
       case 3: {
         if (tag == 24) {
          parse_type:
@@ -3124,8 +3124,8 @@ bool MetricFamily::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::io::prometheus::client::MetricType_IsValid(value)) {
-            set_type(static_cast< ::io::prometheus::client::MetricType >(value));
+          if (::io::elasticsearch::client::MetricType_IsValid(value)) {
+            set_type(static_cast< ::io::elasticsearch::client::MetricType >(value));
           } else {
             mutable_unknown_fields()->AddVarint(3, value);
           }
@@ -3136,7 +3136,7 @@ bool MetricFamily::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .io.prometheus.client.Metric metric = 4;
+      // repeated .io.elasticsearch.client.Metric metric = 4;
       case 4: {
         if (tag == 34) {
          parse_metric:
@@ -3164,17 +3164,17 @@ bool MetricFamily::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(parse_success:io.elasticsearch.client.MetricFamily)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(parse_failure:io.elasticsearch.client.MetricFamily)
   return false;
 #undef DO_
 }
 
 void MetricFamily::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(serialize_start:io.elasticsearch.client.MetricFamily)
   // optional string name = 1;
   if (has_name()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -3195,13 +3195,13 @@ void MetricFamily::SerializeWithCachedSizes(
       2, this->help(), output);
   }
 
-  // optional .io.prometheus.client.MetricType type = 3;
+  // optional .io.elasticsearch.client.MetricType type = 3;
   if (has_type()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->type(), output);
   }
 
-  // repeated .io.prometheus.client.Metric metric = 4;
+  // repeated .io.elasticsearch.client.Metric metric = 4;
   for (int i = 0; i < this->metric_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->metric(i), output);
@@ -3211,12 +3211,12 @@ void MetricFamily::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(serialize_end:io.elasticsearch.client.MetricFamily)
 }
 
 ::google::protobuf::uint8* MetricFamily::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(serialize_to_array_start:io.elasticsearch.client.MetricFamily)
   // optional string name = 1;
   if (has_name()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -3239,13 +3239,13 @@ void MetricFamily::SerializeWithCachedSizes(
         2, this->help(), target);
   }
 
-  // optional .io.prometheus.client.MetricType type = 3;
+  // optional .io.elasticsearch.client.MetricType type = 3;
   if (has_type()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->type(), target);
   }
 
-  // repeated .io.prometheus.client.Metric metric = 4;
+  // repeated .io.elasticsearch.client.Metric metric = 4;
   for (int i = 0; i < this->metric_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -3256,7 +3256,7 @@ void MetricFamily::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:io.prometheus.client.MetricFamily)
+  // @@protoc_insertion_point(serialize_to_array_end:io.elasticsearch.client.MetricFamily)
   return target;
 }
 
@@ -3278,14 +3278,14 @@ int MetricFamily::ByteSize() const {
           this->help());
     }
 
-    // optional .io.prometheus.client.MetricType type = 3;
+    // optional .io.elasticsearch.client.MetricType type = 3;
     if (has_type()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
     }
 
   }
-  // repeated .io.prometheus.client.Metric metric = 4;
+  // repeated .io.elasticsearch.client.Metric metric = 4;
   total_size += 1 * this->metric_size();
   for (int i = 0; i < this->metric_size(); i++) {
     total_size +=
@@ -3374,7 +3374,7 @@ void MetricFamily::Swap(MetricFamily* other) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace client
-}  // namespace prometheus
+}  // namespace elasticsearch
 }  // namespace io
 
 // @@protoc_insertion_point(global_scope)

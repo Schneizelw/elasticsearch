@@ -181,7 +181,7 @@ Mode: 644
 Path: fixtures/proc/26231/status
 Lines: 53
 
-Name:	prometheus
+Name:	elasticsearch
 Umask:	0022
 State:	S (sleeping)
 Tgid:	26231

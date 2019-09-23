@@ -17,7 +17,7 @@ import (
     "testing"
 
     "github.com/google/go-cmp/cmp"
-    "github.com/prometheus/procfs/internal/util"
+    "github.com/elasticsearch/procfs/internal/util"
 )
 
 func TestValueParser(t *testing.T) {

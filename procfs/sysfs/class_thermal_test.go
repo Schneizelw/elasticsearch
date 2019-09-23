@@ -19,7 +19,7 @@ import (
     "reflect"
     "testing"
 
-    "github.com/prometheus/procfs/internal/util"
+    "github.com/elasticsearch/procfs/internal/util"
 )
 
 func TestClassThermalZoneStats(t *testing.T) {

@@ -21,7 +21,7 @@ import (
 
     "github.com/golang/protobuf/proto"
 
-    dto "github.com/prometheus/client_model/go"
+    dto "github.com/elasticsearch/client_model/go"
 )
 
 func TestCreate(t *testing.T) {

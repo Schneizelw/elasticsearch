@@ -10,7 +10,7 @@
 _This release removes all previously deprecated features, resulting in the breaking changes listed below. As this is v1.0.0, semantic versioning applies from now on, with the exception of the API client and parts marked explicitly as experimental._
 
 * [CHANGE] Remove objectives from the default `Summary`. (Objectives have to be set explicitly in the `SummaryOpts`.) #600
-* [CHANGE] Remove all HTTP related feature in the `prometheus` package. (Use the `promhttp` package instead.)  #600
+* [CHANGE] Remove all HTTP related feature in the `elasticsearch` package. (Use the `promhttp` package instead.)  #600
 * [CHANGE] Remove `push.FromGatherer`, `push.AddFromGatherer`, `push.Collectors`. (Use `push.New` instead.) #600
 * [CHANGE] API client: Pass warnings through on non-error responses. #599
 * [CHANGE] API client: Add warnings to `Series` call. #603
@@ -127,7 +127,7 @@ _This release removes all previously deprecated features, resulting in the break
   arbitrary grouping.
 * [CHANGE] Removed `SelfCollector`.
 * [CHANGE] Removed `PanicOnCollectError` and `EnableCollectChecks` methods.
-* [CHANGE] Moved packages to the prometheus/common repo: `text`, `model`,
+* [CHANGE] Moved packages to the elasticsearch/common repo: `text`, `model`,
   `extraction`.
 * [CHANGE] Deprecated a number of functions.
 * [FEATURE] Allow custom registries. Added `Registerer` and `Gatherer`

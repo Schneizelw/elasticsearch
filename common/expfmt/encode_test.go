@@ -16,13 +16,13 @@ package expfmt
 import (
     "bytes"
     "github.com/golang/protobuf/proto"
-    dto "github.com/prometheus/client_model/go"
+    dto "github.com/elasticsearch/client_model/go"
     "net/http"
     "testing"
 )
 
 func TestNegotiate(t *testing.T) {
-    acceptValuePrefix := "application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily"
+    acceptValuePrefix := "application/vnd.google.protobuf;proto=io.elasticsearch.client.MetricFamily"
     tests := []struct {
         name              string
         acceptHeaderValue string

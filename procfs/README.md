@@ -6,9 +6,9 @@ metrics from the pseudo-filesystems /proc and /sys.
 *WARNING*: This package is a work in progress. Its API may still break in
 backwards-incompatible ways without warnings. Use it at your own risk.
 
-[![GoDoc](https://godoc.org/github.com/prometheus/procfs?status.png)](https://godoc.org/github.com/prometheus/procfs)
-[![Build Status](https://travis-ci.org/prometheus/procfs.svg?branch=master)](https://travis-ci.org/prometheus/procfs)
-[![Go Report Card](https://goreportcard.com/badge/github.com/prometheus/procfs)](https://goreportcard.com/report/github.com/prometheus/procfs)
+[![GoDoc](https://godoc.org/github.com/elasticsearch/procfs?status.png)](https://godoc.org/github.com/elasticsearch/procfs)
+[![Build Status](https://travis-ci.org/elasticsearch/procfs.svg?branch=master)](https://travis-ci.org/elasticsearch/procfs)
+[![Go Report Card](https://goreportcard.com/badge/github.com/elasticsearch/procfs)](https://goreportcard.com/report/github.com/elasticsearch/procfs)
 
 ## Usage
 

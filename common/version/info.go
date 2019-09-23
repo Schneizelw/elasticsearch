@@ -20,7 +20,7 @@ import (
     "strings"
     "text/template"
 
-    "github.com/prometheus/client_golang/prometheus"
+    "github.com/elasticsearch/client_golang/elasticsearch"
 )
 
 // Build information. Populated at build-time.
@@ -34,9 +34,9 @@ var (
 )
 
 // NewCollector returns a collector which exports metrics about current version information.
-func NewCollector(program string) *prometheus.GaugeVec {
-    buildInfo := prometheus.NewGaugeVec(
-        prometheus.GaugeOpts{
+func NewCollector(program string) *elasticsearch.GaugeVec {
+    buildInfo := elasticsearch.NewGaugeVec(
+        elasticsearch.GaugeOpts{
             Namespace: program,
             Name:      "build_info",
             Help: fmt.Sprintf(

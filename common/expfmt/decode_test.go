@@ -22,9 +22,9 @@ import (
     "testing"
 
     "github.com/golang/protobuf/proto"
-    dto "github.com/prometheus/client_model/go"
+    dto "github.com/elasticsearch/client_model/go"
 
-    "github.com/prometheus/common/model"
+    "github.com/elasticsearch/common/model"
 )
 
 func TestTextDecoder(t *testing.T) {
@@ -373,7 +373,7 @@ func testDiscriminatorHTTPHeader(t testing.TB) {
         output Format
     }{
         {
-            input:  map[string]string{"Content-Type": `application/vnd.google.protobuf; proto="io.prometheus.client.MetricFamily"; encoding="delimited"`},
+            input:  map[string]string{"Content-Type": `application/vnd.google.protobuf; proto="io.elasticsearch.client.MetricFamily"; encoding="delimited"`},
             output: FmtProtoDelim,
         },
         {
@@ -381,7 +381,7 @@ func testDiscriminatorHTTPHeader(t testing.TB) {
             output: FmtUnknown,
         },
         {
-            input:  map[string]string{"Content-Type": `application/vnd.google.protobuf; proto="io.prometheus.client.MetricFamily"; encoding="illegal"`},
+            input:  map[string]string{"Content-Type": `application/vnd.google.protobuf; proto="io.elasticsearch.client.MetricFamily"; encoding="illegal"`},
             output: FmtUnknown,
         },
         {

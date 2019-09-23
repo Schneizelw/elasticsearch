@@ -19,7 +19,7 @@ import (
     "io"
     "strings"
 
-    "github.com/prometheus/procfs/internal/util"
+    "github.com/elasticsearch/procfs/internal/util"
 )
 
 // ParseStats parses a Stats from an input io.Reader, using the format

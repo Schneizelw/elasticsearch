@@ -24,8 +24,8 @@ import (
     "net/http"
     "time"
 
-    "github.com/prometheus/client_golang/prometheus"
-    "github.com/prometheus/client_golang/prometheus/promhttp"
+    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/elasticsearch/client_golang/elasticsearch/promhttp"
 )
 
 var (
@@ -40,8 +40,8 @@ var (
     // Create a summary to track fictional interservice RPC latencies for three
     // distinct services with different latency distributions. These services are
     // differentiated via a "service" label.
-    rpcDurations = prometheus.NewSummaryVec(
-        prometheus.SummaryOpts{
+    rpcDurations = elasticsearch.NewSummaryVec(
+        elasticsearch.SummaryOpts{
             Name:       "rpc_durations_seconds",
             Help:       "RPC latency distributions.",
             Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
@@ -52,19 +52,19 @@ var (
     // distribution. The buckets are targeted to the parameters of the
     // normal distribution, with 20 buckets centered on the mean, each
     // half-sigma wide.
-    rpcDurationsHistogram = prometheus.NewHistogram(prometheus.HistogramOpts{
+    rpcDurationsHistogram = elasticsearch.NewHistogram(elasticsearch.HistogramOpts{
         Name:    "rpc_durations_histogram_seconds",
         Help:    "RPC latency distributions.",
-        Buckets: prometheus.LinearBuckets(*normMean-5**normDomain, .5**normDomain, 20),
+        Buckets: elasticsearch.LinearBuckets(*normMean-5**normDomain, .5**normDomain, 20),
     })
 )
 
 func init() {
     // Register the summary and the histogram with Prometheus's default registry.
-    prometheus.MustRegister(rpcDurations)
-    prometheus.MustRegister(rpcDurationsHistogram)
+    elasticsearch.MustRegister(rpcDurations)
+    elasticsearch.MustRegister(rpcDurationsHistogram)
     // Add Go module build info.
-    prometheus.MustRegister(prometheus.NewBuildInfoCollector())
+    elasticsearch.MustRegister(elasticsearch.NewBuildInfoCollector())
 }
 
 func main() {

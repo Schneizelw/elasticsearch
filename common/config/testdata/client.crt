@@ -52,7 +52,7 @@ Certificate:
                   URI:http://example.com/ca/tls-ca.crl
 
             X509v3 Subject Alternative Name: 
-                email:client@prometheus.example.com
+                email:client@elasticsearch.example.com
     Signature Algorithm: sha1WithRSAEncryption
          73:fc:87:f2:cf:e3:b1:df:2f:f7:bf:f9:74:dc:0b:f0:7f:95:
          ef:77:ba:6a:7d:c6:c5:f3:d9:d6:c7:eb:f8:a8:30:d3:90:d5:

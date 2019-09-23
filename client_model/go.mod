@@ -1,4 +1,4 @@
-module github.com/prometheus/client_model
+module github.com/elasticsearch/client_model
 
 go 1.9
 

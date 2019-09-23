@@ -23,9 +23,9 @@ import (
     "strings"
     "sync"
 
-    "github.com/prometheus/common/model"
+    "github.com/elasticsearch/common/model"
 
-    dto "github.com/prometheus/client_model/go"
+    dto "github.com/elasticsearch/client_model/go"
 )
 
 // enhancedWriter has all the enhanced write functions needed here. bufio.Writer
@@ -63,7 +63,7 @@ var (
 // contains duplicate metrics or invalid metric or label names, the conversion
 // will result in invalid text format output.
 //
-// This method fulfills the type 'prometheus.encoder'.
+// This method fulfills the type 'elasticsearch.encoder'.
 func MetricFamilyToText(out io.Writer, in *dto.MetricFamily) (written int, err error) {
     // Fail-fast checks.
     if len(in.Metric) == 0 {
