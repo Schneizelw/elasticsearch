@@ -310,9 +310,9 @@ func (m *metricMap) pushDocToEs(metricType int) {
                 continue
             }
             url = m.url + strconv.Itoa(int(time.Now().UnixNano()))
-            fmt.Println(url, string(data))
+            //fmt.Println(url, string(data))
             if err := goRequest(url, string(data)); err != nil {
-                fmt.Println("request err:", err)
+                fmt.Println("[ERROR]request err:", err)
             }
         }
     }
