@@ -21,8 +21,8 @@ import (
     "os"
     "time"
 
-    "github.com/elasticsearch/client_golang/api"
-    v1 "github.com/elasticsearch/client_golang/api/elasticsearch/v1"
+    "github.com/Schneizelw/elasticsearch/client_golang/api"
+    v1 "github.com/Schneizelw/elasticsearch/client_golang/api/elasticsearch/v1"
 )
 
 func ExampleAPI_Query() {

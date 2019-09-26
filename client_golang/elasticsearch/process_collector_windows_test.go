@@ -19,7 +19,7 @@ import (
     "regexp"
     "testing"
 
-    "github.com/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
 )
 
 func TestWindowsProcessCollector(t *testing.T) {

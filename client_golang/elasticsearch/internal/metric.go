@@ -16,7 +16,7 @@ package internal
 import (
     "sort"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // metricSorter is a sortable slice of *dto.Metric.

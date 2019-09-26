@@ -40,9 +40,9 @@ import (
     "sync"
     "time"
 
-    "github.com/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 const (

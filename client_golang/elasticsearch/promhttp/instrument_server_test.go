@@ -20,7 +20,7 @@ import (
     "net/http/httptest"
     "testing"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 func TestLabelCheck(t *testing.T) {

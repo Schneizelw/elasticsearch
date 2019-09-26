@@ -18,7 +18,7 @@ import (
     "sync/atomic"
     "time"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // Gauge is a Metric that represents a single numerical value that can

@@ -21,7 +21,7 @@ import (
     "strconv"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // Proc provides information about a running process.

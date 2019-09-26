@@ -19,10 +19,10 @@ import (
     "sort"
     "strings"
 
-    "github.com/golang/protobuf/proto"
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/golang/protobuf/proto"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // Desc is the descriptor used by every Prometheus Metric. It is essentially

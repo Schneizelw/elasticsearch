@@ -19,7 +19,7 @@ import (
     "io/ioutil"
     "os"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // Originally, this USER_HZ value was dynamically retrieved via a sysconf call
@@ -34,8 +34,8 @@ import (
 //
 // See also the following discussions:
 //
-// - https://github.com/elasticsearch/node_exporter/issues/52
-// - https://github.com/elasticsearch/procfs/pull/2
+// - https://github.com/Schneizelw/elasticsearch/node_exporter/issues/52
+// - https://github.com/Schneizelw/elasticsearch/procfs/pull/2
 // - http://stackoverflow.com/questions/17410841/how-does-user-hz-solve-the-jiffy-scaling-issue
 const userHZ = 100
 

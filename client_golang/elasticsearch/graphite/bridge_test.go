@@ -26,9 +26,9 @@ import (
     "testing"
     "time"
 
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 func TestSanitize(t *testing.T) {

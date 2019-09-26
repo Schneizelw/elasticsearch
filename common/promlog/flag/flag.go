@@ -14,7 +14,7 @@
 package flag
 
 import (
-    "github.com/elasticsearch/common/promlog"
+    "github.com/Schneizelw/elasticsearch/common/promlog"
     kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 

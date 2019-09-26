@@ -22,7 +22,7 @@ import (
     "regexp"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/util"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 
 // Zoneinfo holds info parsed from /proc/zoneinfo.

@@ -18,7 +18,7 @@ package procfs
 import (
     "testing"
 
-    "github.com/google/go-cmp/cmp"
+    "github.com/Schneizelw/google/go-cmp/cmp"
 )
 
 func TestZoneinfo(t *testing.T) {

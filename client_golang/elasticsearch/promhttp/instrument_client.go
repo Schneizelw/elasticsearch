@@ -19,7 +19,7 @@ import (
     "net/http/httptrace"
     "time"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 // The RoundTripperFunc type is an adapter to allow the use of ordinary

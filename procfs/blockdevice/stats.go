@@ -21,7 +21,7 @@ import (
     "os"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // Info contains identifying information for a block device such as a disk drive

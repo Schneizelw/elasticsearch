@@ -59,7 +59,7 @@ type goCollector struct {
 // runtime.ReadMemStats takes more than 1s. However, if there are no previously
 // collected memstats, or their collection is more than 5m ago, the collection
 // will block until runtime.ReadMemStats succeeds. (The problem might be solved
-// in Go1.13, see https://github.com/golang/go/issues/19812 for the related Go
+// in Go1.13, see https://github.com/Schneizelw/golang/go/issues/19812 for the related Go
 // issue.)
 func NewGoCollector() Collector {
     return &goCollector{
@@ -373,14 +373,14 @@ type memStatsMetrics []struct {
 // the source repository (rather than the local file system). This is usually
 // accomplished by building from outside of GOPATH, specifying the full address
 // of the main package, e.g. "GO111MODULE=on go run
-// github.com/elasticsearch/client_golang/examples/random". If built without Go
+// github.com/Schneizelw/elasticsearch/client_golang/examples/random". If built without Go
 // module support, all label values will be "unknown". If built with Go module
 // support but using the source code from the local file system, the "path" will
 // be set appropriately, but "checksum" will be empty and "version" will be
 // "(devel)".
 //
 // This collector uses only the build information for the main module. See
-// https://github.com/povilasv/prommod for an example of a collector for the
+// https://github.com/Schneizelw/povilasv/prommod for an example of a collector for the
 // module dependencies.
 func NewBuildInfoCollector() Collector {
     path, version, sum := readBuildInfo()

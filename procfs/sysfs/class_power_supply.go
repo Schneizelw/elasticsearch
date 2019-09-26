@@ -20,7 +20,7 @@ import (
     "io/ioutil"
     "path/filepath"
 
-    "github.com/elasticsearch/procfs/internal/util"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 
 // PowerSupply contains info from files in /sys/class/power_supply for a

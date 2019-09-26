@@ -22,7 +22,7 @@ import (
     "path/filepath"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/util"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 
 // The VM interface is described at

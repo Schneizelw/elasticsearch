@@ -23,7 +23,7 @@ import (
     "testing"
     "testing/quick"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 func benchmarkHistogramObserve(w int, b *testing.B) {

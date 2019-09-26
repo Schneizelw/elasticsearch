@@ -16,9 +16,9 @@ include Makefile.common
 # http.CloseNotifier is deprecated but we don't want to remove support
 # from client_golang to not break anybody still using it.
 STATICCHECK_IGNORE = \
-  github.com/elasticsearch/client_golang/elasticsearch/promhttp/delegator*.go:SA1019 \
-  github.com/elasticsearch/client_golang/elasticsearch/promhttp/instrument_server_test.go:SA1019 \
-  github.com/elasticsearch/client_golang/elasticsearch/http.go:SA1019
+  github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promhttp/delegator*.go:SA1019 \
+  github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promhttp/instrument_server_test.go:SA1019 \
+  github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/http.go:SA1019
 
 .PHONY: test
 test: deps common-test

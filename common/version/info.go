@@ -20,7 +20,7 @@ import (
     "strings"
     "text/template"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 // Build information. Populated at build-time.

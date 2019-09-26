@@ -15,8 +15,8 @@ package expfmt
 
 import (
     "bytes"
-    "github.com/golang/protobuf/proto"
-    dto "github.com/elasticsearch/client_model/go"
+    "github.com/Schneizelw/golang/protobuf/proto"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
     "net/http"
     "testing"
 )

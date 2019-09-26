@@ -23,7 +23,7 @@ import (
     "testing"
     "time"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 type errorCollector struct{}

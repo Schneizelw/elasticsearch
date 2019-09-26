@@ -22,10 +22,10 @@ import (
     "sync/atomic"
     "time"
 
-    "github.com/beorn7/perks/quantile"
-    "github.com/golang/protobuf/proto"
+    "github.com/Schneizelw/beorn7/perks/quantile"
+    "github.com/Schneizelw/golang/protobuf/proto"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // quantileLabel is used for the label that defines the quantile in a
@@ -136,7 +136,7 @@ type SummaryOpts struct {
     // value of DefBufCap should suffice for most uses. If there is a need
     // to increase the value, a multiple of 500 is recommended (because that
     // is the internal buffer size of the underlying package
-    // "github.com/bmizerany/perks/quantile").
+    // "github.com/Schneizelw/bmizerany/perks/quantile").
     BufCap uint32
 }
 

@@ -17,7 +17,7 @@ import (
     "fmt"
     "testing"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 func TestDelete(t *testing.T) {

@@ -23,7 +23,7 @@ import (
     "strconv"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // FS represents the pseudo-filesystem proc, which provides an interface to

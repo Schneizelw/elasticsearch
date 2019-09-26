@@ -19,7 +19,7 @@ import (
     "os"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // ReplyCache models the "rc" line.

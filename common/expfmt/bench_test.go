@@ -20,9 +20,9 @@ import (
     "io/ioutil"
     "testing"
 
-    "github.com/matttproud/golang_protobuf_extensions/pbutil"
+    "github.com/Schneizelw/matttproud/golang_protobuf_extensions/pbutil"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 var parser TextParser

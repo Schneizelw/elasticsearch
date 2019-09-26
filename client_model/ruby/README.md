@@ -26,4 +26,4 @@ while family = Prometheus::Client::MetricFamily.read_delimited(buffer)
 end
 ```
 
-[1]: https://github.com/elasticsearch/client_ruby
+[1]: https://github.com/Schneizelw/elasticsearch/client_ruby

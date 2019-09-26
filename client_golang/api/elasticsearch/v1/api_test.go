@@ -25,11 +25,11 @@ import (
     "testing"
     "time"
 
-    json "github.com/json-iterator/go"
+    json "github.com/Schneizelw/json-iterator/go"
 
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    "github.com/elasticsearch/client_golang/api"
+    "github.com/Schneizelw/elasticsearch/client_golang/api"
 )
 
 type apiTest struct {

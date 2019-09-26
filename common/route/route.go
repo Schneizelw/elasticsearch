@@ -17,7 +17,7 @@ import (
     "context"
     "net/http"
 
-    "github.com/julienschmidt/httprouter"
+    "github.com/Schneizelw/julienschmidt/httprouter"
 )
 
 type param string

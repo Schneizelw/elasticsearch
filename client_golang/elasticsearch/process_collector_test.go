@@ -22,10 +22,10 @@ import (
     "regexp"
     "testing"
 
-    "github.com/elasticsearch/common/expfmt"
-    "github.com/elasticsearch/procfs"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/elasticsearch/procfs"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 func TestProcessCollector(t *testing.T) {

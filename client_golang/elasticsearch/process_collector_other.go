@@ -16,7 +16,7 @@
 package elasticsearch
 
 import (
-    "github.com/elasticsearch/procfs"
+    "github.com/Schneizelw/elasticsearch/procfs"
 )
 
 func canCollectProcess() bool {

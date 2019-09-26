@@ -18,9 +18,9 @@ package expfmt
 
 import "bytes"
 
-// Fuzz text metric parser with with github.com/dvyukov/go-fuzz:
+// Fuzz text metric parser with with github.com/Schneizelw/dvyukov/go-fuzz:
 //
-//     go-fuzz-build github.com/elasticsearch/common/expfmt
+//     go-fuzz-build github.com/Schneizelw/elasticsearch/common/expfmt
 //     go-fuzz -bin expfmt-fuzz.zip -workdir fuzz
 //
 // Further input samples should go in the folder fuzz/corpus.

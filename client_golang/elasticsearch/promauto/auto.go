@@ -26,9 +26,9 @@
 //              "math/rand"
 //              "net/http"
 //
-//              "github.com/elasticsearch/client_golang/elasticsearch"
-//              "github.com/elasticsearch/client_golang/elasticsearch/promauto"
-//              "github.com/elasticsearch/client_golang/elasticsearch/promhttp"
+//              "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
+//              "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promauto"
+//              "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promhttp"
 //      )
 //
 //      var histogram = promauto.NewHistogram(elasticsearch.HistogramOpts{
@@ -57,9 +57,9 @@
 //          "fmt"
 //          "net/http"
 //
-//          "github.com/elasticsearch/client_golang/elasticsearch"
-//          "github.com/elasticsearch/client_golang/elasticsearch/promauto"
-//          "github.com/elasticsearch/client_golang/elasticsearch/promhttp"
+//          "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
+//          "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promauto"
+//          "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promhttp"
 //      )
 //
 //      func main() {
@@ -126,7 +126,7 @@
 // state in net/http has been criticized widely, and some avoid it altogether.
 package promauto
 
-import "github.com/elasticsearch/client_golang/elasticsearch"
+import "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 
 // NewCounter works like the function of the same name in the elasticsearch package
 // but it automatically registers the Counter with the

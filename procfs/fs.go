@@ -14,7 +14,7 @@
 package procfs
 
 import (
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // FS represents the pseudo-filesystem sys, which provides an interface to

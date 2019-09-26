@@ -28,7 +28,7 @@ import (
     "sync"
     "time"
 
-    "github.com/mwitkow/go-conntrack"
+    "github.com/Schneizelw/mwitkow/go-conntrack"
     "gopkg.in/yaml.v2"
 )
 
@@ -139,7 +139,7 @@ func NewRoundTripperFromConfig(cfg HTTPClientConfig, name string, disableKeepAli
         var rt http.RoundTripper = &http.Transport{
             Proxy:               http.ProxyURL(cfg.ProxyURL.URL),
             MaxIdleConns:        20000,
-            MaxIdleConnsPerHost: 1000, // see https://github.com/golang/go/issues/13801
+            MaxIdleConnsPerHost: 1000, // see https://github.com/Schneizelw/golang/go/issues/13801
             DisableKeepAlives:   disableKeepAlives,
             TLSClientConfig:     tlsConfig,
             DisableCompression:  true,

@@ -23,9 +23,9 @@ import (
     "strings"
     "sync"
 
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // enhancedWriter has all the enhanced write functions needed here. bufio.Writer

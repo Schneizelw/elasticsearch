@@ -18,7 +18,7 @@ import (
     "strings"
     "testing"
 
-    "github.com/elasticsearch/procfs/nfs"
+    "github.com/Schneizelw/elasticsearch/procfs/nfs"
 )
 
 func TestNewNFSdServerRPCStats(t *testing.T) {

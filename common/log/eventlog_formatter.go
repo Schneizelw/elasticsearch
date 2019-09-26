@@ -21,7 +21,7 @@ import (
 
     "golang.org/x/sys/windows/svc/eventlog"
 
-    "github.com/sirupsen/logrus"
+    "github.com/Schneizelw/sirupsen/logrus"
 )
 
 func init() {

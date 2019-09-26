@@ -19,9 +19,9 @@ import (
     "strings"
     "testing"
 
-    "github.com/golang/protobuf/proto"
+    "github.com/Schneizelw/golang/protobuf/proto"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 // uncheckedCollector wraps a Collector but its Describe method yields no Desc.

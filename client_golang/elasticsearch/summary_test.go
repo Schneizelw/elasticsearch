@@ -22,7 +22,7 @@ import (
     "testing/quick"
     "time"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 func TestSummaryWithDefaultObjectives(t *testing.T) {

@@ -20,7 +20,7 @@ import (
     "io/ioutil"
     "path/filepath"
 
-    "github.com/elasticsearch/procfs/internal/util"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 
 const netclassPath = "class/net"

@@ -31,7 +31,7 @@
 //
 // See the documentation of the Pushgateway to understand the meaning of
 // the grouping key and the differences between Push and Add:
-// https://github.com/elasticsearch/pushgateway
+// https://github.com/Schneizelw/elasticsearch/pushgateway
 package push
 
 import (
@@ -43,10 +43,10 @@ import (
     "net/url"
     "strings"
 
-    "github.com/elasticsearch/common/expfmt"
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 const (

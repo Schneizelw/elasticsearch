@@ -16,7 +16,7 @@ package elasticsearch_test
 import (
     "net/http"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 var (

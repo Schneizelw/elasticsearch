@@ -17,9 +17,9 @@ import (
     "strings"
     "time"
 
-    "github.com/golang/protobuf/proto"
+    "github.com/Schneizelw/golang/protobuf/proto"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 const separatorByte byte = 255

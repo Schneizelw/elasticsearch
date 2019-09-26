@@ -25,12 +25,12 @@ import (
     "sort"
     "time"
 
-    "github.com/elasticsearch/common/expfmt"
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/elasticsearch/common/model"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 const (

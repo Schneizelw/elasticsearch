@@ -18,9 +18,9 @@ import (
     "testing"
     "time"
 
-    jsoniter "github.com/json-iterator/go"
+    jsoniter "github.com/Schneizelw/json-iterator/go"
 
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
 )
 
 func generateData(timeseries, datapoints int) model.Matrix {

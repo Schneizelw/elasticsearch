@@ -18,7 +18,7 @@ import (
     "path/filepath"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // iscsi target started with /sys/kernel/config/target/iscsi/iqn*

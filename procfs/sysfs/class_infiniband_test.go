@@ -18,7 +18,7 @@ package sysfs
 import (
     "testing"
 
-    "github.com/google/go-cmp/cmp"
+    "github.com/Schneizelw/google/go-cmp/cmp"
 )
 
 func TestParseSlowRate(t *testing.T) {

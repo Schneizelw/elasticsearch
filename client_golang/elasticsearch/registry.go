@@ -25,12 +25,12 @@ import (
     "sync"
     "unicode/utf8"
 
-    "github.com/golang/protobuf/proto"
-    "github.com/elasticsearch/common/expfmt"
+    "github.com/Schneizelw/golang/protobuf/proto"
+    "github.com/Schneizelw/elasticsearch/common/expfmt"
 
-    dto "github.com/elasticsearch/client_model/go"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 
-    "github.com/elasticsearch/client_golang/elasticsearch/internal"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/internal"
 )
 
 const (

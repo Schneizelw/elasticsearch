@@ -23,8 +23,8 @@ import (
     "strconv"
     "net/http"
     "encoding/json"
-    "github.com/elasticsearch/common/model"
-    dto "github.com/elasticsearch/client_model/go"
+    "github.com/Schneizelw/elasticsearch/common/model"
+    dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 const (

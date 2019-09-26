@@ -16,8 +16,8 @@ package push_test
 import (
     "fmt"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
-    "github.com/elasticsearch/client_golang/elasticsearch/push"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/push"
 )
 
 func ExamplePusher_Push() {

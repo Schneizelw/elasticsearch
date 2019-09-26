@@ -21,7 +21,7 @@ import (
     "strconv"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // CPUStat shows how much time the cpu spend in various stages.

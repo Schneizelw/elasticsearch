@@ -17,8 +17,8 @@ import (
     "log"
     "net/http"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
-    "github.com/elasticsearch/client_golang/elasticsearch/promhttp"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch/promhttp"
 )
 
 // ClusterManager is an example for a system that might have been built without

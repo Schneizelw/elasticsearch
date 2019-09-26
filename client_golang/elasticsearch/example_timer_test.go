@@ -17,7 +17,7 @@ import (
     "math/rand"
     "time"
 
-    "github.com/elasticsearch/client_golang/elasticsearch"
+    "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"
 )
 
 var (

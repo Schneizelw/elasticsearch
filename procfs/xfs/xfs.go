@@ -19,7 +19,7 @@ import (
     "path/filepath"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/fs"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/fs"
 )
 
 // Stats contains XFS filesystem runtime statistics, parsed from

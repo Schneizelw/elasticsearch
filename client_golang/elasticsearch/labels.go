@@ -19,7 +19,7 @@ import (
     "strings"
     "unicode/utf8"
 
-    "github.com/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
 )
 
 // Labels represents a collection of label name -> value mappings. This type is

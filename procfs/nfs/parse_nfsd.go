@@ -19,7 +19,7 @@ import (
     "io"
     "strings"
 
-    "github.com/elasticsearch/procfs/internal/util"
+    "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 
 // ParseServerRPCStats returns stats read from /proc/net/rpc/nfsd
