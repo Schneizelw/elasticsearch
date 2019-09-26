@@ -16,7 +16,7 @@ package util_test
 import (
     "testing"
 
-    "github.com/Schneizelw/google/go-cmp/cmp"
+    "github.com/google/go-cmp/cmp"
     "github.com/Schneizelw/elasticsearch/procfs/internal/util"
 )
 

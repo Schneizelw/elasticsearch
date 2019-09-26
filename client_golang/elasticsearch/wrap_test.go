@@ -19,7 +19,7 @@ import (
     "strings"
     "testing"
 
-    "github.com/Schneizelw/golang/protobuf/proto"
+    "github.com/golang/protobuf/proto"
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )

@@ -3,7 +3,7 @@
 
 package io_elasticsearch_client // import "github.com/Schneizelw/elasticsearch/client_model/go"
 
-import proto "github.com/Schneizelw/golang/protobuf/proto"
+import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 

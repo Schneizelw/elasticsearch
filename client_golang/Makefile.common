@@ -258,7 +258,7 @@ endif
 ifdef GOVENDOR
 .PHONY: $(GOVENDOR)
 $(GOVENDOR):
-	GOOS= GOARCH= $(GO) get -u github.com/Schneizelw/kardianos/govendor
+	GOOS= GOARCH= $(GO) get -u github.com/kardianos/govendor
 endif
 
 .PHONY: precheck

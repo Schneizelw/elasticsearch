@@ -24,7 +24,7 @@ import (
     "strconv"
     "strings"
 
-    "github.com/Schneizelw/sirupsen/logrus"
+    "github.com/sirupsen/logrus"
     "gopkg.in/alecthomas/kingpin.v2"
 )
 

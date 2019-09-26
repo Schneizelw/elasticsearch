@@ -37,7 +37,7 @@ changes to the library, the `make test` command can be used to run the API test 
 ### Updating Test Fixtures
 
 The procfs library includes a set of test fixtures which include many example files from
-the `/proc` and `/sys` filesystems.  These fixtures are included as a [ttar](https://github.com/Schneizelw/ideaship/ttar) file
+the `/proc` and `/sys` filesystems.  These fixtures are included as a [ttar](https://github.com/ideaship/ttar) file
 which is extracted automatically during testing.  To add/update the test fixtures, first
 ensure the `fixtures` directory is up to date by removing the existing directory and then
 extracting the ttar file using `make fixtures/.unpacked` or just `make test`.

@@ -25,7 +25,7 @@ import (
     "testing"
     "time"
 
-    json "github.com/Schneizelw/json-iterator/go"
+    json "github.com/json-iterator/go"
 
     "github.com/Schneizelw/elasticsearch/common/model"
 

@@ -18,8 +18,8 @@ import (
     "io"
     "net/http"
 
-    "github.com/Schneizelw/golang/protobuf/proto"
-    "github.com/Schneizelw/matttproud/golang_protobuf_extensions/pbutil"
+    "github.com/golang/protobuf/proto"
+    "github.com/matttproud/golang_protobuf_extensions/pbutil"
     "github.com/Schneizelw/elasticsearch/common/internal/bitbucket.org/ww/goautoneg"
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"

@@ -22,7 +22,7 @@ import (
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 
-    "github.com/Schneizelw/matttproud/golang_protobuf_extensions/pbutil"
+    "github.com/matttproud/golang_protobuf_extensions/pbutil"
     "github.com/Schneizelw/elasticsearch/common/model"
 )
 

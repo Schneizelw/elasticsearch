@@ -20,9 +20,9 @@ import (
     "os"
     "time"
 
-    "github.com/Schneizelw/go-kit/kit/log"
-    "github.com/Schneizelw/go-kit/kit/log/level"
-    "github.com/Schneizelw/pkg/errors"
+    "github.com/go-kit/kit/log"
+    "github.com/go-kit/kit/log/level"
+    "github.com/pkg/errors"
 )
 
 var (

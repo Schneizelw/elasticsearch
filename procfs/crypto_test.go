@@ -16,7 +16,7 @@ package procfs
 import (
     "testing"
 
-    "github.com/Schneizelw/google/go-cmp/cmp"
+    "github.com/google/go-cmp/cmp"
 )
 
 func newint64(i int64) *int64 {

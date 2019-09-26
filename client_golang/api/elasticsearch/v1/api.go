@@ -25,7 +25,7 @@ import (
     "time"
     "unsafe"
 
-    json "github.com/Schneizelw/json-iterator/go"
+    json "github.com/json-iterator/go"
 
     "github.com/Schneizelw/elasticsearch/common/model"
 
@@ -91,8 +91,8 @@ func marshalPointJSON(ptr unsafe.Pointer, stream *json.Stream) {
     stream.WriteMore()
     stream.WriteRaw(`"`)
 
-    // Taken from https://github.com/Schneizelw/json-iterator/go/blob/master/stream_float.go#L71 as a workaround
-    // to https://github.com/Schneizelw/json-iterator/go/issues/365 (jsoniter, to follow json standard, doesn't allow inf/nan)
+    // Taken from https://github.com/json-iterator/go/blob/master/stream_float.go#L71 as a workaround
+    // to https://github.com/json-iterator/go/issues/365 (jsoniter, to follow json standard, doesn't allow inf/nan)
     buf := stream.Buffer()
     abs := math.Abs(float64(p.Value))
     fmt := byte('f')

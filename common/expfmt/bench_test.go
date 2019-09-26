@@ -20,7 +20,7 @@ import (
     "io/ioutil"
     "testing"
 
-    "github.com/Schneizelw/matttproud/golang_protobuf_extensions/pbutil"
+    "github.com/matttproud/golang_protobuf_extensions/pbutil"
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )

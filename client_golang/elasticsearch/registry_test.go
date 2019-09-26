@@ -33,7 +33,7 @@ import (
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 
-    "github.com/Schneizelw/golang/protobuf/proto"
+    "github.com/golang/protobuf/proto"
     "github.com/Schneizelw/elasticsearch/common/expfmt"
 
     "github.com/Schneizelw/elasticsearch/client_golang/elasticsearch"

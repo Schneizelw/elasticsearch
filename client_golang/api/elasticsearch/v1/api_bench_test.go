@@ -18,7 +18,7 @@ import (
     "testing"
     "time"
 
-    jsoniter "github.com/Schneizelw/json-iterator/go"
+    jsoniter "github.com/json-iterator/go"
 
     "github.com/Schneizelw/elasticsearch/common/model"
 )
