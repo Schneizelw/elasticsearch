@@ -296,6 +296,7 @@ func setMetricData(metricType int,  dtoMetric dto.Metric, docMap map[string]inte
 func (m *metricMap) pushDocToEs(metricType int) {
     docMap := make(map[string]interface{}, len(m.desc.variableLabels))
     var url string
+	var curValue float64
     timestamp := time.Now().UTC().Format(time.RFC3339)
     for hashValue, lvsSlice := range m.metrics {
         for _, lvs := range lvsSlice {
@@ -309,7 +310,7 @@ func (m *metricMap) pushDocToEs(metricType int) {
             docMap[FQNAME] = m.desc.fqName
             docMap[HELP] = m.desc.help
             docMap[TIMESTAMP] = timestamp
-            setMetricData(docMap, metricType, dtoMetric)
+            setMetricData(metricType, dtoMetric, docMap)
             if metricType == COUNTER_TYPE {
                 curValue = docMap[VALUE].(float64)
                 docMap[VALUE] = curValue - lastValueMap[hashValue]
