@@ -547,9 +547,9 @@ func NewSummaryVec(opts SummaryOpts, esOpts SummaryEsOpts, labelNames []string) 
 }
 
 func (v *SummaryVec) monitor(second int, fqName string) {
-	summaryType := 3
+    summaryType := 3
     ticker := time.NewTicker(time.Duration(second)*time.Second)
-	summaryLog := SetLog(fqName + WARN)
+    summaryLog := SetLog(fqName + WARN)
     for {
         <-ticker.C
         //3 is summary metric.

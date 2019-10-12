@@ -14,7 +14,7 @@
 package elasticsearch
 
 import (
-	"fmt"
+    "fmt"
     "time"
     "strings"
 

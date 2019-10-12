@@ -24,7 +24,7 @@ import (
     "net/http"
     "encoding/json"
     "github.com/cihub/seelog"
-	"github.com/Schneizelw/elasticsearch/common/model"
+    "github.com/Schneizelw/elasticsearch/common/model"
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
@@ -297,7 +297,7 @@ func setMetricData(metricType int,  dtoMetric dto.Metric, docMap map[string]inte
 func (m *metricMap) pushDocToEs(metricType int, metricLog seelog.LoggerInterface) {
     docMap := make(map[string]interface{}, len(m.desc.variableLabels))
     var url string
-	var curValue float64
+    var curValue float64
     timestamp := time.Now().UTC().Format(time.RFC3339)
     for hashValue, lvsSlice := range m.metrics {
         for _, lvs := range lvsSlice {

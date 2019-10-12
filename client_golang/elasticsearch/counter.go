@@ -153,9 +153,9 @@ func NewCounterVec(opts CounterOpts, esOpts CounterEsOpts, labelNames []string) 
 }
 
 func (v *CounterVec) monitor(second int, fqName string) {
-	counterType := 1
+    counterType := 1
     ticker := time.NewTicker(time.Duration(second)*time.Second)
-	counterLog := SetLog(fqName + WARN)
+    counterLog := SetLog(fqName + WARN)
     for {
         <-ticker.C
         //1 is counter metric.

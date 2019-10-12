@@ -161,9 +161,9 @@ func NewGaugeVec(opts GaugeOpts, esOpts GaugeEsOpts, labelNames []string) *Gauge
 }
 
 func (v *GaugeVec) monitor(second int, fqName string) {
-	gaugeType := 2
+    gaugeType := 2
     ticker := time.NewTicker(time.Duration(second)*time.Second)
-	gaugeLog := SetLog(fqName + WARN)
+    gaugeLog := SetLog(fqName + WARN)
     for {
         <-ticker.C
         //2 is gauge metric
