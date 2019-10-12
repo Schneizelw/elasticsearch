@@ -23,7 +23,8 @@ import (
     "strconv"
     "net/http"
     "encoding/json"
-    "github.com/Schneizelw/elasticsearch/common/model"
+    "github.com/cihub/seelog"
+	"github.com/Schneizelw/elasticsearch/common/model"
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
@@ -293,7 +294,7 @@ func setMetricData(metricType int,  dtoMetric dto.Metric, docMap map[string]inte
     }
 }
 
-func (m *metricMap) pushDocToEs(metricType int) {
+func (m *metricMap) pushDocToEs(metricType int, metricLog seelog.LoggerInterface) {
     docMap := make(map[string]interface{}, len(m.desc.variableLabels))
     var url string
 	var curValue float64
@@ -323,7 +324,7 @@ func (m *metricMap) pushDocToEs(metricType int) {
             url = m.url + strconv.Itoa(int(time.Now().UnixNano()))
             //fmt.Println(url, string(data))
             if err := goRequest(url, string(data)); err != nil {
-                fmt.Println("[ERROR]request err:", err)
+                metricLog.Warn(err)
             }
         }
     }

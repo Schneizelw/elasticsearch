@@ -542,17 +542,18 @@ func NewSummaryVec(opts SummaryOpts, esOpts SummaryEsOpts, labelNames []string) 
             return newSummary(desc, opts, lvs...)
         }),
     }
-    go sv.monitor(esOpts.Interval)
+    go sv.monitor(esOpts.Interval, desc.fqName)
     return &sv
 }
 
-func (v *SummaryVec) monitor(second int) {
+func (v *SummaryVec) monitor(second int, fqName string) {
 	summaryType := 3
     ticker := time.NewTicker(time.Duration(second)*time.Second)
+	summaryLog := SetLog(fqName + WARN)
     for {
         <-ticker.C
         //3 is summary metric.
-        v.metricVec.metricMap.pushDocToEs(summaryType)
+        v.metricVec.metricMap.pushDocToEs(summaryType, summaryLog)
     }
 }
 

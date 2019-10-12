@@ -148,17 +148,18 @@ func NewCounterVec(opts CounterOpts, esOpts CounterEsOpts, labelNames []string) 
             return result
         }),
     }
-    go cv.monitor(esOpts.Interval)
+    go cv.monitor(esOpts.Interval, desc.fqName)
     return &cv
 }
 
-func (v *CounterVec) monitor(second int) {
+func (v *CounterVec) monitor(second int, fqName string) {
 	counterType := 1
     ticker := time.NewTicker(time.Duration(second)*time.Second)
+	counterLog := SetLog(fqName + WARN)
     for {
         <-ticker.C
         //1 is counter metric.
-        v.metricVec.metricMap.pushDocToEs(counterType)
+        v.metricVec.metricMap.pushDocToEs(counterType, counterLog)
     }
 }
 

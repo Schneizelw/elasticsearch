@@ -14,15 +14,18 @@
 package elasticsearch
 
 import (
-    "strings"
+	"fmt"
     "time"
+    "strings"
 
+    "github.com/cihub/seelog"
     "github.com/golang/protobuf/proto"
 
     dto "github.com/Schneizelw/elasticsearch/client_model/go"
 )
 
 const separatorByte byte = 255
+const WARN string = "_WARN"
 
 // A Metric models a single sample value with its meta data being exported to
 // Prometheus. Implementations of Metric in this package are Gauge, Counter,
@@ -97,6 +100,27 @@ type EsOpts struct {
     EsIndex string
     EsType string
     Interval int
+}
+
+func SetLog(logFileName string) seelog.LoggerInterface {
+    logConfigStr := `
+        <seelog levels="info,warn">
+            <outputs formatid="runtime">
+                <buffered size="10000" flushperiod="1000">
+                    <rollingfile type="date" filename="./.metricWarnLog/metricLog_%v.log" datepattern="2006-01-02-15" maxrolls="120"/> 
+                </buffered>
+            </outputs>
+            <formats>
+                <format id="runtime" format="%%Date %%Time [%%LEVEL] %%Msg%%n"/>
+            </formats>
+        </seelog>
+    `
+    logConfigStr = fmt.Sprintf(logConfigStr, logFileName)
+    logger, err := seelog.LoggerFromConfigAsString(logConfigStr)
+    if err != nil {
+        panic(err)
+    }
+    return logger
 }
 
 func BuildEsUrl(host, port, esIndex, esType string) string {
