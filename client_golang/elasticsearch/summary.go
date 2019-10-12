@@ -547,11 +547,12 @@ func NewSummaryVec(opts SummaryOpts, esOpts SummaryEsOpts, labelNames []string) 
 }
 
 func (v *SummaryVec) monitor(second int) {
+	summaryType := 3
     ticker := time.NewTicker(time.Duration(second)*time.Second)
     for {
         <-ticker.C
         //3 is summary metric.
-        v.metricVec.metricMap.pushDocToEs(3)
+        v.metricVec.metricMap.pushDocToEs(summaryType)
     }
 }
 

@@ -162,11 +162,12 @@ func NewGaugeVec(opts GaugeOpts, esOpts GaugeEsOpts, labelNames []string) *Gauge
 
 
 func (v *GaugeVec) monitor(second int) {
+	gaugeType := 2
     ticker := time.NewTicker(time.Duration(second)*time.Second)
     for {
         <-ticker.C
         //2 is gauge metric
-        v.metricVec.metricMap.pushDocToEs(2)
+        v.metricVec.metricMap.pushDocToEs(gaugeType)
     }
 }
 

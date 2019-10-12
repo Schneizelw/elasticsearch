@@ -41,7 +41,12 @@ const (
     METRIC_GAUGE   = "Gauge"
     METRIC_COUNTER = "Counter"
     METRIC_SUMMARY = "Summary"
+    COUNTER_TYPE = 1
+    GAUGE_TYPE   = 2
+    SUMMARY_TYPE = 3
 )
+
+var lastValueMap = make(map[uint64]float64)
 
 // metricVec is a Collector to bundle metrics of the same name that differ in
 // their label values. metricVec is not used directly (and therefore
@@ -256,17 +261,17 @@ func goRequest(url, data string) error {
     return nil
 }
 
-func setMetricData(docMap map[string]interface{}, metricType int,  dtoMetric dto.Metric) {
+func setMetricData(metricType int,  dtoMetric dto.Metric, docMap map[string]interface{}) {
     switch metricType {
-    case 1:
+    case COUNTER_TYPE:
         dtoCounter := dtoMetric.GetCounter()
         docMap[TYPE] = METRIC_COUNTER
         docMap[VALUE] = dtoCounter.GetValue()
-    case 2:
+    case GAUGE_TYPE:
         dtoGauge := dtoMetric.GetGauge()
         docMap[TYPE] = METRIC_GAUGE
         docMap[VALUE] = dtoGauge.GetValue()
-    case 3:
+    case SUMMARY_TYPE:
         dtoSummary := dtoMetric.GetSummary()
         docMap[TYPE] = METRIC_SUMMARY
         docMap[SUM] = dtoSummary.GetSampleSum()
@@ -292,7 +297,7 @@ func (m *metricMap) pushDocToEs(metricType int) {
     docMap := make(map[string]interface{}, len(m.desc.variableLabels))
     var url string
     timestamp := time.Now().UTC().Format(time.RFC3339)
-    for _, lvsSlice := range m.metrics {
+    for hashValue, lvsSlice := range m.metrics {
         for _, lvs := range lvsSlice {
             for index, label := range m.desc.variableLabels {
                 docMap[label] = lvs.values[index]
@@ -305,6 +310,11 @@ func (m *metricMap) pushDocToEs(metricType int) {
             docMap[HELP] = m.desc.help
             docMap[TIMESTAMP] = timestamp
             setMetricData(docMap, metricType, dtoMetric)
+            if metricType == COUNTER_TYPE {
+                curValue = docMap[VALUE].(float64)
+                docMap[VALUE] = curValue - lastValueMap[hashValue]
+                lastValueMap[hashValue] = curValue
+            }
             data, err := json.Marshal(docMap)
             if err != nil {
                 continue

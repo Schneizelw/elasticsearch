@@ -153,11 +153,12 @@ func NewCounterVec(opts CounterOpts, esOpts CounterEsOpts, labelNames []string) 
 }
 
 func (v *CounterVec) monitor(second int) {
+	counterType := 1
     ticker := time.NewTicker(time.Duration(second)*time.Second)
     for {
         <-ticker.C
         //1 is counter metric.
-        v.metricVec.metricMap.pushDocToEs(1)
+        v.metricVec.metricMap.pushDocToEs(counterType)
     }
 }
 
